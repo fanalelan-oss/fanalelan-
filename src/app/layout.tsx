@@ -27,7 +27,12 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <head>
-        {/* إظهار كود أدسنس فقط في صفحات المدونة */}
+        {/* إصلاح اختفاء الأيقونة */}
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
+
+        {/* كود Google AdSense - يظهر فقط في المدونة */}
         {isBlogPage && (
           <Script
             id="adsense-id"
@@ -37,8 +42,25 @@ export default function RootLayout({
             strategy="afterInteractive"
           />
         )}
+
+        {/* علامة جوجل الجديدة (G-3XLS7S2Y2Y) */}
+        <Script 
+          async 
+          src="https://www.googletagmanager.com/gtag/js?id=G-3XLS7S2Y2Y" 
+          strategy="afterInteractive" 
+        />
+        <Script id="google-tag-new">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-3XLS7S2Y2Y');
+          `}
+        </Script>
       </head>
+
       <body className={`${notoKufiArabic.className} bg-gray-900 overflow-x-hidden`} suppressHydrationWarning={true}>
+        {/* أكواد التتبع السابقة (لضمان الاستمرارية) */}
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-5VHBDX5V7W"></Script>
         <Script id="google-analytics-ads">
           {`
@@ -50,6 +72,7 @@ export default function RootLayout({
             gtag('config', 'AW-17979231936');
           `}
         </Script>
+
         <Header /> 
         <div className="relative">
           {children}
