@@ -1,0 +1,6 @@
+run:
+  build: npm run build
+  start: npm start
+secretEnv:
+  - secret: RESEND_API_KEY
+  - secret: MY_GEMINI_API_KEY
