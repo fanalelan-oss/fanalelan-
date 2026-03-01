@@ -1,9 +1,7 @@
-"use client";
-
+import type { Metadata } from "next";
 import { Noto_Kufi_Arabic } from "next/font/google";
 import Script from 'next/script';
 import dynamic from 'next/dynamic';
-import { usePathname } from 'next/navigation';
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -16,38 +14,44 @@ const notoKufiArabic = Noto_Kufi_Arabic({
   weight: ['400', '700', '900'] 
 });
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://fan-alelan.com';
+
+// الـ Metadata الأصلية - ستعيد الأيقونة فوراً
+export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
+  title: {
+    default: "فن الإعلان للدعاية والإعلان | واجهات كلادينج ولوحات محلات بالرياض",
+    template: "%s | فن الإعلان بالرياض"
+  },
+  description: "فن الإعلان: متخصصون في تنفيذ واجهات الكلادينج الفاخرة، الحروف البارزة المضيئة، استيكرات السيارات، وأعمال الحديد بالليزر في كافة أحياء ومناطق الرياض.",
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
+  manifest: `${BASE_URL}/manifest.json`,
+};
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-  const isBlogPage = pathname?.startsWith('/blog');
-
   return (
     <html lang="ar" dir="rtl">
       <head>
-        {/* إصلاح اختفاء الأيقونة */}
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.json" />
-
-        {/* كود Google AdSense - يظهر فقط في المدونة */}
-        {isBlogPage && (
-          <Script
-            id="adsense-id"
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1856280071157486"
-            crossOrigin="anonymous"
-            strategy="afterInteractive"
-          />
-        )}
-
-        {/* علامة جوجل الجديدة (G-3XLS7S2Y2Y) */}
+        {/* كود أدسنس - سيعمل في كل الموقع لضمان قبول المراجعة */}
+        <Script
+          id="adsbygoogle-init"
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1856280071157486"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+        {/* علامة جوجل الجديدة G-3XLS7S2Y2Y */}
         <Script 
           async 
           src="https://www.googletagmanager.com/gtag/js?id=G-3XLS7S2Y2Y" 
-          strategy="afterInteractive" 
+          strategy="afterInteractive"
         />
         <Script id="google-tag-new">
           {`
@@ -58,9 +62,8 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-
       <body className={`${notoKufiArabic.className} bg-gray-900 overflow-x-hidden`} suppressHydrationWarning={true}>
-        {/* أكواد التتبع السابقة (لضمان الاستمرارية) */}
+        {/* الأكواد القديمة */}
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-5VHBDX5V7W"></Script>
         <Script id="google-analytics-ads">
           {`
@@ -72,7 +75,6 @@ export default function RootLayout({
             gtag('config', 'AW-17979231936');
           `}
         </Script>
-
         <Header /> 
         <div className="relative">
           {children}
