@@ -16,7 +16,6 @@ const notoKufiArabic = Noto_Kufi_Arabic({
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://fan-alelan.com';
 
-// الـ Metadata الأصلية - ستعيد الأيقونة فوراً
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
@@ -25,7 +24,6 @@ export const metadata: Metadata = {
   },
   description: "فن الإعلان: متخصصون في تنفيذ واجهات الكلادينج الفاخرة، الحروف البارزة المضيئة، استيكرات السيارات، وأعمال الحديد بالليزر في كافة أحياء ومناطق الرياض.",
   icons: {
-    icon: '/favicon.ico',
     apple: '/apple-touch-icon.png',
   },
   manifest: `${BASE_URL}/manifest.json`,
@@ -39,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <head>
-        {/* كود أدسنس - سيعمل في كل الموقع لضمان قبول المراجعة */}
+        {/* AdSense Script - This is for showing ads */}
         <Script
           id="adsbygoogle-init"
           async
@@ -47,13 +45,15 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
-        {/* علامة جوجل الجديدة G-3XLS7S2Y2Y */}
+      </head>
+      <body className={`${notoKufiArabic.className} bg-gray-900 overflow-x-hidden`} suppressHydrationWarning={true}>
+        
+        {/* Correct Google Tag (GA4) - This is for analytics */}
         <Script 
-          async 
           src="https://www.googletagmanager.com/gtag/js?id=G-3XLS7S2Y2Y" 
           strategy="afterInteractive"
         />
-        <Script id="google-tag-new">
+        <Script id="google-analytics">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -61,20 +61,7 @@ export default function RootLayout({
             gtag('config', 'G-3XLS7S2Y2Y');
           `}
         </Script>
-      </head>
-      <body className={`${notoKufiArabic.className} bg-gray-900 overflow-x-hidden`} suppressHydrationWarning={true}>
-        {/* الأكواد القديمة */}
-        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-5VHBDX5V7W"></Script>
-        <Script id="google-analytics-ads">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-5VHBDX5V7W');
-            gtag('config', 'AW-17953122842');
-            gtag('config', 'AW-17979231936');
-          `}
-        </Script>
+
         <Header /> 
         <div className="relative">
           {children}
