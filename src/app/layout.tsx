@@ -24,6 +24,7 @@ export const metadata: Metadata = {
   },
   description: "فن الإعلان: متخصصون في تنفيذ واجهات الكلادينج الفاخرة، الحروف البارزة المضيئة، استيكرات السيارات، وأعمال الحديد بالليزر في كافة أحياء ومناطق الرياض.",
   icons: {
+    icon: '/favicon.svg',
     apple: '/apple-touch-icon.png',
   },
   manifest: `${BASE_URL}/manifest.json`,

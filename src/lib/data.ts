@@ -20,7 +20,7 @@ export const services = [
         { label: "هيكل التثبيت", value: "حديد تيوبات وطني معالج بدهان إيبوكسي ضد الصدأ." },
         { label: "طريقة التركيب", value: "نظام التعشيق المخفي لضمان مظهر انسيابي." }
     ],
-    images: ["https://i.imgur.com/YrTCdO2.png", "https://i.imgur.com/5aTvOYa.png", "https://i.imgur.com/2eOItYF.jpg", "https://i.imgur.com/8Thwfi0.png"] 
+    images: ["/works_images/YrTCdO2.png", "/works_images/5aTvOYa.png", "/works_images/2eOItYF.jpg", "/works_images/8Thwfi0.png"] 
   },
   { 
     slug: "advertising-signs",
@@ -42,7 +42,7 @@ export const services = [
         { label: "القواعد", value: "شاسيه حديد مخفي معالج حرارياً." },
         { label: "البرمجة", value: "دعم الشاشات الرقمية ببرامج تحكم سهلة عبر الجوال." }
     ],
-    images: ["https://i.imgur.com/EzNhASb.jpg", "https://i.imgur.com/zWUhCEc.jpg", "https://i.imgur.com/89CDMkW.png", "https://i.imgur.com/T4dGKwQ.png"] 
+    images: ["/works_images/EzNhASb.jpg", "/works_images/zWUhCEc.jpg", "/works_images/89CDMkW.png", "/works_images/T4dGKwQ.png"] 
   },
   {
     slug: "promotional-fences",
@@ -64,7 +64,7 @@ export const services = [
         { label: "الأبعاد", value: "تنفيذ بأي ارتفاع أو طول مطلوب حسب الموقع." },
         { label: "التثبيت", value: "تثبيت مباشر على الأرض أو باستخدام قواعد خرسانية." }
     ],
-    images: ["https://i.imgur.com/JUiqIBd.png", "https://i.imgur.com/GgePb8P.png", "https://i.imgur.com/f07CxyZ.png", "https://i.imgur.com/uMTqBYi.jpg"]
+    images: ["/works_images/JUiqIBd.png", "/works_images/GgePb8P.png", "/works_images/f07CxyZ.png", "/works_images/uMTqBYi.jpg"]
   },
   {
     slug: "car-stickers",
@@ -86,7 +86,7 @@ export const services = [
         { label: "درجة الطباعة", value: "دقة عالية تصل إلى 1440 DPI." },
         { label: "العمر الافتراضي", value: "يدوم من 3 إلى 5 سنوات حسب نوع الخامة." }
     ],
-    images: ["https://i.imgur.com/lb2mfJ6.png", "https://i.imgur.com/dMKdaQC.png", "https://i.imgur.com/jFDHpA0.png"]
+    images: ["/works_images/lb2mfJ6.png", "/works_images/dMKdaQC.png", "/works_images/jFDHpA0.png"]
   },
   { 
     slug: "digital-printing",
@@ -108,7 +108,7 @@ export const services = [
         { label: "العرض الأقصى", value: "إمكانية طباعة عرض يصل لـ 3.2 متر بدون وصلات." },
         { label: "التشطيب", value: "درز، فتحات (Grommets)، أو لصق حراري." }
     ],
-    images: ["https://i.imgur.com/lb2mfJ6.png", "https://i.imgur.com/dMKdaQC.png", "https://i.imgur.com/jFDHpA0.png", "https://i.imgur.com/FbS5a8I.png"] 
+    images: ["/works_images/lb2mfJ6.png", "/works_images/dMKdaQC.png", "/works_images/jFDHpA0.png", "/works_images/FbS5a8I.png"] 
   },
   { 
     slug: "iron-works",
@@ -130,7 +130,7 @@ export const services = [
         { label: "الإكسسوارات", value: "مفصلات وكوالين إيطالية أو تركية أصلية." },
         { label: "الضمان", value: "ضمان 10 سنوات على سلامة الهياكل من التآكل." }
     ],
-    images: ["https://i.imgur.com/zRHw0N8.png", "https://i.imgur.com/vC1BF6q.png", "https://i.imgur.com/JwbvsLe.png", "https://i.imgur.com/1wYNwDo.png"] 
+    images: ["/works_images/zRHw0N8.png", "/works_images/vC1BF6q.png", "/works_images/JwbvsLe.png", "/works_images/1wYNwDo.png"] 
   },
   { 
     slug: "maintenance-restoration",
@@ -152,7 +152,7 @@ export const services = [
         { label: "السلامة", value: "فحص دوري لمتانة الهياكل والبراغي لمنع السقوط." },
         { label: "سرعة الاستجابة", value: "فريق فني مجهز للوصول للموقع خلال 24 ساعة." }
     ],
-    images: ["https://i.imgur.com/65dxBTN.png", "https://i.imgur.com/L8IwtO5.png"] 
+    images: ["/works_images/65dxBTN.png", "/works_images/L8IwtO5.png"] 
   },
   { 
     slug: "booths-and-stands",
@@ -174,37 +174,37 @@ export const services = [
         { label: "التجهيزات", value: "شاشات عرض، أرفف زجاجية، كاونترات استقبال." },
         { label: "التسليم", value: "تسليم وتركيب في موقع المعرض بالرياض." }
     ],
-    images: ["https://i.imgur.com/Vqh88Be.png", "https://i.imgur.com/DTpll7M.png", "https://i.imgur.com/xN8siqU.png", "https://i.imgur.com/D0i835D.png", "https://i.imgur.com/tG3a2n5.png"] 
+    images: ["/works_images/Vqh88Be.png", "/works_images/DTpll7M.png", "/works_images/xN8siqU.png", "/works_images/D0i835D.png", "/works_images/tG3a2n5.png"] 
   }
 ];
 
 export const works = [
-  { title: "مشغل غيمة اثير النسائي", category: "لوحات اعلانية", imgSrc: "https://i.imgur.com/tQX3dGe.png", description: "لوحة إعلانية لمشغل غيمة اثير النسائي، مصممة بحروف ذات إضاءة خلفية لإعطاء تأثير جذاب وراقي." },
-  { title: "تطوير واجهة فيلا بالنسيم", category: "واجهات كلادينج", imgSrc: "https://i.imgur.com/YrTCdO2.png", description: "عمل تطوير فيلا في حي النسيم، باستخدام كلادينج خشبي بنظام الشرائح مع تلبيس إطارات الشبابيك بكلادينج مقصوص بتقنية الليزر." },
-  { title: "لوحة لمطعم دجاج شواية", category: "لوحات اعلانية", imgSrc: "https://i.imgur.com/zWUhCEc.jpg", description: "تصنيع وتركيب لوحة حروف بارزة مضيئة لمطعم 'دجاج شواية'، مع خلفية من الكلادينج لإبراز العلامة التجارية وجذب الزبائن." },
-  { title: "لافتة أرض فضاء", category: "أسوار إعلانية ودعائية", imgSrc: "https://i.imgur.com/JUiqIBd.png", description: "تصميم وتنفيذ لافتة إعلانية متكاملة لأرض فضاء، حل اقتصادي وعملي ومثالي للاستخدامات المؤقتة والدائمة." },
-  { title: "عمل من قسم واجهات كلادينج", category: "واجهات كلادينج", imgSrc: "https://i.imgur.com/5aTvOYa.png", description: "أحد أعمالنا المميزة في واجهات كلادينج، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم واجهات كلادينج", category: "واجهات كلادينج", imgSrc: "https://i.imgur.com/2eOItYF.jpg", description: "أحد أعمالنا المميزة في واجهات كلادينج، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم واجهات كلادينج", category: "واجهات كلادينج", imgSrc: "https://i.imgur.com/8Thwfi0.png", description: "أحد أعمالنا المميزة في واجهات كلادينج، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم لوحات اعلانية", category: "لوحات اعلانية", imgSrc: "https://i.imgur.com/EzNhASb.jpg", description: "أحد أعمالنا المميزة في لوحات اعلانية، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم لوحات اعلانية", category: "لوحات اعلانية", imgSrc: "https://i.imgur.com/89CDMkW.png", description: "أحد أعمالنا المميزة في لوحات اعلانية، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم لوحات اعلانية", category: "لوحات اعلانية", imgSrc: "https://i.imgur.com/T4dGKwQ.png", description: "أحد أعمالنا المميزة في لوحات اعلانية، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم أعمال الحديد", category: "أعمال الحديد", imgSrc: "https://i.imgur.com/uMTqBYi.jpg", description: "أحد أعمالنا المميزة في هياكل معدنية، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم أسوار إعلانية ودعائية", category: "أسوار إعلانية ودعائية", imgSrc: "https://i.imgur.com/f07CxyZ.png", description: "أحد أعمالنا المميزة في هياكل معدنية، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم أسوار إعلانية ودعائية", category: "أسوار إعلانية ودعائية", imgSrc: "https://i.imgur.com/GgePb8P.png", description: "أحد أعمالنا المميزة في هياكل معدنية، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم طباعة رقمية", category: "طباعة رقمية", imgSrc: "https://i.imgur.com/lb2mfJ6.png", description: "أحد أعمالنا المميزة في طباعة رقمية، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم طباعة رقمية", category: "طباعة رقمية", imgSrc: "https://i.imgur.com/dMKdaQC.png", description: "أحد أعمالنا المميزة في طباعة رقمية، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم طباعة رقمية", category: "طباعة رقمية", imgSrc: "https://i.imgur.com/jFDHpA0.png", description: "أحد أعمالنا المميزة في طباعة رقمية، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم طباعة رقمية", category: "طباعة رقمية", imgSrc: "https://i.imgur.com/FbS5a8I.png", description: "أحد أعمالنا المميزة في طباعة رقمية، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم أعمال الحديد", category: "أعمال الحديد", imgSrc: "https://i.imgur.com/zRHw0N8.png", description: "أحد أعمالنا المميزة في أعمال الحديد، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم أعمال الحديد", category: "أعمال الحديد", imgSrc: "https://i.imgur.com/vC1BF6q.png", description: "أحد أعمالنا المميزة في أعمال الحديد، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم أعمال الحديد", category: "أعمال الحديد", imgSrc: "https://i.imgur.com/JwbvsLe.png", description: "أحد أعمالنا المميزة في أعمال الحديد، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم أعمال الحديد", category: "أعمال الحديد", imgSrc: "https://i.imgur.com/1wYNwDo.png", description: "أحد أعمالنا المميزة في أعمال الحديد، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم صيانة وترميم", category: "صيانة وترميم", imgSrc: "https://i.imgur.com/65dxBTN.png", description: "أحد أعمالنا المميزة في صيانة وترميم، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم صيانة وترميم", category: "صيانة وترميم", imgSrc: "https://i.imgur.com/L8IwtO5.png", description: "أحد أعمالنا المميزة في صيانة وترميم، يعكس الجودة والدقة في التنفيذ." },
-  { title: "بوث عرض في معرض", category: "تصميم وتنفيذ البوثات", imgSrc: "https://i.imgur.com/Vqh88Be.png", description: "تصميم وتنفيذ بوث عرض تفاعلي وجذاب للمشاركة في المعارض التجارية." },
-  { title: "كشك تجاري مبتكر", category: "تصميم وتنفيذ البوثات", imgSrc: "https://i.imgur.com/DTpll7M.png", description: "كشك تجاري مصمم خصيصاً لعرض المنتجات بطريقة مبتكرة وعصرية." },
-  { title: "ستاند عرض منتجات", category: "تصميم وتنفيذ البوثات", imgSrc: "https://i.imgur.com/xN8siqU.png", description: "ستاند عرض عملي وأنيق لإبراز المنتجات وجذب انتباه العملاء." }
+  { title: "مشغل غيمة اثير النسائي", category: "لوحات اعلانية", imgSrc: "/works_images/tQX3dGe.png", description: "لوحة إعلانية لمشغل غيمة اثير النسائي، مصممة بحروف ذات إضاءة خلفية لإعطاء تأثير جذاب وراقي." },
+  { title: "تطوير واجهة فيلا بالنسيم", category: "واجهات كلادينج", imgSrc: "/works_images/YrTCdO2.png", description: "عمل تطوير فيلا في حي النسيم، باستخدام كلادينج خشبي بنظام الشرائح مع تلبيس إطارات الشبابيك بكلادينج مقصوص بتقنية الليزر." },
+  { title: "لوحة لمطعم دجاج شواية", category: "لوحات اعلانية", imgSrc: "/works_images/zWUhCEc.jpg", description: "تصنيع وتركيب لوحة حروف بارزة مضيئة لمطعم 'دجاج شواية'، مع خلفية من الكلادينج لإبراز العلامة التجارية وجذب الزبائن." },
+  { title: "لافتة أرض فضاء", category: "أسوار إعلانية ودعائية", imgSrc: "/works_images/JUiqIBd.png", description: "تصميم وتنفيذ لافتة إعلانية متكاملة لأرض فضاء، حل اقتصادي وعملي ومثالي للاستخدامات المؤقتة والدائمة." },
+  { title: "عمل من قسم واجهات كلادينج", category: "واجهات كلادينج", imgSrc: "/works_images/5aTvOYa.png", description: "أحد أعمالنا المميزة في واجهات كلادينج، يعكس الجودة والدقة في التنفيذ." },
+  { title: "عمل من قسم واجهات كلادينج", category: "واجهات كلادينج", imgSrc: "/works_images/2eOItYF.jpg", description: "أحد أعمالنا المميزة في واجهات كلادينج، يعكس الجودة والدقة في التنفيذ." },
+  { title: "عمل من قسم واجهات كلادينج", category: "واجهات كلادينج", imgSrc: "/works_images/8Thwfi0.png", description: "أحد أعمالنا المميزة في واجهات كلادينج، يعكس الجودة والدقة في التنفيذ." },
+  { title: "عمل من قسم لوحات اعلانية", category: "لوحات اعلانية", imgSrc: "/works_images/EzNhASb.jpg", description: "أحد أعمالنا المميزة في لوحات اعلانية، يعكس الجودة والدقة في التنفيذ." },
+  { title: "عمل من قسم لوحات اعلانية", category: "لوحات اعلانية", imgSrc: "/works_images/89CDMkW.png", description: "أحد أعمالنا المميزة في لوحات اعلانية، يعكس الجودة والدقة في التنفيذ." },
+  { title: "عمل من قسم لوحات اعلانية", category: "لوحات اعلانية", imgSrc: "/works_images/T4dGKwQ.png", description: "أحد أعمالنا المميزة في لوحات اعلانية، يعكس الجودة والدقة في التنفيذ." },
+  { title: "عمل من قسم أعمال الحديد", category: "أعمال الحديد", imgSrc: "/works_images/uMTqBYi.jpg", description: "أحد أعمالنا المميزة في هياكل معدنية، يعكس الجودة والدقة في التنفيذ." },
+  { title: "عمل من قسم أسوار إعلانية ودعائية", category: "أسوار إعلانية ودعائية", imgSrc: "/works_images/f07CxyZ.png", description: "أحد أعمالنا المميزة في هياكل معدنية، يعكس الجودة والدقة في التنفيذ." },
+  { title: "عمل من قسم أسوار إعلانية ودعائية", category: "أسوار إعلانية ودعائية", imgSrc: "/works_images/GgePb8P.png", description: "أحد أعمالنا المميزة في هياكل معدنية، يعكس الجودة والدقة في التنفيذ." },
+  { title: "عمل من قسم طباعة رقمية", category: "طباعة رقمية", imgSrc: "/works_images/lb2mfJ6.png", description: "أحد أعمالنا المميزة في طباعة رقمية، يعكس الجودة والدقة في التنفيذ." },
+  { title: "عمل من قسم طباعة رقمية", category: "طباعة رقمية", imgSrc: "/works_images/dMKdaQC.png", description: "أحد أعمالنا المميزة في طباعة رقمية، يعكس الجودة والدقة في التنفيذ." },
+  { title: "عمل من قسم طباعة رقمية", category: "طباعة رقمية", imgSrc: "/works_images/jFDHpA0.png", description: "أحد أعمالنا المميزة في طباعة رقمية، يعكس الجودة والدقة في التنفيذ." },
+  { title: "عمل من قسم طباعة رقمية", category: "طباعة رقمية", imgSrc: "/works_images/FbS5a8I.png", description: "أحد أعمالنا المميزة في طباعة رقمية، يعكس الجودة والدقة في التنفيذ." },
+  { title: "عمل من قسم أعمال الحديد", category: "أعمال الحديد", imgSrc: "/works_images/zRHw0N8.png", description: "أحد أعمالنا المميزة في أعمال الحديد، يعكس الجودة والدقة في التنفيذ." },
+  { title: "عمل من قسم أعمال الحديد", category: "أعمال الحديد", imgSrc: "/works_images/vC1BF6q.png", description: "أحد أعمالنا المميزة في أعمال الحديد، يعكس الجودة والدقة في التنفيذ." },
+  { title: "عمل من قسم أعمال الحديد", category: "أعمال الحديد", imgSrc: "/works_images/JwbvsLe.png", description: "أحد أعمالنا المميزة في أعمال الحديد، يعكس الجودة والدقة في التنفيذ." },
+  { title: "عمل من قسم أعمال الحديد", category: "أعمال الحديد", imgSrc: "/works_images/1wYNwDo.png", description: "أحد أعمالنا المميزة في أعمال الحديد، يعكس الجودة والدقة في التنفيذ." },
+  { title: "عمل من قسم صيانة وترميم", category: "صيانة وترميم", imgSrc: "/works_images/65dxBTN.png", description: "أحد أعمالنا المميزة في صيانة وترميم، يعكس الجودة والدقة في التنفيذ." },
+  { title: "عمل من قسم صيانة وترميم", category: "صيانة وترميم", imgSrc: "/works_images/L8IwtO5.png", description: "أحد أعمالنا المميزة في صيانة وترميم، يعكس الجودة والدقة في التنفيذ." },
+  { title: "بوث عرض في معرض", category: "تصميم وتنفيذ البوثات", imgSrc: "/works_images/Vqh88Be.png", description: "تصميم وتنفيذ بوث عرض تفاعلي وجذاب للمشاركة في المعارض التجارية." },
+  { title: "كشك تجاري مبتكر", category: "تصميم وتنفيذ البوثات", imgSrc: "/works_images/DTpll7M.png", description: "كشك تجاري مصمم خصيصاً لعرض المنتجات بطريقة مبتكرة وعصرية." },
+  { title: "ستاند عرض منتجات", category: "تصميم وتنفيذ البوثات", imgSrc: "/works_images/xN8siqU.png", description: "ستاند عرض عملي وأنيق لإبراز المنتجات وجذب انتباه العملاء." }
 ];
 
 export const testimonials = [
