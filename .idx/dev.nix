@@ -1,53 +1,32 @@
-# To learn more about how to use Nix to configure your environment
-# see: https://developers.google.com/idx/guides/customize-idx-env
 { pkgs, ... }: {
-  # Which nixpkgs channel to use.
-  channel = "stable-24.05"; # or "unstable"
-  # Use https://search.nixos.org/packages to find packages
-  packages = [
-    # pkgs.go
-    # pkgs.python311
-    # pkgs.python311Packages.pip
-    # pkgs.nodejs_20
-    # pkgs.nodePackages.nodemon
-  ];
-  # Sets environment variables in the workspace
-  env = {};
+  # The Nix packages to make available in your workspace.
+  packages = [ pkgs.nodejs_20 ];
+
+  # Use this section to specify your workspace settings.
   idx = {
-    # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
-    extensions = [
-      # "vscodevim.vim"
-      "google.gemini-cli-vscode-ide-companion"
-    ];
-    # Enable previews
+    # List the extensions you want to be installed in your workspace.
+    extensions = [ "dbaeumer.vscode-eslint" ];
+
+    # Configure your workspace.
+    workspace = {
+      # Set the actions to be taken when your workspace is created.
+      onCreate = {
+        install-dependencies = "npm --prefix fanalelan- install";
+      };
+    };
+
+    # Configure the previews in your workspace.
     previews = {
       enable = true;
       previews = {
-        # web = {
-        #   # Example: run "npm run dev" with PORT set to IDX's defined port for previews,
-        #   # and show it in IDX's web preview panel
-        #   command = ["npm" "run" "dev"];
-        #   manager = "web";
-        #   env = {
-        #     # Environment variables to set for your server
-        #     PORT = "$PORT";
-        #   };
-        # };
-      };
-    };
-    # Workspace lifecycle hooks
-    workspace = {
-      # Runs when a workspace is first created
-      onCreate = {
-        # Example: install JS dependencies from NPM
-        # npm-install = "npm install";
-        # Open editors for the following files by default, if they exist:
-        default.openFiles = [ ".idx/dev.nix" "README.md" ];
-      };
-      # Runs when the workspace is (re)started
-      onStart = {
-        # Example: start a background task to watch and re-build backend code
-        # watch-backend = "npm run watch-backend";
+        # The name of the preview can be anything.
+        main = {
+          # The command to start your development server.
+          # This command must start a server that listens on the $PORT environment variable.
+          command = [ "sh", "-c", "cd fanalelan- && PORT=$PORT npm run dev" ];
+          # The type of the preview.
+          manager = "web";
+        };
       };
     };
   };
