@@ -1,0 +1,61 @@
+/* Animated Gradient Text - Clean Purple & Deep Pink Wave */
+.animated-gradient-text {
+    background: linear-gradient(
+        to right,
+        #A78BFA 0%,   /* Purple */
+        #EC4899 50%,  /* Dark Pink */
+        #A78BFA 100%  /* Purple */
+    );
+    background-size: 200% auto;
+    color: #000;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 4s linear infinite;
+    display: inline-block;
+}
+
+@keyframes shine {
+    to {
+        background-position: -200% center;
+    }
+}
+
+/* Base Shadow for Gold Buttons */
+.shadow-gold {
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+}
+
+.shadow-gold-hover {
+    box-shadow: 0 0 35px rgba(251, 191, 36, 0.5);
+}
+
+/* Pulse animation for Contact Button */
+.animate-pulse-slow {
+    animation: pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+}
+
+
+@keyframes jump {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.service-card-hover {
+    transition: all 0.3s ease-in-out;
+}
+.service-card-hover:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}

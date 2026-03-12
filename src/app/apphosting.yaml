@@ -1,0 +1,13 @@
+# إعدادات استضافة تطبيق فن الإعلان
+# documentation: https://firebase.google.com/docs/hosting/app-hosting/configure
+
+# يحدد إصدار المواصفات.
+specVersion: v1alpha1
+
+# متغيرات البيئة السرية
+# سيطلب منك Firebase إنشاء هذه الأسرار في Secret Manager عند النشر لأول مرة.
+env:
+  - variable: RESEND_API_KEY
+    secret: RESEND_API_KEY
+  - variable: GOOGLE_GENERATIVE_AI_API_KEY
+    secret: GOOGLE_GENERATIVE_AI_API_KEY

@@ -1,0 +1,44 @@
+{
+  "name": "out",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@types/three": "^0.182.0",
+    "clsx": "^2.1.1",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
+    "framer-motion": "^12.29.2",
+    "lucide-react": "^0.563.0",
+    "next": "^14.2.3",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-fast-marquee": "^1.6.5",
+    "react-icons": "^5.5.0",
+    "react-intersection-observer": "^10.0.2",
+    "resend": "^6.8.0",
+    "swiper": "^12.1.1",
+    "tailwind-merge": "^3.4.0",
+    "tailwind-scrollbar-hide": "^4.0.0",
+    "three": "^0.182.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.23",
+    "eslint": "^8",
+    "eslint-config-next": "^14.2.3",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}
