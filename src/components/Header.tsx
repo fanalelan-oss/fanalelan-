@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, Fragment } from 'react';
+import { useState, Fragment, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import AnimatedLogo from './AnimatedLogo';
 import { MenuIcon, XIcon, PhoneIcon, ChevronDownIcon } from './icons';
@@ -13,6 +13,21 @@ const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isMobileServicesOpen, setMobileServicesOpen] = useState(false);
+
+  const contactRef = useRef<HTMLDivElement>(null);
+
+  // Close contact menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (contactRef.current && !contactRef.current.contains(event.target as Node)) {
+        setIsContactOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const navLinks = [
     { href: "/", text: "الرئيسية" },
@@ -62,8 +77,8 @@ const Header = () => {
                 return <Link key={link.href} href={link.href} className="text-base font-bold text-gray-300 hover:text-yellow-400 transition-colors">{link.text}</Link>
               })}
             </nav>
-
-            <div className="relative">
+ 
+            <div ref={contactRef} onMouseLeave={() => setIsContactOpen(false)} className="relative">
                 <button onClick={() => setIsContactOpen(!isContactOpen)} className="hidden sm:inline-flex h-12 items-center justify-center rounded-xl px-8 text-sm font-bold transition-all shadow-gold hover:shadow-gold-hover bg-gold-gradient text-black hover:scale-105 active:scale-95 animate-pulse-slow">
                     تواصل معنا
                 </button>
