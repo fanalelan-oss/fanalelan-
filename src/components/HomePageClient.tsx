@@ -224,6 +224,20 @@ export default function HomePageClient() {
                             </div>
                         </div>
                         <div className="space-y-2">
+                            <label htmlFor="service" className="text-sm font-bold text-gray-500 mr-2 uppercase tracking-widest">نوع الخدمة</label>
+                            <select id="service" name="service" className="w-full bg-gray-700/80 border border-white/10 rounded-2xl px-6 py-4 text-white focus:ring-2 ring-yellow-500 outline-none transition-all appearance-none cursor-pointer">
+                                <option value="">— اختر نوع الخدمة (اختياري) —</option>
+                                <option value="واجهة كلادينج">🏢 واجهة كلادينج</option>
+                                <option value="لوحة إعلانية وحروف بارزة">📋 لوحة إعلانية وحروف بارزة</option>
+                                <option value="أسوار وحواجز دعائية">🚧 أسوار وحواجز دعائية</option>
+                                <option value="تغليف واستيكر سيارات">🚗 تغليف واستيكر سيارات</option>
+                                <option value="أعمال حديد وليزر">⚙️ أعمال حديد وليزر</option>
+                                <option value="مظلات وسواتر">☂️ مظلات وسواتر</option>
+                                <option value="مقاولات عامة">🏗️ مقاولات عامة</option>
+                                <option value="أخرى">🔹 أخرى</option>
+                            </select>
+                        </div>
+                        <div className="space-y-2">
                             <label htmlFor="message" className="text-sm font-bold text-gray-500 mr-2 uppercase tracking-widest">وصف العمل المطلوب</label>
                             <textarea id="message" name="message" rows={4} placeholder="اكتب هنا تفاصيل اللوحة أو الواجهة..." className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:ring-2 ring-yellow-500 outline-none transition-all" required autoComplete="off"></textarea>
                         </div>
