@@ -1,11 +1,21 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { Metadata } from 'next';
 import { posts } from '../../lib/blog-data';
 import AnimatedSection from '../../components/AnimatedSection';
 import { ArrowRightIcon } from '../../components/icons';
 
+export const metadata: Metadata = {
+  title: 'مدونة فن الإعلان',
+  description: 'مقالات ونصائح وإلهام في عالم الدعاية والإعلان والكلادينج.',
+  alternates: {
+    canonical: '/blog',
+  },
+};
+
 export default function BlogPage() {
+
   return (
     <div className="bg-gray-900 text-gray-200 min-h-screen">
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">

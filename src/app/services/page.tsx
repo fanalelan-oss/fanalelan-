@@ -1,6 +1,15 @@
+import { Metadata } from 'next';
 import { services } from '@/lib/data';
 import ServiceCard from '@/components/ServiceCard';
 import AnimatedSection from '@/components/AnimatedSection';
+
+export const metadata: Metadata = {
+  title: 'خدماتنا المتكاملة',
+  description: 'من الفكرة إلى التنفيذ، نقدم حلولاً إبداعية لتحديث الواجهات وتصميم كافة أنواع اللوحات الإعلانية في الرياض.',
+  alternates: {
+    canonical: '/services',
+  },
+};
 
 export default function ServicesPage() {
   return (
