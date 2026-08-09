@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { posts } from '../../../lib/blog-data'; 
-import AnimatedSection from '../../../components/AnimatedSection';
+import { posts } from '../../../lib/blog-data';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { BlogPostJsonLd, BreadcrumbJsonLd } from '@/components/JsonLd';
@@ -173,7 +172,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             <div className="mt-8 p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border border-yellow-500/30 text-center shadow-xl relative overflow-hidden">
               <h3 className="text-xl sm:text-2xl font-black text-white mb-3">هل تبحث عن تنفيذ احترافي لمشروعك بالرياض؟</h3>
               <p className="text-gray-300 text-base mb-6 max-w-xl mx-auto font-medium">
-                فريق "فن الإعلان" مستعد لتوفير استشارة مجانية ومعاينة سريعة لموقعك مع تصاميم 3D مبدئية.
+                فريق &quot;فن الإعلان&quot; مستعد لتوفير استشارة مجانية ومعاينة سريعة لموقعك مع تصاميم 3D مبدئية.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-3">
                 <a 
