@@ -24,6 +24,14 @@ export const metadata: Metadata = {
     template: "%s | فن الإعلان للدعاية والمقاولات بالرياض"
   },
   description: "فن الإعلان: شركة دعاية وإعلان ومقاولات عامة بالرياض. متخصصون في واجهات الكلادينج، الحروف البارزة المضيئة، الأسوار الدعائية، استيكرات السيارات، وأعمال الحديد بالليزر في كافة أحياء الرياض.",
+  alternates: {
+    canonical: BASE_URL,
+    languages: {
+      'ar': `${BASE_URL}/`,
+      'ar-SA': `${BASE_URL}/`,
+      'x-default': `${BASE_URL}/`,
+    },
+  },
   icons: {
     icon: '/favicon.svg',
     apple: '/apple-touch-icon.png',

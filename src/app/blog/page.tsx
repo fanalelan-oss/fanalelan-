@@ -7,8 +7,8 @@ import AnimatedSection from '../../components/AnimatedSection';
 import { ArrowRightIcon } from '../../components/icons';
 
 export const metadata: Metadata = {
-  title: 'مدونة فن الإعلان',
-  description: 'مقالات ونصائح وإلهام في عالم الدعاية والإعلان والكلادينج.',
+  title: 'مدونة فن الإعلان | نصائح ودروس في الكلادينج واللوحات والدعاية بالرياض',
+  description: 'مدونة فن الإعلان: مقالات احترافية في واجهات الكلادينج، اللوحات الإعلانية والحروف البارزة، شروط بلدية الرياض، تغليف السيارات، أعمال الحديد، والطباعة الرقمية — دليلك للنجاح في الدعاية بالرياض.',
   alternates: {
     canonical: '/blog',
   },

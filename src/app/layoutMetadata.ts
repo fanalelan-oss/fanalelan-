@@ -33,6 +33,11 @@ export const metadataConfig: Metadata = {
   },
   alternates: {
     canonical: '/',
+    languages: {
+      'ar': `${BASE_URL}/`,
+      'ar-SA': `${BASE_URL}/`,
+      'x-default': `${BASE_URL}/`,
+    },
   },
   openGraph: {
     title: "فن الإعلان | دعاية وإعلان ومقاولات عامة بالرياض",
