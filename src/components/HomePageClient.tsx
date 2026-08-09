@@ -272,11 +272,11 @@ export default function HomePageClient() {
                                 </div>
                             </a>
 
-                            <a href="mailto:admin@fan-alelan.com" className="flex items-center gap-6 group">
+                            <a href="mailto:fanalelan@gmail.com" className="flex items-center gap-6 group">
                                 <div className="w-16 h-16 rounded-2xl bg-red-500/10 flex items-center justify-center group-hover:bg-red-500/20 transition-all duration-500 shadow-xl"><RealEmailIcon className="w-8 h-8" /></div>
                                 <div className="text-right">
                                     <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">راسلنا بريدياً</p>
-                                    <p className="text-lg font-bold text-white break-all">admin@fan-alelan.com</p>
+                                    <p className="text-lg font-bold text-white break-all">fanalelan@gmail.com</p>
                                 </div>
                             </a>
                         </div>

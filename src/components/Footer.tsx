@@ -35,7 +35,7 @@ const Footer = () => {
             <span className="text-[9px] font-bold text-gray-500 uppercase">الموقع</span>
           </a>
 
-          <a href="mailto:artadvertising211@gmail.com" className="group flex flex-col items-center gap-1.5 transition-transform hover:scale-105">
+          <a href="mailto:fanalelan@gmail.com" className="group flex flex-col items-center gap-1.5 transition-transform hover:scale-105">
             <div className="w-12 h-12 bg-gray-800 rounded-xl flex items-center justify-center border border-white/5 shadow-lg group-hover:bg-gray-700">
               <RealEmailIcon className="w-6 h-6 sm:w-7 sm:h-7" />
             </div>
