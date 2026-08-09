@@ -44,10 +44,27 @@ const Footer = () => {
 
         </div>
 
+        {/* Quick Links for Internal Linking SEO */}
+        <div className="flex justify-center items-center gap-4 sm:gap-6 mb-6 flex-wrap text-xs font-bold text-gray-400">
+          <a href="/about" className="hover:text-yellow-400 transition-colors">من نحن</a>
+          <span>•</span>
+          <a href="/services" className="hover:text-yellow-400 transition-colors">خدماتنا</a>
+          <span>•</span>
+          <a href="/services/cladding-facades" className="hover:text-yellow-400 transition-colors">واجهات كلادينج</a>
+          <span>•</span>
+          <a href="/services/advertising-signs" className="hover:text-yellow-400 transition-colors">لوحات إعلانية</a>
+          <span>•</span>
+          <a href="/services/promotional-fences" className="hover:text-yellow-400 transition-colors">أسوار دعائية</a>
+          <span>•</span>
+          <a href="/gallery" className="hover:text-yellow-400 transition-colors">معرض الأعمال</a>
+          <span>•</span>
+          <a href="/blog" className="hover:text-yellow-400 transition-colors">المدونة</a>
+        </div>
+
         {/* Brand Information - Scaled Down */}
         <div className="space-y-2 border-t border-white/5 pt-6">
-            <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">فن الإعلان للدعاية والإعلان</h2>
-            <p className="text-sm sm:text-base text-gray-500 font-bold tracking-widest uppercase">مقاولات محدودة</p>
+            <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">فن الإعلان للدعاية والإعلان والمقاولات العامة</h2>
+            <p className="text-sm sm:text-base text-gray-500 font-bold tracking-widest uppercase">مقاولات عامة محدودة بالرياض</p>
             <p className="text-yellow-500 font-bold text-xs italic mt-2">نخدم في كافة أحياء ومناطق الرياض</p>
             
             <div className="pt-6">

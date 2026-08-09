@@ -6,6 +6,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
+import { LocalBusinessJsonLd, OrganizationJsonLd } from "@/components/JsonLd";
 
 const NewChatbot = dynamic(() => import('@/components/NewChatbot'), { ssr: false });
 
@@ -19,10 +20,10 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://fan-alelan.com';
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: "فن الإعلان للدعاية والإعلان | واجهات كلادينج ولوحات محلات بالرياض",
-    template: "%s | فن الإعلان بالرياض"
+    default: "فن الإعلان للدعاية والإعلان والمقاولات | واجهات كلادينج ولوحات وأسوار دعائية بالرياض",
+    template: "%s | فن الإعلان للدعاية والمقاولات بالرياض"
   },
-  description: "فن الإعلان: متخصصون في تنفيذ واجهات الكلادينج الفاخرة، الحروف البارزة المضيئة، استيكرات السيارات، وأعمال الحديد بالليزر في كافة أحياء ومناطق الرياض.",
+  description: "فن الإعلان: شركة دعاية وإعلان ومقاولات عامة بالرياض. متخصصون في واجهات الكلادينج، الحروف البارزة المضيئة، الأسوار الدعائية، استيكرات السيارات، وأعمال الحديد بالليزر في كافة أحياء الرياض.",
   icons: {
     icon: '/favicon.svg',
     apple: '/apple-touch-icon.png',
@@ -63,6 +64,8 @@ export default function RootLayout({
           `}
         </Script>
 
+        <LocalBusinessJsonLd />
+        <OrganizationJsonLd />
         <Header /> 
         <div className="relative">
           {children}

@@ -20,7 +20,7 @@ export const services = [
         { label: "هيكل التثبيت", value: "حديد تيوبات وطني معالج بدهان إيبوكسي ضد الصدأ." },
         { label: "طريقة التركيب", value: "نظام التعشيق المخفي لضمان مظهر انسيابي." }
     ],
-    images: ["/works_images/YrTCdO2.png", "/works_images/5aTvOYa.png", "/works_images/2eOItYF.jpg", "/works_images/8Thwfi0.png"] 
+    images: ["/works_images/kladding-facade-villa-naseem-riyadh.png", "/works_images/kladding-facade-commercial-riyadh.png", "/works_images/kladding-facade-building-riyadh.jpg", "/works_images/kladding-facade-modern-riyadh.png"] 
   },
   { 
     slug: "advertising-signs",
@@ -42,7 +42,7 @@ export const services = [
         { label: "القواعد", value: "شاسيه حديد مخفي معالج حرارياً." },
         { label: "البرمجة", value: "دعم الشاشات الرقمية ببرامج تحكم سهلة عبر الجوال." }
     ],
-    images: ["/works_images/EzNhASb.jpg", "/works_images/zWUhCEc.jpg", "/works_images/89CDMkW.png", "/works_images/T4dGKwQ.png"] 
+    images: ["/works_images/loha-elaaniya-horf-barez-madia-riyadh.jpg", "/works_images/loha-elaaniya-matam-dajaj-shawaya-riyadh.jpg", "/works_images/loha-elaaniya-horf-barez-led-riyadh.png", "/works_images/loha-elaaniya-sharikat-riyadh.png"] 
   },
   {
     slug: "promotional-fences",
@@ -64,7 +64,7 @@ export const services = [
         { label: "الأبعاد", value: "تنفيذ بأي ارتفاع أو طول مطلوب حسب الموقع." },
         { label: "التثبيت", value: "تثبيت مباشر على الأرض أو باستخدام قواعد خرسانية." }
     ],
-    images: ["/works_images/JUiqIBd.png", "/works_images/GgePb8P.png", "/works_images/f07CxyZ.png", "/works_images/uMTqBYi.jpg"]
+    images: ["/works_images/aswar-elaaniya-ard-fada-riyadh.png", "/works_images/aswar-deaiya-mashroea-binaa-riyadh.png", "/works_images/aswar-elaaniya-mawqea-binaa-riyadh.png", "/works_images/aswar-deaiya-haajiz-mashroa-riyadh.jpg"]
   },
   {
     slug: "car-stickers",
@@ -86,7 +86,7 @@ export const services = [
         { label: "درجة الطباعة", value: "دقة عالية تصل إلى 1440 DPI." },
         { label: "العمر الافتراضي", value: "يدوم من 3 إلى 5 سنوات حسب نوع الخامة." }
     ],
-    images: ["/works_images/lb2mfJ6.png", "/works_images/dMKdaQC.png", "/works_images/jFDHpA0.png"]
+    images: ["/works_images/taghleef-sayara-sharikat-riyadh.png", "/works_images/taghleef-sayara-kaamil-riyadh.png", "/works_images/stiker-sayara-sharikat-riyadh.png"]
   },
   { 
     slug: "digital-printing",
@@ -108,7 +108,7 @@ export const services = [
         { label: "العرض الأقصى", value: "إمكانية طباعة عرض يصل لـ 3.2 متر بدون وصلات." },
         { label: "التشطيب", value: "درز، فتحات (Grommets)، أو لصق حراري." }
     ],
-    images: ["/works_images/lb2mfJ6.png", "/works_images/dMKdaQC.png", "/works_images/jFDHpA0.png", "/works_images/FbS5a8I.png"] 
+    images: ["/works_images/taghleef-sayara-sharikat-riyadh.png", "/works_images/taghleef-sayara-kaamil-riyadh.png", "/works_images/stiker-sayara-sharikat-riyadh.png", "/works_images/tibaaa-raqamiya-banner-riyadh.png"] 
   },
   { 
     slug: "iron-works",
@@ -130,7 +130,7 @@ export const services = [
         { label: "الإكسسوارات", value: "مفصلات وكوالين إيطالية أو تركية أصلية." },
         { label: "الضمان", value: "ضمان 10 سنوات على سلامة الهياكل من التآكل." }
     ],
-    images: ["/works_images/zRHw0N8.png", "/works_images/vC1BF6q.png", "/works_images/JwbvsLe.png", "/works_images/1wYNwDo.png"] 
+    images: ["/works_images/amal-hadid-laser-cut-riyadh.png", "/works_images/hadid-mzalat-sawater-riyadh.png", "/works_images/hadid-darwazen-abwab-riyadh.png", "/works_images/hadid-haikal-mashroa-riyadh.png"] 
   },
   { 
     slug: "maintenance-restoration",
@@ -152,7 +152,7 @@ export const services = [
         { label: "السلامة", value: "فحص دوري لمتانة الهياكل والبراغي لمنع السقوط." },
         { label: "سرعة الاستجابة", value: "فريق فني مجهز للوصول للموقع خلال 24 ساعة." }
     ],
-    images: ["/works_images/65dxBTN.png", "/works_images/L8IwtO5.png"] 
+    images: ["/works_images/seyyana-loha-elaaniya-riyadh.png", "/works_images/tarmeem-kladding-facade-riyadh.png"] 
   },
   { 
     slug: "booths-and-stands",
@@ -174,37 +174,37 @@ export const services = [
         { label: "التجهيزات", value: "شاشات عرض، أرفف زجاجية، كاونترات استقبال." },
         { label: "التسليم", value: "تسليم وتركيب في موقع المعرض بالرياض." }
     ],
-    images: ["/works_images/Vqh88Be.png", "/works_images/DTpll7M.png", "/works_images/xN8siqU.png", "/works_images/D0i835D.png", "/works_images/tG3a2n5.png"] 
+    images: ["/works_images/booth-maarad-tijari-riyadh.png", "/works_images/koshk-tijari-mabtkr-riyadh.png", "/works_images/stand-ard-montajat-riyadh.png"] 
   }
 ];
 
 export const works = [
-  { title: "مشغل غيمة اثير النسائي", category: "لوحات اعلانية", imgSrc: "/works_images/tQX3dGe.png", description: "لوحة إعلانية لمشغل غيمة اثير النسائي، مصممة بحروف ذات إضاءة خلفية لإعطاء تأثير جذاب وراقي." },
-  { title: "تطوير واجهة فيلا بالنسيم", category: "واجهات كلادينج", imgSrc: "/works_images/YrTCdO2.png", description: "عمل تطوير فيلا في حي النسيم، باستخدام كلادينج خشبي بنظام الشرائح مع تلبيس إطارات الشبابيك بكلادينج مقصوص بتقنية الليزر." },
-  { title: "لوحة لمطعم دجاج شواية", category: "لوحات اعلانية", imgSrc: "/works_images/zWUhCEc.jpg", description: "تصنيع وتركيب لوحة حروف بارزة مضيئة لمطعم 'دجاج شواية'، مع خلفية من الكلادينج لإبراز العلامة التجارية وجذب الزبائن." },
-  { title: "لافتة أرض فضاء", category: "أسوار إعلانية ودعائية", imgSrc: "/works_images/JUiqIBd.png", description: "تصميم وتنفيذ لافتة إعلانية متكاملة لأرض فضاء، حل اقتصادي وعملي ومثالي للاستخدامات المؤقتة والدائمة." },
-  { title: "عمل من قسم واجهات كلادينج", category: "واجهات كلادينج", imgSrc: "/works_images/5aTvOYa.png", description: "أحد أعمالنا المميزة في واجهات كلادينج، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم واجهات كلادينج", category: "واجهات كلادينج", imgSrc: "/works_images/2eOItYF.jpg", description: "أحد أعمالنا المميزة في واجهات كلادينج، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم واجهات كلادينج", category: "واجهات كلادينج", imgSrc: "/works_images/8Thwfi0.png", description: "أحد أعمالنا المميزة في واجهات كلادينج، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم لوحات اعلانية", category: "لوحات اعلانية", imgSrc: "/works_images/EzNhASb.jpg", description: "أحد أعمالنا المميزة في لوحات اعلانية، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم لوحات اعلانية", category: "لوحات اعلانية", imgSrc: "/works_images/89CDMkW.png", description: "أحد أعمالنا المميزة في لوحات اعلانية، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم لوحات اعلانية", category: "لوحات اعلانية", imgSrc: "/works_images/T4dGKwQ.png", description: "أحد أعمالنا المميزة في لوحات اعلانية، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم أعمال الحديد", category: "أعمال الحديد", imgSrc: "/works_images/uMTqBYi.jpg", description: "أحد أعمالنا المميزة في هياكل معدنية، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم أسوار إعلانية ودعائية", category: "أسوار إعلانية ودعائية", imgSrc: "/works_images/f07CxyZ.png", description: "أحد أعمالنا المميزة في هياكل معدنية، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم أسوار إعلانية ودعائية", category: "أسوار إعلانية ودعائية", imgSrc: "/works_images/GgePb8P.png", description: "أحد أعمالنا المميزة في هياكل معدنية، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم طباعة رقمية", category: "طباعة رقمية", imgSrc: "/works_images/lb2mfJ6.png", description: "أحد أعمالنا المميزة في طباعة رقمية، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم طباعة رقمية", category: "طباعة رقمية", imgSrc: "/works_images/dMKdaQC.png", description: "أحد أعمالنا المميزة في طباعة رقمية، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم طباعة رقمية", category: "طباعة رقمية", imgSrc: "/works_images/jFDHpA0.png", description: "أحد أعمالنا المميزة في طباعة رقمية، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم طباعة رقمية", category: "طباعة رقمية", imgSrc: "/works_images/FbS5a8I.png", description: "أحد أعمالنا المميزة في طباعة رقمية، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم أعمال الحديد", category: "أعمال الحديد", imgSrc: "/works_images/zRHw0N8.png", description: "أحد أعمالنا المميزة في أعمال الحديد، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم أعمال الحديد", category: "أعمال الحديد", imgSrc: "/works_images/vC1BF6q.png", description: "أحد أعمالنا المميزة في أعمال الحديد، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم أعمال الحديد", category: "أعمال الحديد", imgSrc: "/works_images/JwbvsLe.png", description: "أحد أعمالنا المميزة في أعمال الحديد، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم أعمال الحديد", category: "أعمال الحديد", imgSrc: "/works_images/1wYNwDo.png", description: "أحد أعمالنا المميزة في أعمال الحديد، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم صيانة وترميم", category: "صيانة وترميم", imgSrc: "/works_images/65dxBTN.png", description: "أحد أعمالنا المميزة في صيانة وترميم، يعكس الجودة والدقة في التنفيذ." },
-  { title: "عمل من قسم صيانة وترميم", category: "صيانة وترميم", imgSrc: "/works_images/L8IwtO5.png", description: "أحد أعمالنا المميزة في صيانة وترميم، يعكس الجودة والدقة في التنفيذ." },
-  { title: "بوث عرض في معرض", category: "تصميم وتنفيذ البوثات", imgSrc: "/works_images/Vqh88Be.png", description: "تصميم وتنفيذ بوث عرض تفاعلي وجذاب للمشاركة في المعارض التجارية." },
-  { title: "كشك تجاري مبتكر", category: "تصميم وتنفيذ البوثات", imgSrc: "/works_images/DTpll7M.png", description: "كشك تجاري مصمم خصيصاً لعرض المنتجات بطريقة مبتكرة وعصرية." },
-  { title: "ستاند عرض منتجات", category: "تصميم وتنفيذ البوثات", imgSrc: "/works_images/xN8siqU.png", description: "ستاند عرض عملي وأنيق لإبراز المنتجات وجذب انتباه العملاء." }
+  { title: "لوحة حروف بارزة مضيئة لمشغل غيمة اثير النسائي بالرياض", category: "لوحات اعلانية", imgSrc: "/works_images/loha-maghal-ghaima-atheer-nisai-riyadh.png", description: "لوحة إعلانية لمشغل غيمة اثير النسائي بالرياض، حروف بارزة بإضاءة LED خلفية لتأثير جذاب وراقي." },
+  { title: "تطوير واجهة فيلا كلادينج خشبي حي النسيم الرياض", category: "واجهات كلادينج", imgSrc: "/works_images/kladding-facade-villa-naseem-riyadh.png", description: "تطوير واجهة فيلا سكنية في حي النسيم بالرياض بكلادينج خشبي بنظام الشرائح مع تلبيس إطارات الشبابيك بتقنية الليزر." },
+  { title: "لوحة حروف بارزة مضيئة مطعم دجاج شواية الرياض", category: "لوحات اعلانية", imgSrc: "/works_images/loha-elaaniya-matam-dajaj-shawaya-riyadh.jpg", description: "تصنيع وتركيب لوحة حروف بارزة مضيئة LED لمطعم دجاج شواية بالرياض مع خلفية كلادينج." },
+  { title: "سور إعلاني دعائي لأرض فضاء بالرياض", category: "أسوار إعلانية ودعائية", imgSrc: "/works_images/aswar-elaaniya-ard-fada-riyadh.png", description: "تصميم وتنفيذ سور إعلاني دعائي لأرض فضاء بالرياض، حل اقتصادي لاستغلال المساحة للدعاية والإعلان." },
+  { title: "واجهة كلادينج تجارية احترافية بالرياض", category: "واجهات كلادينج", imgSrc: "/works_images/kladding-facade-commercial-riyadh.png", description: "تنفيذ واجهة كلادينج عصرية لمبنى تجاري بالرياض بمواد مقاومة للحريق ومعتمدة." },
+  { title: "تلبيس واجهة مبنى كلادينج فاخر بالرياض", category: "واجهات كلادينج", imgSrc: "/works_images/kladding-facade-building-riyadh.jpg", description: "تلبيس واجهة مبنى بالكلادينج الفاخر في الرياض يجمع بين جمال التصميم ومقاومة الظروف الجوية." },
+  { title: "واجهة كلادينج حديثة بتصميم عصري الرياض", category: "واجهات كلادينج", imgSrc: "/works_images/kladding-facade-modern-riyadh.png", description: "واجهة كلادينج بتصميم عصري حديث بالرياض بضمان 15 سنة على الألوان والجودة." },
+  { title: "لوحة حروف بارزة مضيئة LED لمحل تجاري الرياض", category: "لوحات اعلانية", imgSrc: "/works_images/loha-elaaniya-horf-barez-madia-riyadh.jpg", description: "لوحة حروف بارزة مضيئة LED احترافية لمحل تجاري بالرياض بأفضل الخامات." },
+  { title: "لوحة إعلانية حروف بارزة LED شركة بالرياض", category: "لوحات اعلانية", imgSrc: "/works_images/loha-elaaniya-horf-barez-led-riyadh.png", description: "لوحة إعلانية بحروف بارزة مضيئة LED لشركة في الرياض تبرز الهوية التجارية." },
+  { title: "لافتة تجارية احترافية متوافقة مع البلدية الرياض", category: "لوحات اعلانية", imgSrc: "/works_images/loha-elaaniya-sharikat-riyadh.png", description: "لافتة تجارية احترافية بالرياض متوافقة مع اشتراطات بلدية الرياض الجديدة للوحات المحلات." },
+  { title: "سور إعلاني دعائي لموقع بناء مشروع الرياض", category: "أسوار إعلانية ودعائية", imgSrc: "/works_images/aswar-elaaniya-mawqea-binaa-riyadh.png", description: "سور إعلاني دعائي لموقع بناء في الرياض يحوّل الحاجز إلى منصة تسويقية متكاملة." },
+  { title: "حاجز إعلاني دعائي مشروع تحت الإنشاء الرياض", category: "أسوار إعلانية ودعائية", imgSrc: "/works_images/aswar-deaiya-mashroea-binaa-riyadh.png", description: "تنفيذ حاجز إعلاني دعائي لمشروع تحت الإنشاء في الرياض يجمع الحماية والدعاية." },
+  { title: "حاجز دعائي مشروع عقاري هيكل معدني الرياض", category: "أسوار إعلانية ودعائية", imgSrc: "/works_images/aswar-deaiya-haajiz-mashroa-riyadh.jpg", description: "حاجز دعائي لمشروع عقاري في الرياض بهياكل معدنية قوية وطباعة بنر عالية الجودة." },
+  { title: "تغليف سيارة شركة بهوية تجارية Car Wrap الرياض", category: "طباعة رقمية", imgSrc: "/works_images/taghleef-sayara-sharikat-riyadh.png", description: "تغليف سيارة شركة بالرياض بهوية تجارية موحدة تحوّلها إلى لوحة إعلانية متحركة." },
+  { title: "تغليف سيارة كامل استيكر 3M احترافي الرياض", category: "طباعة رقمية", imgSrc: "/works_images/taghleef-sayara-kaamil-riyadh.png", description: "تغليف كامل لسيارة باستيكر 3M احترافي في الرياض مقاوم للشمس والحرارة." },
+  { title: "استيكر سيارة شركة أسطول تجاري الرياض", category: "طباعة رقمية", imgSrc: "/works_images/stiker-sayara-sharikat-riyadh.png", description: "تركيب استيكر احترافي على سيارة شركة في الرياض لإبراز الهوية التجارية." },
+  { title: "طباعة بنر رقمية عالية الجودة الرياض", category: "طباعة رقمية", imgSrc: "/works_images/tibaaa-raqamiya-banner-riyadh.png", description: "طباعة بنر رقمية عالية الجودة بالرياض بأحبار أصلية مقاومة للبهتان ودقة 1440 DPI." },
+  { title: "قص ليزر حديد CNC تصاميم أبواب الرياض", category: "أعمال الحديد", imgSrc: "/works_images/amal-hadid-laser-cut-riyadh.png", description: "أعمال قص ليزر CNC فائق الدقة على الحديد بالرياض لتصاميم أبواب وواجهات فريدة." },
+  { title: "مظلات وسواتر حديد عالية الجودة الرياض", category: "أعمال الحديد", imgSrc: "/works_images/hadid-mzalat-sawater-riyadh.png", description: "تركيب مظلات وسواتر حديد بمواصفات عالية الجودة في الرياض بضمان 10 سنوات." },
+  { title: "أبواب وبوابات حديد بتصاميم عصرية الرياض", category: "أعمال الحديد", imgSrc: "/works_images/hadid-darwazen-abwab-riyadh.png", description: "تصنيع وتركيب أبواب وبوابات حديد بتصاميم عصرية في الرياض بتشطيبات Powder Coating." },
+  { title: "هيكل حديد مشروع إنشائي الرياض", category: "أعمال الحديد", imgSrc: "/works_images/hadid-haikal-mashroa-riyadh.png", description: "تصنيع هيكل حديد لمشروع إنشائي في الرياض يجمع بين الأمان الهندسي والدقة في التنفيذ." },
+  { title: "صيانة وترميم لوحة إعلانية تجديد LED الرياض", category: "صيانة وترميم", imgSrc: "/works_images/seyyana-loha-elaaniya-riyadh.png", description: "صيانة وترميم لوحة إعلانية في الرياض وتجديد إضاءة LED وإصلاح الحروف البارزة." },
+  { title: "ترميم وتلميع واجهة كلادينج مبنى الرياض", category: "صيانة وترميم", imgSrc: "/works_images/tarmeem-kladding-facade-riyadh.png", description: "ترميم وصيانة واجهة كلادينج لمبنى في الرياض بتلميع وتنظيف احترافي يعيد الحياة للواجهة." },
+  { title: "بوث معرض تجاري تفاعلي تصميم الرياض", category: "تصميم وتنفيذ البوثات", imgSrc: "/works_images/booth-maarad-tijari-riyadh.png", description: "تصميم وتنفيذ بوث معرض تجاري تفاعلي وجذاب في الرياض بتصميم إبداعي وإضاءة LED." },
+  { title: "كشك تجاري مبتكر عرض منتجات الرياض", category: "تصميم وتنفيذ البوثات", imgSrc: "/works_images/koshk-tijari-mabtkr-riyadh.png", description: "كشك تجاري مصمم خصيصاً لعرض المنتجات بطريقة مبتكرة وعصرية في الرياض." },
+  { title: "ستاند عرض منتجات معارض الرياض", category: "تصميم وتنفيذ البوثات", imgSrc: "/works_images/stand-ard-montajat-riyadh.png", description: "ستاند عرض منتجات عملي وأنيق للمعارض في الرياض بهياكل متينة سهلة الفك والتركيب." }
 ];
 
 export const testimonials = [
