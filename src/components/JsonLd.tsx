@@ -49,7 +49,11 @@ export function LocalBusinessJsonLd() {
         "closes": "22:00"
       }
     ],
-    "sameAs": [],
+    "sameAs": [
+      "https://www.facebook.com/profile.php?id=61587226595703",
+      "https://wa.me/966557517792",
+      "https://maps.app.goo.gl/6yK27RgFCgv9NGSh9"
+    ],
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": "خدمات فن الإعلان",
@@ -122,7 +126,12 @@ export function OrganizationJsonLd() {
       "contactType": "sales",
       "areaServed": "SA",
       "availableLanguage": ["Arabic"]
-    }
+    },
+    "sameAs": [
+      "https://www.facebook.com/profile.php?id=61587226595703",
+      "https://wa.me/966557517792",
+      "https://maps.app.goo.gl/6yK27RgFCgv9NGSh9"
+    ]
   };
 
   return (

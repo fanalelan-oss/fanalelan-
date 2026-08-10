@@ -5,6 +5,8 @@ import { services } from '@/lib/data'; // Assuming services are still here, will
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://fan-alelan.com';
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const currentDate = new Date();
+
   // Static pages
   const staticRoutes = [
     '/',
@@ -14,8 +16,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/faq',
     '/about',
   ].map((route) => ({
-    url: `${BASE_URL}${route}`,
-    lastModified: new Date().toISOString(),
+    url: route === '/' ? BASE_URL : `${BASE_URL}${route}`,
+    lastModified: currentDate,
     changeFrequency: 'monthly' as const,
     priority: route === '/' ? 1.0 : 0.8,
   }));
@@ -23,7 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Dynamic service pages
   const serviceRoutes = services.map((service) => ({
     url: `${BASE_URL}/services/${service.slug}`,
-    lastModified: new Date().toISOString(),
+    lastModified: currentDate,
     changeFrequency: 'weekly' as const,
     priority: 0.9,
   }));
@@ -31,7 +33,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Dynamic blog post pages
   const blogRoutes = blogPosts.map((post) => ({
     url: `${BASE_URL}/blog/${post.slug}`,
-    lastModified: new Date().toISOString(),
+    lastModified: post.publishedAt ? new Date(post.publishedAt) : currentDate,
     changeFrequency: 'weekly' as const,
     priority: 0.7,
   }));

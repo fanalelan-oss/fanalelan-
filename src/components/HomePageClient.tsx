@@ -282,7 +282,7 @@ export default function HomePageClient() {
                         </div>
                     </div>
                     {/* Maps Mini Card */}
-                    <a href="https://share.google/yok3tFEnIDCu8AZbY" target="_blank" rel="noopener noreferrer" className="bg-blue-600/10 border border-blue-500/20 rounded-[2rem] p-8 flex items-center justify-between group hover:bg-blue-600/20 transition-all">
+                    <a href="https://maps.app.goo.gl/6yK27RgFCgv9NGSh9" target="_blank" rel="noopener noreferrer" className="bg-blue-600/10 border border-blue-500/20 rounded-[2rem] p-8 flex items-center justify-between group hover:bg-blue-600/20 transition-all">
                         <div className="flex items-center gap-5">
                             <RealGoogleMapsIcon className="w-12 h-12" />
                             <span className="text-xl font-bold text-blue-400">موقعنا في الرياض</span>

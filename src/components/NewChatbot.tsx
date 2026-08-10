@@ -190,7 +190,7 @@ export default function NewChatbot() {
     const hints = [
         { text: "عندك استفسار؟ اسألني هنا! ✨", btn: "اسأل فن 🦾", link: null },
         { text: "راسلنا واتساب مباشرة 🟢", btn: "واتساب", link: "https://wa.me/966557517792" },
-        { text: "موقعنا على الخريطة 📍", btn: "الخريطة", link: "https://share.google/yok3tFEnIDCu8AZbY" },
+        { text: "موقعنا على الخريطة 📍", btn: "الخريطة", link: "https://maps.app.goo.gl/6yK27RgFCgv9NGSh9" },
         { text: "تابع جديد أعمالنا! 👍", btn: "فيسبوك", link: "https://www.facebook.com/profile.php?id=61587226595703" }
     ];
     const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -254,7 +254,7 @@ export default function NewChatbot() {
                 <div className="fixed inset-0 sm:inset-auto sm:relative sm:mb-6 w-full h-full sm:w-[380px] sm:h-[550px] bg-[#1a1b1e]/98 backdrop-blur-2xl sm:rounded-3xl border border-white/10 shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
                     <div className="p-4 bg-[#ff9000] flex justify-between items-center text-white shadow-md text-right" dir="rtl">
                         <div className="flex items-center gap-3"><div className="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center text-xl">🦾</div><span className="font-bold">مساعد فن الذكي</span></div>
-                        <button onClick={toggleChat} className="text-2xl hover:opacity-70">✕</button>
+                        <button onClick={toggleChat} aria-label="إغلاق المحادثة" className="text-2xl hover:opacity-70">✕</button>
                     </div>
                     <div className="flex-1 p-4 overflow-y-auto space-y-4 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" dir="rtl">
                         {messages.map(msg => (
@@ -269,14 +269,14 @@ export default function NewChatbot() {
                     <div className="p-4 bg-white/5 border-t border-white/10" dir="rtl">
                         <div className="flex items-center gap-2 bg-white/10 rounded-2xl px-4 py-1.5 focus-within:ring-1 ring-[#ff9000]">
                             <input type="text" placeholder="اكتب سؤالك هنا..." value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()} className="flex-1 bg-transparent border-none text-white outline-none text-sm" />
-                            <button onClick={handleSendMessage} className="bg-[#ff9000] text-white w-10 h-10 flex items-center justify-center rounded-xl shadow-lg"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg></button>
+                            <button onClick={handleSendMessage} aria-label="إرسال الرسالة" className="bg-[#ff9000] text-white w-10 h-10 flex items-center justify-center rounded-xl shadow-lg"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg></button>
                         </div>
                     </div>
                 </div>
             )}
             
             {!isChatOpen && (
-                <button onClick={toggleChat} className="group relative w-24 h-24 transition-all hover:scale-110 active:scale-95">
+                <button onClick={toggleChat} aria-label="مساعد فن الإعلان الذكي" className="group relative w-24 h-24 transition-all hover:scale-110 active:scale-95">
                     <ChatbotIcon />
                 </button>
             )}

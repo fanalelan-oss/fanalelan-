@@ -49,7 +49,7 @@ export const metadataConfig: Metadata = {
         url: `${BASE_URL}/android-chrome-512x512.png`,
         width: 512,
         height: 512,
-        alt: "شعار فن الإعلان للدعاية والإعلان",
+        alt: "شعار فن الإعلان للدعاية والإعلان والمقاولات",
       },
     ],
     locale: "ar_SA",

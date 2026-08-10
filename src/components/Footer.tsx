@@ -18,34 +18,34 @@ const Footer = () => {
             <div className="w-12 h-12 bg-gray-800 rounded-xl flex items-center justify-center border border-white/5 shadow-lg group-hover:bg-gray-700">
               <RealFacebookIcon className="w-6 h-6 sm:w-7 sm:h-7" />
             </div>
-            <span className="text-[9px] font-bold text-gray-500 uppercase">فيسبوك</span>
+            <span className="text-[10px] font-bold text-gray-300 uppercase">فيسبوك</span>
           </a>
 
           <a href="https://wa.me/966557517792" target="_blank" rel="noopener noreferrer" className="group flex flex-col items-center gap-1.5 transition-transform hover:scale-105">
             <div className="w-12 h-12 bg-gray-800 rounded-xl flex items-center justify-center border border-white/5 shadow-lg group-hover:bg-gray-700">
               <RealWhatsAppIcon className="w-6 h-6 sm:w-7 sm:h-7" />
             </div>
-            <span className="text-[9px] font-bold text-gray-500 uppercase">واتساب</span>
+            <span className="text-[10px] font-bold text-gray-300 uppercase">واتساب</span>
           </a>
 
-          <a href="https://share.google/yok3tFEnIDCu8AZbY" target="_blank" rel="noopener noreferrer" className="group flex flex-col items-center gap-1.5 transition-transform hover:scale-105">
+          <a href="https://maps.app.goo.gl/6yK27RgFCgv9NGSh9" target="_blank" rel="noopener noreferrer" className="group flex flex-col items-center gap-1.5 transition-transform hover:scale-105">
             <div className="w-12 h-12 bg-gray-800 rounded-xl flex items-center justify-center border border-white/5 shadow-lg group-hover:bg-gray-700">
               <RealGoogleMapsIcon className="w-6 h-6 sm:w-7 sm:h-7" />
             </div>
-            <span className="text-[9px] font-bold text-gray-500 uppercase">الموقع</span>
+            <span className="text-[10px] font-bold text-gray-300 uppercase">الموقع</span>
           </a>
 
           <a href="mailto:fanalelan@gmail.com" className="group flex flex-col items-center gap-1.5 transition-transform hover:scale-105">
             <div className="w-12 h-12 bg-gray-800 rounded-xl flex items-center justify-center border border-white/5 shadow-lg group-hover:bg-gray-700">
               <RealEmailIcon className="w-6 h-6 sm:w-7 sm:h-7" />
             </div>
-            <span className="text-[9px] font-bold text-gray-500 uppercase">الإيميل</span>
+            <span className="text-[10px] font-bold text-gray-300 uppercase">الإيميل</span>
           </a>
 
         </div>
 
         {/* Quick Links for Internal Linking SEO */}
-        <div className="flex justify-center items-center gap-4 sm:gap-6 mb-6 flex-wrap text-xs font-bold text-gray-400">
+        <div className="flex justify-center items-center gap-4 sm:gap-6 mb-6 flex-wrap text-xs font-bold text-gray-300">
           <a href="/about" className="hover:text-yellow-400 transition-colors">من نحن</a>
           <span>•</span>
           <a href="/services" className="hover:text-yellow-400 transition-colors">خدماتنا</a>
@@ -64,11 +64,11 @@ const Footer = () => {
         {/* Brand Information - Scaled Down */}
         <div className="space-y-2 border-t border-white/5 pt-6">
             <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">فن الإعلان للدعاية والإعلان والمقاولات العامة</h2>
-            <p className="text-sm sm:text-base text-gray-500 font-bold tracking-widest uppercase">مقاولات عامة محدودة بالرياض</p>
+            <p className="text-sm sm:text-base text-gray-300 font-bold tracking-widest uppercase">مقاولات عامة محدودة بالرياض</p>
             <p className="text-yellow-500 font-bold text-xs italic mt-2">نخدم في كافة أحياء ومناطق الرياض</p>
             
             <div className="pt-6">
-                <p className="text-[9px] text-gray-600 font-medium" suppressHydrationWarning>
+                <p className="text-[10px] text-gray-400 font-medium" suppressHydrationWarning>
                     &copy; {new Date().getFullYear()} جميع الحقوق محفوظة لـ فن الإعلان.
                 </p>
             </div>

@@ -113,7 +113,7 @@ const Header = () => {
                 </AnimatePresence>
             </div>
             
-            <button className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>{isMenuOpen ? <XIcon className="h-8 w-8" /> : <MenuIcon className="h-8 w-8" />}</button>
+            <button className="md:hidden text-white" aria-label="القائمة الرئيسية" onClick={() => setIsMenuOpen(!isMenuOpen)}>{isMenuOpen ? <XIcon className="h-8 w-8" /> : <MenuIcon className="h-8 w-8" />}</button>
           </div>
         </div>
       </header>
