@@ -4,6 +4,7 @@ import { posts } from '../../../lib/blog-data';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { BlogPostJsonLd, BreadcrumbJsonLd } from '@/components/JsonLd';
+import HashtagsBar from '@/components/HashtagsBar';
 
 interface BlogPostPageProps {
   params: { slug: string };
@@ -133,6 +134,44 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                   <span>فن الإعلان</span>
                 </div>
               </div>
+
+              {/* Interactive SEO Hashtags Bar (Red Zone Requested by User) */}
+              <HashtagsBar 
+                tags={
+                  post.slug.includes('cladding')
+                    ? [
+                        { text: '#كلادينج_الرياض', link: '/services/cladding-facades' },
+                        { text: '#واجهات_كلادينج_مقاوم_للحريق', link: '/services/cladding-facades' },
+                        { text: '#أسوار_دعائية_الرياض', link: '/services/promotional-fences' },
+                        { text: '#صيانة_ترميم_واجهات', link: '/services/maintenance-restoration' },
+                        { text: '#فن_الإعلان_المقاولات', link: '/about' }
+                      ]
+                    : post.slug.includes('signage') || post.slug.includes('municipality')
+                    ? [
+                        { text: '#لوحات_إعلانية_الرياض', link: '/services/advertising-signs' },
+                        { text: '#حروف_بارزة_مضيئة_LED', link: '/services/advertising-signs' },
+                        { text: '#أسوار_دعائية_للمشاريع', link: '/services/promotional-fences' },
+                        { text: '#اشتراطات_بلدية_الرياض', link: '/services/advertising-signs' },
+                        { text: '#دعاية_وإعلان_الرياض', link: '/services/advertising-signs' }
+                      ]
+                    : post.slug.includes('fences') || post.slug.includes('engineering') || post.slug.includes('steel')
+                    ? [
+                        { text: '#أسوار_دعائية_الرياض', link: '/services/promotional-fences' },
+                        { text: '#حواجز_مواقع_البناء_الرياض', link: '/services/promotional-fences' },
+                        { text: '#سياج_إعلاني_مؤقت', link: '/services/promotional-fences' },
+                        { text: '#أعمال_حديد_قص_ليزر', link: '/services/iron-works' },
+                        { text: '#واجهات_كلادينج_الرياض', link: '/services/cladding-facades' }
+                      ]
+                    : [
+                        { text: '#تغليف_سيارات_الرياض', link: '/services/car-stickers' },
+                        { text: '#استيكرات_أسطول_الشركات', link: '/services/car-stickers' },
+                        { text: '#أسوار_دعائية_الرياض', link: '/services/promotional-fences' },
+                        { text: '#طباعة_رقمية_بنر_فلكس', link: '/services/digital-printing' },
+                        { text: '#فن_الإعلان_الدعاية', link: '/about' }
+                      ]
+                }
+                className="mt-4"
+              />
 
             </div>
           </div>

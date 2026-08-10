@@ -6,6 +6,7 @@ import Link from "next/link";
 import { services } from "@/lib/data";
 import AnimatedSection from "@/components/AnimatedSection";
 import { PhoneIcon, MapPinIcon } from "@/components/icons";
+import HashtagsBar from "@/components/HashtagsBar";
 
 // Import Swiper
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -43,6 +44,52 @@ export default function ServicePageClient({ service }: { service: Service }) {
               <h1 className="text-5xl md:text-7xl font-extrabold bg-gold-gradient bg-clip-text text-transparent pb-4 leading-tight">
                 {service.title}
               </h1>
+
+              {/* Interactive SEO Hashtags Bar */}
+              <HashtagsBar
+                tags={
+                  service.slug === 'promotional-fences'
+                    ? [
+                        { text: '#أسوار_دعائية_الرياض', link: '/services/promotional-fences' },
+                        { text: '#حواجز_مواقع_البناء_الرياض', link: '/services/promotional-fences' },
+                        { text: '#سياج_إعلاني_مؤقت', link: '/services/promotional-fences' },
+                        { text: '#تغطية_مشاريع_الرياض', link: '/services/promotional-fences' },
+                        { text: '#أعمال_حديد_قص_ليزر', link: '/services/iron-works' }
+                      ]
+                    : service.slug === 'cladding-facades'
+                    ? [
+                        { text: '#واجهات_كلادينج_الرياض', link: '/services/cladding-facades' },
+                        { text: '#تلبيس_كلادينج_مقاوم_للحريق', link: '/services/cladding-facades' },
+                        { text: '#أسوار_دعائية_الرياض', link: '/services/promotional-fences' },
+                        { text: '#تجديد_واجهات_المباني', link: '/services/maintenance-restoration' },
+                        { text: '#فن_الإعلان_المقاولات', link: '/about' }
+                      ]
+                    : service.slug === 'advertising-signs'
+                    ? [
+                        { text: '#لوحات_إعلانية_الرياض', link: '/services/advertising-signs' },
+                        { text: '#حروف_بارزة_مضيئة_LED', link: '/services/advertising-signs' },
+                        { text: '#لوحات_محلات_الرياض', link: '/services/advertising-signs' },
+                        { text: '#أسوار_دعائية_الرياض', link: '/services/promotional-fences' },
+                        { text: '#اشتراطات_بلدية_الرياض', link: '/faq' }
+                      ]
+                    : service.slug === 'car-stickers'
+                    ? [
+                        { text: '#تغليف_سيارات_الرياض', link: '/services/car-stickers' },
+                        { text: '#استيكرات_أسطول_الشركات', link: '/services/car-stickers' },
+                        { text: '#استيكر_3M_ألماني', link: '/services/car-stickers' },
+                        { text: '#طباعة_رقمية_الرياض', link: '/services/digital-printing' },
+                        { text: '#فن_الإعلان', link: '/about' }
+                      ]
+                    : [
+                        { text: `#${service.title.replace(/\s+/g, '_')}_الرياض`, link: `/services/${service.slug}` },
+                        { text: '#دعاية_وإعلان_الرياض', link: '/services' },
+                        { text: '#أسوار_دعائية_الرياض', link: '/services/promotional-fences' },
+                        { text: '#مقاولات_عامة_الرياض', link: '/about' }
+                      ]
+                }
+                className="mt-4"
+              />
+
               <div 
                 className="text-xl text-gray-300 leading-relaxed mt-6 prose prose-invert max-w-none prose-a:text-yellow-500 prose-a:font-bold hover:prose-a:underline"
                 dangerouslySetInnerHTML={{ __html: service.longDescription }}

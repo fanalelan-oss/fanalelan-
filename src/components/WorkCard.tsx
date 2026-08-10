@@ -30,7 +30,10 @@ export default function WorkCard({ title, category, imgSrc, description, fullDet
            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
         </div>
         <div className="absolute bottom-0 right-0 p-6 w-full text-right">
-          <span className="text-[10px] font-bold bg-yellow-500/10 text-yellow-500 border border-yellow-500/20 px-3 py-1 rounded-full">{category}</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[10px] font-bold bg-yellow-500/10 text-yellow-500 border border-yellow-500/20 px-3 py-1 rounded-full">{category}</span>
+            <span className="text-[10px] font-bold bg-black/40 text-yellow-400 border border-yellow-500/30 px-2.5 py-0.5 rounded-full">#الرياض</span>
+          </div>
           <h3 className="text-xl font-bold text-white mt-2 leading-tight">{title}</h3>
         </div>
       </div>
