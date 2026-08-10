@@ -152,7 +152,7 @@ export default function HomePageClient() {
                         </div>
                     </div>
                     <div className="relative h-[600px] rounded-3xl overflow-hidden shadow-2xl border border-white/10 group">
-                        <Image src="https://i.imgur.com/8eTDB7o.png" fill alt="فريق عمل فن الإعلان" className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <Image src="https://i.imgur.com/8eTDB7o.png" fill sizes="(max-width: 1024px) 100vw, 50vw" alt="فريق عمل فن الإعلان" className="object-cover group-hover:scale-105 transition-transform duration-500" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     </div>
                 </div>

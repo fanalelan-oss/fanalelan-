@@ -58,12 +58,12 @@ export default function RootLayout({
       </head>
       <body className={`${notoKufiArabic.className} bg-gray-900 overflow-x-hidden`} suppressHydrationWarning={true}>
         
-        {/* Correct Google Tag (GA4) - This is for analytics */}
+        {/* Correct Google Tag (GA4) - Deferred for performance */}
         <Script 
           src="https://www.googletagmanager.com/gtag/js?id=G-3XLS7S2Y2Y" 
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}

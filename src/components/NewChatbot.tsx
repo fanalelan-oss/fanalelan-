@@ -242,9 +242,9 @@ export default function NewChatbot() {
                     <div key={hintIndex} className="animate-in fade-in zoom-in-95 duration-500">
                         <p className="text-white text-[9px] sm:text-xs leading-tight mb-1.5 font-bold">{hints[hintIndex].text}</p>
                         {hints[hintIndex].link ? (
-                            <a href={hints[hintIndex].link!} target="_blank" rel="noopener noreferrer" className="block w-full py-1 bg-[#ff9000] text-white text-center rounded-lg text-[8px] sm:text-[10px] font-black shadow-md">{hints[hintIndex].btn}</a>
+                            <a href={hints[hintIndex].link!} target="_blank" rel="noopener noreferrer" className="block w-full py-1 bg-[#ff9000] text-black text-center rounded-lg text-[8px] sm:text-[10px] font-black shadow-md">{hints[hintIndex].btn}</a>
                         ) : (
-                            <button onClick={toggleChat} className="block w-full py-1 bg-[#ff9000] text-white text-center rounded-lg text-[8px] sm:text-[10px] font-black shadow-md">{hints[hintIndex].btn}</button>
+                            <button onClick={toggleChat} className="block w-full py-1 bg-[#ff9000] text-black text-center rounded-lg text-[8px] sm:text-[10px] font-black shadow-md">{hints[hintIndex].btn}</button>
                         )}
                     </div>
                 </div>
@@ -252,9 +252,9 @@ export default function NewChatbot() {
 
             {isChatOpen && (
                 <div className="fixed inset-0 sm:inset-auto sm:relative sm:mb-6 w-full h-full sm:w-[380px] sm:h-[550px] bg-[#1a1b1e]/98 backdrop-blur-2xl sm:rounded-3xl border border-white/10 shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
-                    <div className="p-4 bg-[#ff9000] flex justify-between items-center text-white shadow-md text-right" dir="rtl">
-                        <div className="flex items-center gap-3"><div className="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center text-xl">🦾</div><span className="font-bold">مساعد فن الذكي</span></div>
-                        <button onClick={toggleChat} aria-label="إغلاق المحادثة" className="text-2xl hover:opacity-70">✕</button>
+                    <div className="p-4 bg-[#ff9000] flex justify-between items-center text-black shadow-md text-right" dir="rtl">
+                        <div className="flex items-center gap-3"><div className="w-9 h-9 bg-black/10 rounded-full flex items-center justify-center text-xl">🦾</div><span className="font-extrabold text-black">مساعد فن الذكي</span></div>
+                        <button onClick={toggleChat} aria-label="إغلاق المحادثة" className="text-2xl font-bold text-black hover:opacity-70">✕</button>
                     </div>
                     <div className="flex-1 p-4 overflow-y-auto space-y-4 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" dir="rtl">
                         {messages.map(msg => (

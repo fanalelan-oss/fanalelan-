@@ -24,6 +24,7 @@ export default function WorkCard({ title, category, imgSrc, description, fullDet
             src={imgSrc}
             alt={title}
             fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-500"
           />
            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
@@ -48,6 +49,7 @@ export default function WorkCard({ title, category, imgSrc, description, fullDet
             src={imgSrc}
             alt={title}
             fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700"
           />
            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent transition-opacity group-hover:opacity-90" />
