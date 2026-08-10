@@ -7,6 +7,7 @@ import { services } from "@/lib/data";
 import AnimatedSection from "@/components/AnimatedSection";
 import { PhoneIcon, MapPinIcon } from "@/components/icons";
 import HashtagsBar from "@/components/HashtagsBar";
+import { getFAQsByService } from "@/lib/faq-engine";
 
 // Import Swiper
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -127,6 +128,25 @@ export default function ServicePageClient({ service }: { service: Service }) {
                         ))}
                     </div>
                 </div>
+            )}
+
+            {/* Dynamic Customer Q&A Section for SEO */}
+            {getFAQsByService(service.slug).length > 0 && (
+              <div className="space-y-6 bg-gray-800/60 p-8 rounded-3xl border border-yellow-500/20 shadow-2xl">
+                <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+                  <span className="w-2.5 h-6 bg-yellow-400 rounded-full" />
+                  استفسارات شائعة من عملاء الرياض حول {service.title}:
+                </h2>
+                <div className="space-y-4">
+                  {getFAQsByService(service.slug).map((faq) => (
+                    <div key={faq.id} className="bg-gray-900/80 p-5 rounded-2xl border border-white/5 space-y-2">
+                      <h3 className="text-lg font-bold text-yellow-400">❓ {faq.question}</h3>
+                      <p className="text-gray-300 text-base leading-relaxed">{faq.answer}</p>
+                      <HashtagsBar tags={faq.tags} className="mt-2" />
+                    </div>
+                  ))}
+                </div>
+              </div>
             )}
 
 
