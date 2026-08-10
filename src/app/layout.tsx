@@ -12,7 +12,8 @@ const NewChatbot = dynamic(() => import('@/components/NewChatbot'), { ssr: false
 
 const notoKufiArabic = Noto_Kufi_Arabic({ 
   subsets: ["arabic"],
-  weight: ['400', '700', '900'] 
+  weight: ['400', '700', '900'],
+  display: 'swap'
 });
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://fan-alelan.com';
@@ -47,7 +48,13 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <head>
-        {/* AdSense Script - This is for showing ads */}
+        {/* Preconnects for fonts and analytics to speed up critical connections */}
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossOrigin="anonymous" />
+
+        {/* AdSense Script - This is for showing ads (lazy loaded) */}
         <Script
           id="adsbygoogle-init"
           async
