@@ -47,17 +47,20 @@ function calculateReadingTime(text: string): string {
   return `${minutes} دقائق قراءة`;
 }
 
+const arabicMonths = [
+  'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+  'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
+];
+
 function formatDate(dateStr: string): string {
-  try {
-    const date = new Date(dateStr);
-    return new Intl.DateTimeFormat('ar-SA', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    }).format(date);
-  } catch {
-    return dateStr;
-  }
+  if (!dateStr) return '';
+  const parts = dateStr.split('-');
+  if (parts.length < 3) return dateStr;
+  const year = parts[0];
+  const monthIndex = parseInt(parts[1], 10) - 1;
+  const day = parseInt(parts[2], 10);
+  const monthName = arabicMonths[monthIndex] || parts[1];
+  return `${day} ${monthName} ${year}`;
 }
 
 const ITEMS_PER_PAGE = 9;
@@ -292,7 +295,7 @@ function BlogFilterInner({ posts }: BlogIndexClientProps) {
 
       {/* Posts Grid */}
       {filteredPosts.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-6 lg:gap-8">
           {paginatedPosts.map((post) => {
             const cleanContent = stripHtml(post.content);
             const excerpt = cleanContent.slice(0, 140) + '...';
@@ -302,67 +305,67 @@ function BlogFilterInner({ posts }: BlogIndexClientProps) {
             return (
               <article
                 key={post.slug}
-                className="group flex flex-col bg-gray-800/90 rounded-3xl overflow-hidden border border-white/10 hover:border-yellow-400/80 transition-all duration-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_25px_rgba(234,179,8,0.15)] hover:-translate-y-1.5"
+                className="group flex flex-col bg-gray-800/90 rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 hover:border-yellow-400/80 transition-all duration-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_25px_rgba(234,179,8,0.15)] hover:-translate-y-1.5"
               >
                 {/* Image & Category Overlay */}
-                <Link href={`/blog/${post.slug}`} className="relative h-60 w-full overflow-hidden block bg-gray-900">
+                <Link href={`/blog/${post.slug}`} className="relative h-32 sm:h-48 md:h-56 lg:h-60 w-full overflow-hidden block bg-gray-900">
                   <Image
                     src={post.image}
                     alt={post.title}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-108"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
 
                   {/* Category Badge on Image */}
-                  <div className="absolute top-4 right-4">
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-yellow-500 text-black shadow-md">
+                  <div className="absolute top-2.5 right-2.5 sm:top-4 sm:right-4">
+                    <span className="inline-flex items-center px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold bg-yellow-500 text-black shadow-md">
                       {post.category.name}
                     </span>
                   </div>
                 </Link>
 
                 {/* Content */}
-                <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+                <div className="p-3 sm:p-5 lg:p-7 flex-1 flex flex-col justify-between">
                   <div>
                     {/* Meta Info: Date & Reading Time */}
-                    <div className="flex items-center gap-4 text-xs text-gray-400 mb-3 font-medium">
-                      <div className="inline-flex items-center gap-1.5">
-                        <Calendar className="w-3.5 h-3.5 text-yellow-400/80" />
-                        <span>{formattedDate}</span>
+                    <div className="flex flex-wrap items-center gap-1.5 sm:gap-4 text-[10px] sm:text-xs text-gray-400 mb-2 sm:mb-3 font-medium">
+                      <div className="inline-flex items-center gap-1">
+                        <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-yellow-400/80" />
+                        <span suppressHydrationWarning>{formattedDate}</span>
                       </div>
-                      <span className="w-1 h-1 rounded-full bg-gray-600" />
-                      <div className="inline-flex items-center gap-1.5">
+                      <span className="hidden sm:inline w-1 h-1 rounded-full bg-gray-600" />
+                      <div className="hidden sm:inline-flex items-center gap-1.5">
                         <Clock className="w-3.5 h-3.5 text-yellow-400/80" />
                         <span>{readingTime}</span>
                       </div>
                     </div>
 
                     {/* Title */}
-                    <h2 className="text-xl sm:text-2xl font-bold text-white mb-3 leading-snug group-hover:text-yellow-400 transition-colors duration-300 line-clamp-2">
+                    <h2 className="text-xs sm:text-lg lg:text-2xl font-bold text-white mb-2 sm:mb-3 leading-snug group-hover:text-yellow-400 transition-colors duration-300 line-clamp-2">
                       <Link href={`/blog/${post.slug}`}>
                         {post.title}
                       </Link>
                     </h2>
 
-                    {/* Excerpt */}
-                    <p className="text-gray-300 text-sm leading-relaxed line-clamp-3 mb-6">
+                    {/* Excerpt (Desktop / Tablet only to keep mobile cards neat) */}
+                    <p className="hidden sm:block text-gray-300 text-xs sm:text-sm leading-relaxed line-clamp-2 sm:line-clamp-3 mb-4 sm:mb-6">
                       {excerpt}
                     </p>
                   </div>
 
                   {/* Read More Link */}
-                  <div className="pt-4 border-t border-gray-700/60 flex items-center justify-between">
+                  <div className="pt-2 sm:pt-4 border-t border-gray-700/60 flex items-center justify-between text-xs sm:text-sm">
                     <Link
                       href={`/blog/${post.slug}`}
-                      className="inline-flex items-center gap-2 font-bold text-sm text-yellow-400 group-hover:text-yellow-300 transition-colors"
+                      className="inline-flex items-center gap-1 sm:gap-2 font-bold text-[11px] sm:text-sm text-yellow-400 group-hover:text-yellow-300 transition-colors"
                     >
-                      <span>اقرأ المقال بالكامل</span>
-                      <ArrowLeft className="w-4 h-4 transform rtl:rotate-180 group-hover:-translate-x-1 transition-transform" />
+                      <span>اقرأ المقال</span>
+                      <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 transform rtl:rotate-180 group-hover:-translate-x-1 transition-transform" />
                     </Link>
-                    <span className="text-[11px] text-gray-400 uppercase tracking-wider font-mono">
+                    <span className="hidden sm:inline text-[11px] text-gray-400 uppercase tracking-wider font-mono">
                       فن الإعلان
                     </span>
                   </div>
