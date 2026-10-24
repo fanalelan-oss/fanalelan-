@@ -12,6 +12,19 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/blog',
   },
+  openGraph: {
+    title: 'مدونة فن الإعلان | نصائح ودروس في الكلادينج واللوحات والدعاية بالرياض',
+    description: 'مقالات احترافية في واجهات الكلادينج، اللوحات الإعلانية، شاشات LED، شروط بلدية الرياض، والطباعة الرقمية.',
+    url: 'https://fan-alelan.com/blog',
+    images: [{ url: 'https://fan-alelan.com/works_images/kladding-facade-commercial-riyadh.png', width: 1200, height: 630, alt: 'مدونة فن الإعلان' }],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'مدونة فن الإعلان | مقالات ونصائح الدعاية والمقاولات بالرياض',
+    description: 'مقالات احترافية في واجهات الكلادينج، اللوحات الإعلانية، شاشات LED، والطباعة الرقمية بالرياض.',
+    images: ['https://fan-alelan.com/works_images/kladding-facade-commercial-riyadh.png'],
+  },
 };
 
 export default function BlogPage() {

@@ -38,6 +38,28 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png',
   },
   manifest: `${BASE_URL}/manifest.json`,
+  openGraph: {
+    type: 'website',
+    locale: 'ar_SA',
+    url: BASE_URL,
+    siteName: 'فن الإعلان للدعاية والمقاولات بالرياض',
+    title: 'فن الإعلان للدعاية والإعلان والمقاولات | واجهات كلادينج ولوحات بالرياض',
+    description: 'تنفيذ احترافي لواجهات الكلادينج المقاوم للحريق، الحروف البارزة المضيئة، شاشات LED، استيكرات السيارات، وبوثات المعارض بالرياض.',
+    images: [
+      {
+        url: `${BASE_URL}/images/og-image.jpg`,
+        width: 1200,
+        height: 630,
+        alt: 'فن الإعلان للدعاية والإعلان والمقاولات بالرياض',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'فن الإعلان للدعاية والإعلان والمقاولات | واجهات كلادينج ولوحات بالرياض',
+    description: 'تنفيذ احترافي لواجهات الكلادينج، الحروف البارزة المضيئة، وشاشات LED بالرياض.',
+    images: [`${BASE_URL}/images/og-image.jpg`],
+  },
 };
 
 export default function RootLayout({
@@ -49,7 +71,6 @@ export default function RootLayout({
     <html lang="ar" dir="rtl">
       <head>
         {/* Preconnects for fonts and analytics to speed up critical connections */}
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossOrigin="anonymous" />

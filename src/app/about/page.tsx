@@ -14,6 +14,21 @@ export const metadata: Metadata = {
     title: "من نحن | فن الإعلان بالرياض",
     description: "شركة فن الإعلان — رائدة خدمات الدعاية والإعلان والمقاولات العامة بالرياض. تنفيذ واجهات كلادينج، لوحات حروف بارزة، وأسوار إعلانية للمشاريع.",
     url: `${BASE_URL}/about`,
+    images: [
+      {
+        url: `${BASE_URL}/images/og-image.jpg`,
+        width: 1200,
+        height: 630,
+        alt: 'من نحن - فن الإعلان بالرياض',
+      },
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "من نحن | فن الإعلان بالرياض",
+    description: "شركة فن الإعلان — رائدة خدمات الدعاية والإعلان والمقاولات العامة بالرياض.",
+    images: [`${BASE_URL}/images/og-image.jpg`],
   },
 };
 
