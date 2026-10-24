@@ -177,20 +177,21 @@ export default function SubmitWorkClient() {
             <div className="flex items-start justify-between gap-4">
               <div>
                 <label htmlFor="pin" className="block text-sm font-bold text-amber-300 mb-1">
-                  🔒 رمز الدخول السري (PIN) *
+                  🔒 كلمة مرور إضافة العمل (صالحة 24 ساعة) *
                 </label>
                 <p className="text-xs text-gray-400">
-                  مخصص للمتعاونين والشركاء المعتمدين فقط. إذا لم يكن لديك الرمز، تواصل مع الإدارة.
+                  مخصصة للشركاء والمتعاونين المعتمدين فقط. يتم تزويدك بها مباشرة من إدارة فن الإعلان وصلاحيتها 24 ساعة.
                 </p>
               </div>
             </div>
             <input
               id="pin"
               name="pin"
-              type="password"
+              type="text"
               required
+              maxLength={8}
               defaultValue=""
-              placeholder="أدخل الرمز السري هنا..."
+              placeholder="أدخل كلمة المرور (6 أرقام)..."
               className="mt-3 w-full sm:w-64 bg-gray-950 border border-gray-700 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 rounded-xl px-4 py-2.5 text-white font-mono text-center tracking-widest text-lg outline-none transition-all placeholder:text-gray-600 placeholder:text-sm placeholder:font-sans placeholder:tracking-normal"
             />
             {formState.errors?.pin && (

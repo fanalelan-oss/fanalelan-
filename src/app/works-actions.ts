@@ -5,12 +5,10 @@ import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 import { Resend } from 'resend';
-import { savePendingWork, WorkItem } from '@/lib/works-manager';
-
-const PARTNER_PIN = process.env.PARTNER_SUBMIT_PIN || '2025';
+import { savePendingWork, WorkItem, validatePartnerPin } from '@/lib/works-manager';
 
 const submitWorkSchema = z.object({
-  pin: z.string().min(1, 'الرجاء إدخال رمز الدخول السري.'),
+  pin: z.string().min(1, 'الرجاء إدخال كلمة المرور المؤقتة.'),
   submitterName: z.string().min(2, 'الاسم يجب أن يكون حرفين على الأقل.'),
   submitterPhone: z.string().min(9, 'الرجاء إدخال رقم جوال صحيح للتواصل.'),
   title: z.string().min(5, 'عنوان العمل يجب أن يكون 5 أحرف على الأقل.'),
@@ -63,12 +61,13 @@ export async function submitPartnerWork(
     };
   }
 
-  // Check PIN
-  if (pin.trim() !== PARTNER_PIN) {
+  // Check Dynamic PIN (Active and within 24 hours)
+  const pinValidation = validatePartnerPin(pin);
+  if (!pinValidation.valid) {
     return {
       success: false,
-      message: 'رمز الدخول السري غير صحيح. يرجى التواصل مع إدارة فن الإعلان للحصول على الرمز.',
-      errors: { pin: ['رمز الدخول السري غير صحيح.'] },
+      message: pinValidation.message || 'كلمة المرور غير صحيحة أو انتهت صلاحيتها.',
+      errors: { pin: [pinValidation.message || 'كلمة المرور غير صحيحة أو انتهت صلاحيتها.'] },
     };
   }
 

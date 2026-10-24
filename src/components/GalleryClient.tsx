@@ -48,12 +48,6 @@ export default function GalleryClient({ initialWorks }: GalleryClientProps) {
                 <span>العودة للرئيسية</span>
                 <ArrowLeftIcon className="w-5 h-5 mr-3 transform transition-transform group-hover:translate-x-[-8px]" />
               </Link>
-              <Link
-                href="/works/submit"
-                className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-amber-500/20 to-amber-600/20 border border-amber-500/40 px-6 py-4 text-sm sm:text-base font-bold text-amber-300 hover:text-amber-200 hover:bg-amber-500/30 transition-all transform hover:-translate-y-1"
-              >
-                <span>✨ بوابة الشركاء لإضافة عمل</span>
-              </Link>
             </div>
           </div>
         </AnimatedSection>
