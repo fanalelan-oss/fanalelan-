@@ -227,6 +227,7 @@ export async function submitPartnerWork(
   const location = (formData.get('location') as string) || 'الرياض';
   const description = (formData.get('description') as string) || '';
   const imageFile = formData.get('image') as File | null;
+  const imageBase64Input = (formData.get('imageBase64') as string) || '';
 
   // Validate fields
   const validation = submitWorkSchema.safeParse({
@@ -257,22 +258,12 @@ export async function submitPartnerWork(
     };
   }
 
-  // Check Image
-  if (!imageFile || imageFile.size === 0) {
+  // Check Image presence
+  if ((!imageFile || imageFile.size === 0) && !imageBase64Input) {
     return {
       success: false,
       message: 'الرجاء إرفاق صورة العمل.',
       errors: { image: ['صورة العمل مطلوبة.'] },
-    };
-  }
-
-  // Check file type
-  const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
-  if (!validTypes.includes(imageFile.type)) {
-    return {
-      success: false,
-      message: 'نوع الصورة غير مدعوم. يرجى رفع صورة بصيغة JPG أو PNG أو WEBP.',
-      errors: { image: ['نوع الصورة غير مدعوم.'] },
     };
   }
 
@@ -281,30 +272,43 @@ export async function submitPartnerWork(
     const workId = 'work_' + Date.now() + '_' + crypto.randomBytes(4).toString('hex');
     const token = crypto.randomBytes(16).toString('hex');
 
-    // Save image to public/works_images/
-    const bytes = await imageFile.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+    // Process Buffer and Base64
+    let buffer: Buffer;
+    let finalBase64: string;
 
-    const ext = imageFile.name.split('.').pop() || 'jpg';
-    const safeExt = ['jpg', 'jpeg', 'png', 'webp', 'avif'].includes(ext.toLowerCase()) ? ext.toLowerCase() : 'jpg';
-    const imageName = `partner-${workId}.${safeExt}`;
-    const uploadDir = path.join(process.cwd(), 'public', 'works_images');
-
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
+    if (imageBase64Input && imageBase64Input.startsWith('data:image')) {
+      finalBase64 = imageBase64Input;
+      const rawData = imageBase64Input.replace(/^data:image\/\w+;base64,/, '');
+      buffer = Buffer.from(rawData, 'base64');
+    } else if (imageFile) {
+      const bytes = await imageFile.arrayBuffer();
+      buffer = Buffer.from(bytes);
+      finalBase64 = `data:image/jpeg;base64,${buffer.toString('base64')}`;
+    } else {
+      throw new Error('No valid image data provided');
     }
 
-    const imagePath = path.join(uploadDir, imageName);
-    fs.writeFileSync(imagePath, buffer);
+    // Save image to public/works_images/ and src/data/images/ for local disk fallback
+    const imageName = `partner-${workId}.jpg`;
+    const uploadDirs = [
+      path.join(process.cwd(), 'public', 'works_images'),
+      path.join(process.cwd(), 'src', 'data', 'images'),
+    ];
 
-    const publicImgSrc = `/works_images/${imageName}`;
+    for (const dir of uploadDirs) {
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      fs.writeFileSync(path.join(dir, imageName), buffer);
+    }
 
-    // Create WorkItem
+    // Create WorkItem with embedded base64 to ensure it NEVER 404s on serverless/cloud-run!
     const newWork: WorkItem = {
       id: workId,
       title: title.trim(),
       category: category.trim(),
-      imgSrc: publicImgSrc,
+      imgSrc: finalBase64, // Instant zero-latency embedded image
+      imageBase64: finalBase64,
       description: description.trim(),
       submitterName: submitterName.trim(),
       submitterPhone: submitterPhone.trim(),
@@ -320,11 +324,14 @@ export async function submitPartnerWork(
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://fan-alelan.com';
     const approveUrl = `${baseUrl}/api/works/approve?id=${workId}&token=${token}`;
     const rejectUrl = `${baseUrl}/api/works/reject?id=${workId}&token=${token}`;
-    const fullImageUrl = `${baseUrl}${publicImgSrc}`;
+    const normalizedPhone = submitterPhone.trim().startsWith('+')
+      ? submitterPhone.trim().substring(1)
+      : '966' + submitterPhone.trim().replace(/^0/, '');
 
     // Send Email to site owner via Resend (Shared with Contact Form)
     const resend = getResend();
     if (resend) {
+      // Luxury HTML Email that matches the website's gallery card look and feel
       const emailHtml = `
 <!DOCTYPE html>
 <html dir="rtl" lang="ar">
@@ -332,85 +339,99 @@ export async function submitPartnerWork(
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>عمل جديد بانتظار اعتمادك — فن الإعلان</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, Arial, sans-serif; }
+</style>
 </head>
-<body style="margin:0; padding:0; background:#0B0F17; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color:#E5E7EB; direction:rtl; text-align:right;">
+<body style="margin:0; padding:0; background:#0B0F17; color:#E5E7EB; direction:rtl; text-align:right;">
 
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#0B0F17; padding:30px 10px;">
     <tr><td align="center">
-      <table width="600" cellpadding="0" cellspacing="0" style="background:#131C2E; border:1px solid #1E2D48; border-radius:24px; overflow:hidden; max-width:600px; box-shadow:0 25px 50px rgba(0,0,0,0.5);">
+      <table width="600" cellpadding="0" cellspacing="0" style="background:#111827; border:1px solid #1F2937; border-radius:28px; overflow:hidden; max-width:600px; box-shadow:0 30px 60px rgba(0,0,0,0.8);">
         
         <!-- Header -->
         <tr>
           <td style="background:linear-gradient(135deg, #F59E0B 0%, #D97706 100%); padding:28px 32px; text-align:center;">
+            <p style="color:#78350F; margin:0 0 6px; font-size:12px; font-weight:900; letter-spacing:2px; text-transform:uppercase;">بوابة شركاء فن الإعلان بالرياض</p>
             <h1 style="color:#111827; margin:0; font-size:24px; font-weight:900;">🔔 عمل جديد بانتظار اعتمادك للنشر!</h1>
-            <p style="color:#374151; margin:8px 0 0; font-size:14px; font-weight:bold;">تمت إضافة عمل جديد عبر بوابة الشركاء — فن الإعلان</p>
           </td>
         </tr>
 
-        <!-- Details -->
+        <!-- The Realistic Gallery Card Simulation -->
         <tr>
           <td style="padding:32px;">
+            <p style="color:#9CA3AF; font-size:12px; font-weight:bold; margin-bottom:14px;">معاينة العمل كما سيظهر للزوار في المعرض:</p>
             
-            <!-- Work Title -->
-            <div style="background:#0D1117; border-right:4px solid #F59E0B; border-radius:12px; padding:16px 20px; margin-bottom:20px;">
-              <span style="color:#9CA3AF; font-size:12px; font-weight:bold;">عنوان المشروع:</span>
-              <h2 style="color:#FFFFFF; margin:4px 0 0; font-size:18px;">${newWork.title}</h2>
+            <div style="background:#0D1117; border:1px solid rgba(245, 158, 11, 0.3); border-radius:24px; overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,0.6);">
+              
+              <!-- Embedded CID Image (Never broken in Gmail!) -->
+              <div style="width:100%; text-align:center; background:#000000; line-height:0;">
+                <img src="cid:work-image-preview" alt="${newWork.title}" style="width:100%; height:auto; max-height:380px; object-fit:cover; display:block;" />
+              </div>
+
+              <!-- Card Content Overlay Look -->
+              <div style="padding:24px; background:linear-gradient(180deg, #0D1117 0%, #111827 100%);">
+                <div style="margin-bottom:12px;">
+                  <span style="display:inline-block; background:#F59E0B; color:#000000; font-size:12px; font-weight:900; padding:4px 14px; border-radius:999px; margin-left:8px;">
+                    ${newWork.category}
+                  </span>
+                  <span style="display:inline-block; background:rgba(255,255,255,0.08); color:#FCD34D; font-size:11px; font-weight:bold; padding:4px 10px; border-radius:999px; border:1px solid rgba(245,158,11,0.2);">
+                    📍 ${newWork.location || 'الرياض'}
+                  </span>
+                </div>
+
+                <h2 style="color:#FFFFFF; margin:0 0 10px; font-size:22px; font-weight:900; line-height:1.4;">
+                  ${newWork.title}
+                </h2>
+
+                <p style="color:#D1D5DB; font-size:14px; line-height:1.8; margin:0; padding-right:12px; border-right:3px solid #F59E0B;">
+                  ${newWork.description}
+                </p>
+              </div>
             </div>
 
-            <!-- Meta Grid -->
-            <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
-              <tr>
-                <td style="padding:8px; background:#0D1117; border-radius:10px; width:50%; vertical-align:top;">
-                  <span style="color:#9CA3AF; font-size:11px;">التصنيف:</span>
-                  <p style="color:#F59E0B; font-weight:bold; margin:3px 0 0; font-size:14px;">${newWork.category}</p>
-                </td>
-                <td style="width:10px;"></td>
-                <td style="padding:8px; background:#0D1117; border-radius:10px; width:50%; vertical-align:top;">
-                  <span style="color:#9CA3AF; font-size:11px;">الموقع:</span>
-                  <p style="color:#E5E7EB; font-weight:bold; margin:3px 0 0; font-size:14px;">${newWork.location || 'الرياض'}</p>
-                </td>
-              </tr>
-              <tr><td height="10"></td></tr>
-              <tr>
-                <td style="padding:8px; background:#0D1117; border-radius:10px; vertical-align:top;">
-                  <span style="color:#9CA3AF; font-size:11px;">اسم الشريك / الراسل:</span>
-                  <p style="color:#E5E7EB; font-weight:bold; margin:3px 0 0; font-size:14px;">${newWork.submitterName}</p>
-                </td>
-                <td style="width:10px;"></td>
-                <td style="padding:8px; background:#0D1117; border-radius:10px; vertical-align:top;">
-                  <span style="color:#9CA3AF; font-size:11px;">جوال الشريك:</span>
-                  <p style="color:#E5E7EB; font-weight:bold; margin:3px 0 0; font-size:14px;" dir="ltr">${newWork.submitterPhone}</p>
-                </td>
-              </tr>
-            </table>
-
-            <!-- Description -->
-            <div style="background:#0D1117; border-radius:12px; padding:16px 20px; margin-bottom:24px;">
-              <span style="color:#9CA3AF; font-size:12px; font-weight:bold;">وصف العمل:</span>
-              <p style="color:#D1D5DB; margin:6px 0 0; font-size:14px; line-height:1.7;">${newWork.description}</p>
-            </div>
-
-            <!-- Image Preview -->
-            <div style="text-align:center; margin-bottom:28px;">
-              <span style="color:#9CA3AF; font-size:12px; font-weight:bold; display:block; margin-bottom:8px;">معاينة الصورة المرفقة:</span>
-              <img src="${fullImageUrl}" alt="${newWork.title}" style="max-width:100%; height:auto; max-height:280px; border-radius:14px; border:1px solid #374151;" />
-            </div>
-
-            <!-- APPROVAL BUTTONS -->
-            <div style="background:#111827; border:1px solid #1F2937; border-radius:16px; padding:24px; text-align:center;">
-              <p style="color:#9CA3AF; font-size:13px; margin:0 0 16px; font-weight:bold;">اضغط على أحد الإجراءات التالية للاعتماد الفوري:</p>
+            <!-- Submitter Information Box -->
+            <div style="margin-top:24px; background:#161E2E; border:1px solid #1F2D48; border-radius:18px; padding:20px;">
+              <p style="color:#FBBF24; font-size:12px; font-weight:bold; margin-bottom:12px;">معلومات الشريك والاتصال:</p>
               
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td align="center" style="padding:6px;">
-                    <a href="${approveUrl}" target="_blank" style="display:inline-block; background:#10B981; color:#FFFFFF; text-decoration:none; font-size:16px; font-weight:bold; padding:14px 28px; border-radius:12px; box-shadow:0 10px 20px rgba(16,185,129,0.3);">
-                      ✅ اعتماد ونشر العمل فوراً في الموقع
+                  <td style="width:50%; vertical-align:top;">
+                    <span style="color:#9CA3AF; font-size:11px;">اسم الشريك / الراسل:</span>
+                    <p style="color:#FFFFFF; font-weight:bold; margin:4px 0 0; font-size:15px;">${newWork.submitterName}</p>
+                  </td>
+                  <td style="width:50%; vertical-align:top;">
+                    <span style="color:#9CA3AF; font-size:11px;">رقم الجوال:</span>
+                    <p style="color:#F59E0B; font-weight:bold; margin:4px 0 0; font-size:15px;" dir="ltr">${newWork.submitterPhone}</p>
+                  </td>
+                </tr>
+              </table>
+
+              <div style="margin-top:14px; text-align:center;">
+                <a href="https://wa.me/${normalizedPhone}?text=${encodeURIComponent(`مرحباً أخي ${newWork.submitterName}، بخصوص العمل الذي أضفته في فن الإعلان (${newWork.title})`)}" target="_blank" style="display:inline-block; background:#25D366; color:#FFFFFF; text-decoration:none; font-size:13px; font-weight:bold; padding:8px 18px; border-radius:10px;">
+                  💬 فتح محادثة واتساب مع الشريك
+                </a>
+              </div>
+            </div>
+
+            <!-- APPROVAL BUTTONS (ONE CLICK) -->
+            <div style="margin-top:28px; background:#0B0F17; border:1px solid #1F2937; border-radius:20px; padding:24px; text-align:center;">
+              <p style="color:#E5E7EB; font-size:14px; font-weight:bold; margin:0 0 16px;">
+                اضغط على أحد الإجراءات التالية للاعتماد الفوري المباشر:
+              </p>
+              
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td align="center" style="padding-bottom:12px;">
+                    <a href="${approveUrl}" target="_blank" style="display:block; background:linear-gradient(135deg, #10B981 0%, #059669 100%); color:#FFFFFF; text-decoration:none; font-size:17px; font-weight:900; padding:16px 30px; border-radius:14px; box-shadow:0 10px 25px rgba(16,185,129,0.35);">
+                      ✅ اعتماد ونشر العمل فوراً في المعرض
                     </a>
                   </td>
                 </tr>
                 <tr>
-                  <td align="center" style="padding:6px;">
-                    <a href="${rejectUrl}" target="_blank" style="display:inline-block; background:#EF4444; color:#FFFFFF; text-decoration:none; font-size:13px; font-weight:bold; padding:10px 20px; border-radius:10px;">
+                  <td align="center">
+                    <a href="${rejectUrl}" target="_blank" style="display:inline-block; background:#1F2937; color:#EF4444; text-decoration:none; font-size:13px; font-weight:bold; padding:10px 22px; border-radius:10px; border:1px solid #374151;">
                       ❌ رفض أو حذف الطلب
                     </a>
                   </td>
@@ -423,8 +444,8 @@ export async function submitPartnerWork(
 
         <!-- Footer -->
         <tr>
-          <td style="background:#0D1117; padding:16px; text-align:center; font-size:12px; color:#6B7280; border-top:1px solid #1F2937;">
-            فن الإعلان للدعاية والمقاولات بالرياض • نظام إدارة الأعمال الذكي
+          <td style="background:#0D1117; padding:18px; text-align:center; font-size:12px; color:#6B7280; border-top:1px solid #1F2937;">
+            مؤسسة فن الإعلان للدعاية والمقاولات بالرياض • جميع الحقوق محفوظة
           </td>
         </tr>
 
@@ -436,14 +457,22 @@ export async function submitPartnerWork(
 </html>
       `;
 
+      // Dispatch via Resend with INLINE ATTACHMENT
       const sendResult = await resend.emails.send({
         from: 'onboarding@resend.dev',
         to: 'fanalelan@gmail.com',
         subject: `🔔 طلب اعتماد عمل جديد: ${newWork.title} — فن الإعلان`,
         html: emailHtml,
+        attachments: [
+          {
+            filename: `partner-${workId}.jpg`,
+            content: buffer,
+            cid: 'work-image-preview', // Inline attachment referenced in <img src="cid:work-image-preview" />
+          },
+        ],
       });
 
-      console.log('Work approval email dispatch result:', sendResult);
+      console.log('Work approval email dispatch result (with inline CID attachment):', sendResult);
     } else {
       console.warn('⚠️ RESEND_API_KEY غير موجود في البيئة الحالية؛ لم يتم إرسال الإيميل محلياً ولكن تم حفظ العمل كمعلق بنجاح.');
     }

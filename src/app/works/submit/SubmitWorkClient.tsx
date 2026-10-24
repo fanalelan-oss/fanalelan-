@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useTransition } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { submitPartnerWork, SubmitWorkState } from '@/app/actions';
 
 const CATEGORIES = [
@@ -16,6 +15,13 @@ const CATEGORIES = [
   'أخرى',
 ];
 
+interface CompressionStats {
+  originalSize: number;
+  compressedSize: number;
+  savingsPercent: number;
+  dimensions: { width: number; height: number };
+}
+
 export default function SubmitWorkClient() {
   const [isPending, startTransition] = useTransition();
   const [formState, setFormState] = useState<SubmitWorkState>({
@@ -23,32 +29,100 @@ export default function SubmitWorkClient() {
     message: '',
   });
 
+  // Form Field States (for Live Interactive Card Preview)
+  const [title, setTitle] = useState('');
+  const [category, setCategory] = useState('');
+  const [location, setLocation] = useState('الرياض');
+  const [description, setDescription] = useState('');
+
+  // Image & Compression State
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [compressedFile, setCompressedFile] = useState<File | null>(null);
+  const [isCompressing, setIsCompressing] = useState(false);
+  const [stats, setStats] = useState<CompressionStats | null>(null);
   const [dragActive, setDragActive] = useState(false);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
-  const handleImageChange = (file: File | null) => {
-    if (!file) {
-      setSelectedFile(null);
-      setPreviewUrl(null);
-      return;
-    }
-
+  // Client-Side Smart Image Compressor & Aspect-Ratio Normalizer
+  const processAndCompressImage = (file: File) => {
     if (!file.type.startsWith('image/')) {
       alert('يرجى اختيار ملف صورة صالح (JPG, PNG, WebP).');
       return;
     }
 
-    if (file.size > 10 * 1024 * 1024) {
-      alert('حجم الصورة كبير جداً. الحد الأقصى المسموح به هو 10 ميغابايت.');
-      return;
-    }
+    setIsCompressing(true);
 
-    setSelectedFile(file);
-    const objectUrl = URL.createObjectURL(file);
-    setPreviewUrl(objectUrl);
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+      const img = new window.Image();
+      img.src = e.target?.result as string;
+      img.onload = () => {
+        const MAX_DIM = 1200;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_DIM) {
+            height = Math.round((height * MAX_DIM) / width);
+            width = MAX_DIM;
+          }
+        } else {
+          if (height > MAX_DIM) {
+            width = Math.round((width * MAX_DIM) / height);
+            height = MAX_DIM;
+          }
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+
+        if (!ctx) {
+          setIsCompressing(false);
+          return;
+        }
+
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // High efficiency JPEG at 0.82
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) {
+              setIsCompressing(false);
+              return;
+            }
+
+            const optimizedFile = new File([blob], file.name.replace(/\.[^/.]+$/, '') + '.jpg', {
+              type: 'image/jpeg',
+              lastModified: Date.now(),
+            });
+
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+            const savings = Math.max(0, Math.round(((file.size - blob.size) / file.size) * 100));
+
+            setCompressedFile(optimizedFile);
+            setPreviewUrl(dataUrl);
+            setStats({
+              originalSize: file.size,
+              compressedSize: blob.size,
+              savingsPercent: savings,
+              dimensions: { width, height },
+            });
+            setIsCompressing(false);
+          },
+          'image/jpeg',
+          0.82
+        );
+      };
+      img.onerror = () => setIsCompressing(false);
+    };
+    reader.onerror = () => setIsCompressing(false);
   };
 
   const handleDrag = (e: React.DragEvent) => {
@@ -66,7 +140,7 @@ export default function SubmitWorkClient() {
     e.stopPropagation();
     setDragActive(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleImageChange(e.dataTransfer.files[0]);
+      processAndCompressImage(e.dataTransfer.files[0]);
     }
   };
 
@@ -74,8 +148,11 @@ export default function SubmitWorkClient() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    if (selectedFile) {
-      formData.set('image', selectedFile);
+    if (compressedFile) {
+      formData.set('image', compressedFile);
+    }
+    if (previewUrl) {
+      formData.set('imageBase64', previewUrl);
     }
 
     startTransition(async () => {
@@ -83,8 +160,12 @@ export default function SubmitWorkClient() {
       setFormState(result);
       if (result.success) {
         if (formRef.current) formRef.current.reset();
-        setSelectedFile(null);
+        setCompressedFile(null);
         setPreviewUrl(null);
+        setStats(null);
+        setTitle('');
+        setCategory('');
+        setDescription('');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
@@ -111,7 +192,7 @@ export default function SubmitWorkClient() {
             href="/gallery"
             className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-amber-400 transition-colors"
           >
-            <span>🖼️ تصفح معرض الأعمال الحالية</span>
+            <span>🖼️ تصفح معرض الأعمال</span>
           </Link>
         </div>
 
@@ -124,7 +205,7 @@ export default function SubmitWorkClient() {
             إضافة عمل جديد إلى <span className="text-amber-400">معرض الأعمال</span>
           </h1>
           <p className="mt-4 text-base sm:text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            شارك مشاريعك المتميزة وإنجازاتك ليتم عرضها في المعرض الرسمي لمؤسسة فن الإعلان بالرياض فور مراجعتها واعتمادها من الإدارة.
+            أداة متطورة تفحص وتضغط صور مشاريعك تلقائياً لتظهر بأعلى وضوح وأسرع تحميل في المعرض الرسمي لمؤسسة فن الإعلان بالرياض فور اعتمادها.
           </p>
         </div>
 
@@ -203,7 +284,7 @@ export default function SubmitWorkClient() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <label htmlFor="submitterName" className="block text-sm font-bold text-gray-300 mb-2">
-                اسم الشريك / الراسل *
+                اسم الشريك / المنفّذ *
               </label>
               <input
                 id="submitterName"
@@ -220,7 +301,7 @@ export default function SubmitWorkClient() {
 
             <div>
               <label htmlFor="submitterPhone" className="block text-sm font-bold text-gray-300 mb-2">
-                رقم الجوال للتواصل *
+                رقم الجوال للتواصل والاعتماد *
               </label>
               <input
                 id="submitterPhone"
@@ -248,6 +329,8 @@ export default function SubmitWorkClient() {
                 name="title"
                 type="text"
                 required
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 placeholder="مثال: واجهة كلادينج وحروف زنكور مجمع النخيل الطبي"
                 className="w-full bg-gray-950/80 border border-gray-800 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 rounded-xl px-4 py-3 text-white text-sm outline-none transition-all placeholder:text-gray-600"
               />
@@ -265,7 +348,8 @@ export default function SubmitWorkClient() {
                   id="category"
                   name="category"
                   required
-                  defaultValue=""
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
                   className="w-full bg-gray-950/80 border border-gray-800 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 rounded-xl px-4 py-3 text-white text-sm outline-none transition-all"
                 >
                   <option value="" disabled>
@@ -284,14 +368,15 @@ export default function SubmitWorkClient() {
 
               <div>
                 <label htmlFor="location" className="block text-sm font-bold text-gray-300 mb-2">
-                  موقع التنفيذ / المدينة
+                  موقع التنفيذ / الحي بالرياض
                 </label>
                 <input
                   id="location"
                   name="location"
                   type="text"
-                  defaultValue="الرياض"
-                  placeholder="مثال: الرياض - طريق الملك فهد"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  placeholder="مثال: الرياض - حي الملقا"
                   className="w-full bg-gray-950/80 border border-gray-800 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 rounded-xl px-4 py-3 text-white text-sm outline-none transition-all placeholder:text-gray-600"
                 />
               </div>
@@ -306,7 +391,9 @@ export default function SubmitWorkClient() {
                 name="description"
                 required
                 rows={4}
-                placeholder="اذكر تفاصيل المواد المستخدمة، الأبعاد، الإضاءة، أو أي ميزات أخرى للمشروع..."
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="اذكر تفاصيل المواد المستخدمة، الأبعاد، الإضاءة، أو أي ميزات فنية أخرى للمشروع..."
                 className="w-full bg-gray-950/80 border border-gray-800 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 rounded-xl px-4 py-3 text-white text-sm outline-none transition-all placeholder:text-gray-600 leading-relaxed resize-none"
               />
               {formState.errors?.description && (
@@ -315,13 +402,18 @@ export default function SubmitWorkClient() {
             </div>
           </div>
 
-          {/* Section 4: Image Upload */}
+          {/* Section 4: SMART IMAGE UPLOAD & AUTO COMPRESSION */}
           <div className="pt-4 border-t border-gray-800">
-            <label className="block text-sm font-bold text-gray-300 mb-2">
-              صورة العمل أو المشروع *
-            </label>
-            <p className="text-xs text-gray-400 mb-3">
-              ارفع صورة واضحة وعالية الدقة للعمل (JPG, PNG, WebP — بحد أقصى 10 ميغابايت).
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-sm font-bold text-gray-300">
+                📷 صورة العمل أو المشروع (نظام الضغط الذكي) *
+              </label>
+              <span className="text-[11px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full">
+                ⚡ ضغط تلقائي فوري
+              </span>
+            </div>
+            <p className="text-xs text-gray-400 mb-4 leading-relaxed">
+              ارفع أي صورة مهما كان حجمها (حتى لو كانت صورة جوال عالية الحجم)، وسيقوم النظام الذكي بضغطها وضبط أبعادها فورياً حتى لا تُثقل على سرعة تصفح الموقع.
             </p>
 
             <input
@@ -332,12 +424,25 @@ export default function SubmitWorkClient() {
               className="hidden"
               onChange={(e) => {
                 if (e.target.files && e.target.files[0]) {
-                  handleImageChange(e.target.files[0]);
+                  processAndCompressImage(e.target.files[0]);
                 }
               }}
             />
 
-            {!previewUrl ? (
+            {/* Hidden field carrying the compressed base64 */}
+            <input type="hidden" name="imageBase64" value={previewUrl || ''} />
+
+            {/* COMPRESSION PROGRESS SPINNER */}
+            {isCompressing && (
+              <div className="border-2 border-dashed border-amber-500/50 bg-amber-500/5 rounded-2xl p-8 text-center animate-pulse">
+                <div className="w-10 h-10 border-3 border-amber-400 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+                <p className="text-sm font-bold text-amber-300">جاري فحص أبعاد الصورة وضغطها بذكاء فائق...</p>
+                <p className="text-xs text-gray-400 mt-1">يتم تحسين الحجم لتسريع الموقع وحماية البيانات</p>
+              </div>
+            )}
+
+            {/* UPLOAD DROP ZONE (When no image is chosen) */}
+            {!isCompressing && !previewUrl && (
               <div
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}
@@ -347,7 +452,7 @@ export default function SubmitWorkClient() {
                 className={`border-2 border-dashed rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-all ${
                   dragActive
                     ? 'border-amber-500 bg-amber-500/10 scale-[1.01]'
-                    : 'border-gray-700 bg-gray-950/50 hover:border-gray-500 hover:bg-gray-950/80'
+                    : 'border-gray-700 bg-gray-950/50 hover:border-amber-500/60 hover:bg-gray-950/80'
                 }`}
               >
                 <div className="w-16 h-16 rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center justify-center mx-auto text-2xl mb-4">
@@ -357,31 +462,101 @@ export default function SubmitWorkClient() {
                   اضغط هنا لاختيار الصورة أو اسحبها وأفلتها هنا
                 </p>
                 <p className="text-xs text-gray-400">
-                  صيغ مقبولة: JPG, PNG, WEBP — حتى 10 ميغابايت
+                  صيغ مقبولة: JPG, PNG, WEBP — النظام يضغط أي حجم تلقائياً
                 </p>
               </div>
-            ) : (
-              <div className="relative rounded-2xl overflow-hidden border border-gray-700 bg-gray-950 p-3">
-                <div className="relative w-full h-72 sm:h-96 rounded-xl overflow-hidden">
-                  <Image
-                    src={previewUrl}
-                    alt="معاينة الصورة"
-                    fill
-                    className="object-cover"
-                    unoptimized
-                  />
+            )}
+
+            {/* SMART OPTIMIZATION REPORT & PREVIEW */}
+            {!isCompressing && previewUrl && stats && (
+              <div className="space-y-4">
+                {/* Diagnostic Badge */}
+                <div className="bg-gradient-to-r from-emerald-950/50 to-teal-950/50 border border-emerald-500/30 rounded-2xl p-4 sm:p-5">
+                  <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm mb-3">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+                    <span>⚡ تقرير الضغط والتحسين الذكي للصورة:</span>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
+                    <div className="bg-black/40 border border-white/5 rounded-xl p-3">
+                      <span className="text-gray-400 block mb-1">الحجم قبل الضغط:</span>
+                      <span className="font-mono text-gray-300 font-bold">
+                        {(stats.originalSize / 1024 / 1024).toFixed(2)} MB
+                      </span>
+                    </div>
+
+                    <div className="bg-black/40 border border-emerald-500/30 rounded-xl p-3">
+                      <span className="text-emerald-400 block mb-1">الحجم بعد التحسين:</span>
+                      <span className="font-mono text-emerald-300 font-bold">
+                        {(stats.compressedSize / 1024).toFixed(0)} KB
+                      </span>
+                    </div>
+
+                    <div className="col-span-2 sm:col-span-1 bg-black/40 border border-amber-500/30 rounded-xl p-3">
+                      <span className="text-amber-400 block mb-1">نسبة التوفير بالسرعة:</span>
+                      <span className="font-mono text-amber-300 font-black text-sm">
+                        وفرت {stats.savingsPercent}% 🚀
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-white/5 text-[11px] text-gray-400">
+                    <span>
+                      الأبعاد: {stats.dimensions.width} × {stats.dimensions.height} بكسل (أبعاد مثالية لشاشات الجوال والكمبيوتر)
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPreviewUrl(null);
+                        setCompressedFile(null);
+                        setStats(null);
+                      }}
+                      className="text-red-400 hover:text-red-300 font-bold hover:underline"
+                    >
+                      ✕ اختيار صورة أخرى
+                    </button>
+                  </div>
                 </div>
-                <div className="flex items-center justify-between mt-3 px-2">
-                  <span className="text-xs text-gray-300 truncate max-w-xs">
-                    📎 {selectedFile?.name} ({(selectedFile ? selectedFile.size / 1024 / 1024 : 0).toFixed(2)} MB)
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => handleImageChange(null)}
-                    className="text-xs text-red-400 hover:text-red-300 font-bold px-3 py-1.5 rounded-lg bg-red-950/40 border border-red-800/40 hover:bg-red-900/40 transition-colors"
-                  >
-                    ✕ تغيير الصورة
-                  </button>
+
+                {/* REALISTIC LIVE GALLERY CARD PREVIEW */}
+                <div className="border border-white/10 rounded-2xl p-5 bg-black/40">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-xs font-black text-amber-400 flex items-center gap-1.5">
+                      <span>✨</span>
+                      <span>معاينة حية: هكذا سيظهر عملك داخل معرض الأعمال تماماً:</span>
+                    </span>
+                    <span className="text-[10px] text-gray-500">تصميم مطابق للمعرض 100%</span>
+                  </div>
+
+                  {/* Visual Replica of WorkCard on the website */}
+                  <div className="group relative block w-full max-w-md mx-auto overflow-hidden rounded-[2rem] border border-white/10 bg-[#101010] shadow-[0_20px_50px_rgba(245,158,11,0.15)]">
+                    <div className="relative aspect-[4/3] w-full overflow-hidden">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={previewUrl}
+                        alt={title || 'معاينة المشروع'}
+                        className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
+                    </div>
+
+                    <div className="absolute bottom-0 right-0 p-6 sm:p-7 w-full text-right">
+                      <div className="flex flex-wrap items-center gap-2 mb-2">
+                        <span className="text-[11px] font-black bg-yellow-500 text-black px-3.5 py-1 rounded-full uppercase tracking-wider">
+                          {category || 'اختر التصنيف'}
+                        </span>
+                        <span className="text-[10px] font-bold bg-black/60 text-yellow-400 border border-yellow-500/30 px-2.5 py-0.5 rounded-full">
+                          #{location || 'الرياض'}
+                        </span>
+                      </div>
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mt-2 leading-tight">
+                        {title || 'عنوان العمل والمشروع'}
+                      </h3>
+                      <p className="text-gray-300 text-xs sm:text-sm mt-2 line-clamp-2 italic border-r-2 border-yellow-500/50 pr-3">
+                        {description || 'تفاصيل ومواصفات المشروع ستظهر هنا عند المعاينة والتمرير...'}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
@@ -395,7 +570,7 @@ export default function SubmitWorkClient() {
           <div className="pt-6 border-t border-gray-800">
             <button
               type="submit"
-              disabled={isPending}
+              disabled={isPending || isCompressing}
               className="w-full py-4 px-6 rounded-2xl font-black text-base sm:text-lg bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-gray-950 shadow-xl shadow-amber-500/20 hover:shadow-amber-500/30 transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-3"
             >
               {isPending ? (

@@ -14,6 +14,7 @@ interface WorkCardProps {
 
 export default function WorkCard({ title, category, imgSrc, description, fullDetails, isSimple = false }: WorkCardProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const isUnoptimized = imgSrc.startsWith('/api/') || imgSrc.startsWith('data:');
 
   // If it's the simple version (Home Page)
   if (isSimple) {
@@ -24,6 +25,7 @@ export default function WorkCard({ title, category, imgSrc, description, fullDet
             src={imgSrc}
             alt={title}
             fill
+            unoptimized={isUnoptimized}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-500"
           />
@@ -52,6 +54,7 @@ export default function WorkCard({ title, category, imgSrc, description, fullDet
             src={imgSrc}
             alt={title}
             fill
+            unoptimized={isUnoptimized}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700"
           />
@@ -85,7 +88,7 @@ export default function WorkCard({ title, category, imgSrc, description, fullDet
             </button>
 
             <div className="relative w-full lg:w-3/5 h-64 sm:h-96 lg:h-auto overflow-hidden">
-                <Image src={imgSrc} alt={title} fill className="object-cover" />
+                <Image src={imgSrc} alt={title} fill unoptimized={isUnoptimized} className="object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent hidden lg:block" />
             </div>
 
@@ -98,15 +101,20 @@ export default function WorkCard({ title, category, imgSrc, description, fullDet
                     <p>{description}</p>
                     {fullDetails && (
                         <>
-                            <p className="font-bold text-white border-r-4 border-yellow-500 pr-4 mt-8">التفاصيل الفنية:</p>
-                            <p className="italic">{fullDetails}</p>
+                            <p className="font-bold text-white border-r-4 border-yellow-500 pr-4 mt-8">تفاصيل التنفيذ والمواد:</p>
+                            <p className="text-base text-gray-400">{fullDetails}</p>
                         </>
                     )}
                 </div>
 
-                <div className="mt-12 pt-8 border-t border-white/10">
-                    <a href="https://wa.me/966557517792" className="inline-flex h-14 items-center justify-center rounded-2xl px-10 bg-gold-gradient text-black font-bold text-lg shadow-gold hover:scale-105 transition-transform w-full">
-                        اطلب عمل مشابه لمشروعك
+                <div className="mt-12 flex gap-4">
+                    <a 
+                        href="https://wa.me/966557517792" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="w-full text-center py-4 rounded-2xl bg-yellow-500 text-black font-extrabold text-lg hover:bg-yellow-400 transition-all shadow-lg"
+                    >
+                        طلب عمل مشابه عبر واتساب
                     </a>
                 </div>
             </div>

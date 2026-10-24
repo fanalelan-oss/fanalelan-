@@ -8,6 +8,7 @@ export interface WorkItem {
   title: string;
   category: string;
   imgSrc: string;
+  imageBase64?: string;
   description: string;
   submitterName?: string;
   submitterPhone?: string;
@@ -128,7 +129,7 @@ export function getAllGalleryWorks() {
   const formattedCustom = custom.map(c => ({
     title: c.title,
     category: c.category,
-    imgSrc: c.imgSrc,
+    imgSrc: c.imageBase64 || c.imgSrc || `/api/works/image?id=${c.id}`,
     description: c.description,
   }));
   return [...formattedCustom, ...initialWorks];
