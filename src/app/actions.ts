@@ -365,9 +365,9 @@ export async function submitPartnerWork(
             
             <div style="background:#0D1117; border:1px solid rgba(245, 158, 11, 0.3); border-radius:24px; overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,0.6);">
               
-              <!-- Embedded CID Image (Never broken in Gmail!) -->
+              <!-- Embedded Image via Next.js Dynamic API Route -->
               <div style="width:100%; text-align:center; background:#000000; line-height:0;">
-                <img src="cid:work-image-preview" alt="${newWork.title}" style="width:100%; height:auto; max-height:380px; object-fit:cover; display:block;" />
+                <img src="${baseUrl}/api/works/image?id=${workId}" alt="${newWork.title}" style="width:100%; height:auto; max-height:380px; object-fit:cover; display:block;" />
               </div>
 
               <!-- Card Content Overlay Look -->
@@ -467,7 +467,6 @@ export async function submitPartnerWork(
           {
             filename: `partner-${workId}.jpg`,
             content: buffer,
-            cid: 'work-image-preview', // Inline attachment referenced in <img src="cid:work-image-preview" />
           },
         ],
       });
