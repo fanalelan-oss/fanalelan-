@@ -3,7 +3,7 @@
 import React, { useState, useRef, useTransition } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { submitPartnerWork, SubmitWorkState } from '@/app/works-actions';
+import { submitPartnerWork, SubmitWorkState } from '@/app/actions';
 
 const CATEGORIES = [
   'لوحات حروف بارزة',
@@ -140,7 +140,7 @@ export default function SubmitWorkClient() {
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
               <a
-                href="https://wa.me/966559981123?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%20%D9%81%D9%86%20%D8%A7%D9%84%D8%A5%D8%B9%D9%84%D8%A7%D9%86%D8%8C%20%D9%82%D9%85%D8%AA%20%D8%A8%D8%A5%D8%B6%D8%A7%D9%81%D8%A9%20%D8%B9%D9%85%D9%84%20%D8%AC%D8%AF%D9%8A%D8%AF%20%D8%B9%D8%A8%D8%B1%20%D8%A7%D9%84%D8%A8%D9%88%D8%A7%D8%A8%D8%A9%20%D9%88%D8%A3%D8%B1%D8%AC%D9%88%20%D8%A7%D9%84%D8%A7%D8%B9%D8%AA%D9%85%D8%A7%D8%AF."
+                href="https://wa.me/966557517792?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%20%D9%81%D9%86%20%D8%A7%D9%84%D8%A5%D8%B9%D9%84%D8%A7%D9%86%D8%8C%20%D9%82%D9%85%D8%AA%20%D8%A8%D8%A5%D8%B6%D8%A7%D9%81%D8%A9%20%D8%B9%D9%85%D9%84%20%D8%AC%D8%AF%D9%8A%D8%AF%20%D8%B9%D8%A8%D8%B1%20%D8%A7%D9%84%D8%A8%D9%88%D8%A7%D8%A8%D8%A9%20%D9%88%D8%A3%D8%B1%D8%AC%D9%88%20%D8%A7%D9%84%D8%A7%D8%B9%D8%AA%D9%85%D8%A7%D8%AF."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-lg shadow-emerald-900/30 transition-all hover:scale-105"
@@ -421,7 +421,7 @@ export default function SubmitWorkClient() {
           <p>
             بحاجة إلى مساعدة أو استفسار؟{' '}
             <a
-              href="https://wa.me/966559981123"
+              href="https://wa.me/966557517792"
               target="_blank"
               rel="noopener noreferrer"
               className="text-amber-400 hover:underline"
