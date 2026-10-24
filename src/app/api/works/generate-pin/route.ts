@@ -7,10 +7,13 @@ export async function POST(request: NextRequest) {
   try {
     const pinData = generatePartnerPin(24);
 
-    // Get origin / base url
-    const host = request.headers.get('host') || 'localhost:3000';
-    const protocol = host.includes('localhost') ? 'http' : 'https';
-    const submitUrl = `${protocol}://${host}/works/submit`;
+    // Ensure the public URL always uses the official domain (fan-alelan.com) in production
+    // to prevent Google Cloud Run 403 Forbidden on raw *.run.app internal URLs
+    const host = request.headers.get('host') || '';
+    const isLocal = host.includes('localhost') || host.includes('127.0.0.1');
+    const submitUrl = isLocal
+      ? `http://${host}/works/submit`
+      : 'https://fan-alelan.com/works/submit';
 
     return NextResponse.json({
       success: true,
