@@ -490,33 +490,169 @@ export async function submitPartnerWork(
 }
 
 // ==========================================
-// 5. Gemini Chatbot Logic (unchanged)
+// 5. Upgraded Multimodal Gemini Chatbot Logic
 // ==========================================
-interface GeminiModel { name: string; supportedGenerationMethods: string[]; }
-export async function getGeminiResponse(userPrompt: string): Promise<string> {
+import { GoogleGenerativeAI, Part } from '@google/generative-ai';
+
+export interface ChatInputMessage {
+  id: string;
+  sender: 'user' | 'bot';
+  text: string;
+  image?: {
+    base64: string;
+    mimeType: string;
+  };
+}
+
+const SYSTEM_PROMPT = `أنت "فن" 🦾 - المستشار الذكي وكبير المهندسين والخبراء لمؤسسة "فن الإعلان للدعاية والمقاولات" في الرياض، المملكة العربية السعودية.
+
+الشخصية والأسلوب:
+- تحدث بإنسانية، دفء، وذكاء استثنائي بلهجة سعودية بيضاء مهنية ومرحابة (مثل: "يا هلا ومسهلا بك يا غالي"، "أبشر بسعدك"، "على راسي"، "تأمر أمر"، "ولا تشيل هم").
+- افهم السياق التراكمي للمحادثة بالكامل؛ إذا سألك العميل عن تفاصيل تابعة لما ذكره في رسائله السابقة، اربط الحديث بسلاسة ودقة ولا تعيد تقديم نفسك في كل رسالة.
+- إجاباتك مركزة، دقيقة، خبيرة هندسياً، وتهدف لمساعدة العميل وتحقيق أفضل جودة وأعلى توفير له.
+
+معرفتك التخصصية الشاملة بمؤسسة فن الإعلان:
+1. واجهات الكلادينج:
+   - ألواح درجة أولى (A2 و FR) مقاومة للحريق ومحشوة بمركبات معدنية غير قابلة للاشتعال معتمدة في كود البناء السعودي (SBC).
+   - طلاء PVDF عالي الجودة لمقاومة حرارة وشمس الرياض بضمان كتابي 15 سنة على ثبات الألوان وعدم التقشر.
+   - سمك 4 ملم، شاسيه تيوبات حديد وطنية معالجة بإيبوكسي ضد الصدأ بنظام تعشيق مخفي.
+   - الأسعار التقديرية للكلادينج: تبدأ من 160 إلى 280 ريال للمتر المربع حسب نوع الألواح والارتفاع وطبيعة الواجهة.
+
+2. اللوحات الإعلانية وحروف المحلات:
+   - حروف بارزة مضيئة: أكريليك نقي يضيء بالكامل، زنكور مدهون بألوان كود خاصة، ستانلس ستيل 304 ذهبي أو فضي (لامع أو مصنفر) فاخر للشركات.
+   - إضاءة LED: وحدات سامسونج كورية أصلية 12V عالية السطوع موفرة للطاقة مع محولات ترانسات Rainproof مقاومة للمطر والحرارة مع ضمان سنتين.
+   - شاشات رقمية تفاعلية LED داخلية وخارجية ببرمجة سهلة.
+   - التزام صارم 100% باشتراطات أمانة منطقة الرياض ومنصة بلدي (مقاسات الواجهة، الارتدادات، خط التنظيم لمنع المخالفات).
+   - الأسعار التقديرية للحروف: تبدأ من 350 ريال للحرف حسب المقاس والخامة.
+
+3. الأسوار الإعلانية والدعائية:
+   - حواجز وسياج إعلاني لمواقع المشاريع تحت الإنشاء والأراضي الفضاء بالرياض.
+   - بنر كوري مشدود عالي الكثافة (440g) مقاوم للشمس أو شينكو أو خشب OSB بهياكل حديدية قوية وقواعد خرسانية آمنة متوافقة مع متطلبات الأمانة والسلامة.
+   - الأسعار التقديرية: من 150 إلى 250 ريال للمتر الطولي.
+
+4. استيكرات وتغليف أسطول السيارات (Car Wrap):
+   - خامات أصلية عالمية 3M و Orafol مخصصة للسيارات تحمي صبغ الوكالة وتتحمل الحرارة والغسيل وتُزال دون أثر، بأسعار تبدأ من 35 ريال للمتر.
+
+5. أعمال الحديد وقص الليزر CNC:
+   - بوابات، مظلات وسواتر، درابزين، تفصيل هياكل هندسية بدهان حراري باودر كوتينج وضمان 10 سنوات على الهياكل.
+
+6. الصيانة والترميم:
+   - تجديد إضاءة اللوحات، تنظيف وتلميع الكلادينج بمواد إيطالية تعيد بريقه، إصلاح الفواصل وسيلكون ألماني.
+
+7. ميزاتنا التنافسية:
+   - تصميم ثلاثي الأبعاد 3D مجاني قبل التنفيذ.
+   - سرعة تنفيذ من يومين إلى 8 أيام حسب حجم المشروع.
+   - معاينة ورفع مقاسات ميدانية مجانية في جميع أحياء الرياض (شمال، شرق، غرب، جنوب).
+   - للتواصل المباشر والطلب السريع: جوال / واتساب 0557517792.
+
+تحليل الصور المرفوعة (Vision AI):
+- إذا أرفق العميل صورة لواجهة أو لوحة أو مبنى أو مخطط:
+  1. اذكر بذكاء ما تراه في الصورة (نوع الواجهة الحالية، حالتها، أبعادها التقديرية، وضع البناء).
+  2. قدم تقييماً هندسياً دقيقاً واقترح التكسية أو اللوحة الأنسب لهوية النشاط.
+  3. نبه العميل لأي نقاط مهمة لاشتراطات أمانة الرياض وكود البناء لمنع المخالفات.
+  4. اقترح عليه حجز معاينة ميدانية مجانية بالرياض عبر واتساب 0557517792.
+`;
+
+export async function getGeminiChatResponse(history: ChatInputMessage[]): Promise<string> {
   const apiKey = (process.env.MY_GEMINI_API_KEY || "").trim();
-  if (!apiKey) return "المفتاح مفقود.";
-  const systemContext = `أنت المساعد الذكي 'فن' لمؤسسة فن الإعلان بالرياض. متخصص في الكلادينج واللوحات. 
-  الأسعار: الحروف البارزة 350 ريال، الاستيكر 35 ريال، الأسوار 150-250 ريال، الكلادينج 160-280 ريال.
-  الضمان: 15 سنة على الكلادينج. الموقع: نخدم كل أحياء الرياض. تحدث بلهجة سعودية ودودة.`;
-  try {
-    const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
-    const listData = await listRes.json();
-    const availableModels: GeminiModel[] = listData.models || [];
-    const targetModel = availableModels.find((m) => m.name.includes("gemini-1.5-flash") && m.supportedGenerationMethods.includes("generateContent"))
-                       || availableModels.find((m) => m.supportedGenerationMethods.includes("generateContent"));
-    if (!targetModel) return "يا هلا بك! جاري تحديث أنظمة الذكاء الاصطناعي، تواصل معنا واتساب وأبشر بسعدك.";
-    const url = `https://generativelanguage.googleapis.com/v1beta/${targetModel.name}:generateContent?key=${apiKey}`;
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ contents: [{ parts: [{ text: `${systemContext}\n\nسؤال العميل: ${userPrompt}` }] }] })
-    });
-    const data = await response.json();
-    if (response.ok && data.candidates) return data.candidates[0].content.parts[0].text;
-    return "معليش يا غالي، حصل عندي التماس بسيط، جرب تسألني بعد دقيقة.";
-  } catch (error) {
-    console.error(error);
-    return "يا هلا بك! فيه مشكلة في الاتصال، كلمنا واتساب وأبشر باللي يرضيك.";
+  if (!apiKey) {
+    return "يا هلا ومسهلا بك في فن الإعلان! 🦾 خبيرنا الهندسي جاهز لخدمتك ومعاينة موقعك بالرياض. تفضل بمراسلتنا واتساب مباشرة على 0557517792 وأبشر باللي يسرك!";
   }
+
+  try {
+    const genAI = new GoogleGenerativeAI(apiKey);
+    
+    // Choose the best flash model supporting multimodal vision
+    const model = genAI.getGenerativeModel({
+      model: 'gemini-1.5-flash',
+      systemInstruction: SYSTEM_PROMPT,
+    });
+
+    // Take the last 12 messages for optimal multi-turn context
+    const recentMessages = history.slice(-12);
+
+    const contents = recentMessages.map((msg, index) => {
+      const parts: Part[] = [];
+
+      // If user uploaded an image in this message, include it as inlineData
+      if (msg.image && msg.image.base64) {
+        const cleanBase64 = msg.image.base64.replace(/^data:[^;]+;base64,/, '');
+        parts.push({
+          inlineData: {
+            data: cleanBase64,
+            mimeType: msg.image.mimeType || 'image/jpeg',
+          },
+        });
+      }
+
+      // Add text part
+      const textContent = msg.text?.trim() || (msg.image ? 'حلل هذه الصورة الهندسية لمشروعي واقترح الحل الأنسب.' : '');
+      if (textContent) {
+        // Prepend system prompt to first turn as an extra safeguard
+        if (index === 0 && msg.sender === 'user') {
+          parts.push({ text: `${SYSTEM_PROMPT}\n\nسياق المحادثة:\n${textContent}` });
+        } else {
+          parts.push({ text: textContent });
+        }
+      }
+
+      return {
+        role: msg.sender === 'user' ? 'user' : 'model',
+        parts,
+      };
+    });
+
+    // Ensure contents is not empty
+    if (contents.length === 0) {
+      contents.push({
+        role: 'user',
+        parts: [{ text: 'مرحبا، عرفني بخدمات فن الإعلان في الرياض.' }],
+      });
+    }
+
+    const result = await model.generateContent({ contents });
+    const responseText = result.response.text();
+    if (responseText && responseText.trim()) {
+      return responseText.trim();
+    }
+
+    return "يا هلا بك يا غالي! آمرني وش بغيت تسأل عنه بخصوص الكلادينج أو اللوحات؟ وأبشر بسعدك!";
+  } catch (error: unknown) {
+    console.error('Gemini Chatbot Error:', error);
+
+    // Fallback: Try lightweight REST call if SDK had an issue
+    try {
+      const lastUserMsg = [...history].reverse().find(m => m.sender === 'user');
+      const fallbackPrompt = lastUserMsg ? lastUserMsg.text : 'مرحبا';
+      const fallbackRes = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: `${SYSTEM_PROMPT}\n\nسؤال العميل: ${fallbackPrompt}` }] }],
+          }),
+        }
+      );
+      const fallbackData = await fallbackRes.json();
+      if (fallbackRes.ok && fallbackData.candidates?.[0]?.content?.parts?.[0]?.text) {
+        return fallbackData.candidates[0].content.parts[0].text;
+      }
+    } catch (fallbackErr) {
+      console.error('Gemini Fallback Error:', fallbackErr);
+    }
+
+    return "يا هلا ومسهلا بك يا غالي! حصل عندي التماس بسيط بالاتصال، تواصل معنا واتساب على 0557517792 وأبشر باللي يرضيك فوراً!";
+  }
+}
+
+// Backward-compatible single-prompt wrapper
+export async function getGeminiResponse(userPrompt: string): Promise<string> {
+  return getGeminiChatResponse([
+    {
+      id: `u-${Date.now()}`,
+      sender: 'user',
+      text: userPrompt,
+    },
+  ]);
 }

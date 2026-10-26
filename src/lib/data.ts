@@ -179,6 +179,7 @@ export const services = [
 ];
 
 export const works = [
+  { title: "لوحة حروف بارزة مضيئة وكالة العضيب بالرياض", category: "لوحات اعلانية", imgSrc: "/works_images/partner-work_1792854356822_12127a51.jpg", description: "تصميم وتنفيذ لوحة حروف بارزة مضيئة LED لوكالة العضيب بالرياض بأعلى دقة وإضاءة سامسونج موفرة للطاقة متوافقة مع اشتراطات بلدي." },
   { title: "لوحة حروف بارزة مضيئة لمشغل غيمة اثير النسائي بالرياض", category: "لوحات اعلانية", imgSrc: "/works_images/loha-maghal-ghaima-atheer-nisai-riyadh.png", description: "لوحة إعلانية لمشغل غيمة اثير النسائي بالرياض، حروف بارزة بإضاءة LED خلفية لتأثير جذاب وراقي." },
   { title: "تطوير واجهة فيلا كلادينج خشبي حي النسيم الرياض", category: "واجهات كلادينج", imgSrc: "/works_images/kladding-facade-villa-naseem-riyadh.png", description: "تطوير واجهة فيلا سكنية في حي النسيم بالرياض بكلادينج خشبي بنظام الشرائح مع تلبيس إطارات الشبابيك بتقنية الليزر." },
   { title: "لوحة حروف بارزة مضيئة مطعم دجاج شواية الرياض", category: "لوحات اعلانية", imgSrc: "/works_images/loha-elaaniya-matam-dajaj-shawaya-riyadh.jpg", description: "تصنيع وتركيب لوحة حروف بارزة مضيئة LED لمطعم دجاج شواية بالرياض مع خلفية كلادينج." },
