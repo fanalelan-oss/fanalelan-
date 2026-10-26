@@ -36,6 +36,8 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-32x32.png', type: 'image/png', sizes: '32x32' },
+      { url: '/favicon-16x16.png', type: 'image/png', sizes: '16x16' },
       { url: '/favicon.svg', type: 'image/svg+xml' },
     ],
     shortcut: '/favicon.ico',
@@ -75,6 +77,8 @@ export default function RootLayout({
     <html lang="ar" dir="rtl">
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         {/* Preconnects for fonts and analytics to speed up critical connections */}
