@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { getAllGalleryWorks } from '@/lib/works-manager';
 import GalleryClient from '@/components/GalleryClient';
+import { WorksGalleryJsonLd } from '@/components/JsonLd';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
     url: 'https://fan-alelan.com/gallery',
     images: [
       {
-        url: '/works_images/loha-elaaniya-horf-barez-madia-riyadh.jpg',
+        url: '/api/works/image?file=loha-elaaniya-horf-barez-madia-riyadh.jpg',
         width: 1200,
         height: 630,
         alt: 'معرض أعمال فن الإعلان بالرياض',
@@ -26,5 +27,10 @@ export const metadata: Metadata = {
 export default function GalleryPage() {
   const allWorks = getAllGalleryWorks();
 
-  return <GalleryClient initialWorks={allWorks} />;
+  return (
+    <>
+      <WorksGalleryJsonLd works={allWorks} />
+      <GalleryClient initialWorks={allWorks} />
+    </>
+  );
 }

@@ -67,7 +67,20 @@ function CheckIcon(props: React.SVGProps<SVGSVGElement>) {
     )
 }
 
-export default function HomePageClient() {
+interface WorkItemProp {
+  title: string;
+  category: string;
+  imgSrc: string;
+  description: string;
+  fullDetails?: string;
+}
+
+interface HomePageClientProps {
+  initialWorks?: WorkItemProp[];
+}
+
+export default function HomePageClient({ initialWorks }: HomePageClientProps = {}) {
+  const displayWorks = (initialWorks && initialWorks.length > 0) ? initialWorks : works;
   const initialState: FormState = { message: "", errors: undefined, success: false };
   const [state, dispatch] = useFormState(submitContactForm, initialState);
 
@@ -105,7 +118,7 @@ export default function HomePageClient() {
               navigation={true}
               className="work-swiper pb-16"
             >
-              {works.map((work, index) => (
+              {displayWorks.map((work, index) => (
                 <SwiperSlide key={index}><WorkCard {...work} isSimple={true} /></SwiperSlide>
               ))}
             </Swiper>

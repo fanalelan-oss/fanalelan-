@@ -245,3 +245,42 @@ export function BlogPostJsonLd({ title, description, url, image, datePublished }
     />
   );
 }
+
+
+export function WorksGalleryJsonLd({ works }: { works: { title: string; category: string; description: string; imgSrc: string }[] }) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "معرض مشاريع وأعمال فن الإعلان بالرياض",
+    "description": "قائمة المشاريع والأعمال المنفذة لمؤسسة فن الإعلان بالرياض: واجهات كلادينج، حروف بارزة مضيئة، أسوار إعلانية، واستيكرات سيارات.",
+    "numberOfItems": works.length,
+    "itemListElement": works.map((work, idx) => ({
+      "@type": "ListItem",
+      "position": idx + 1,
+      "item": {
+        "@type": "CreativeWork",
+        "name": work.title,
+        "headline": work.title,
+        "description": work.description,
+        "genre": work.category,
+        "image": work.imgSrc.startsWith('http') ? work.imgSrc : `${BASE_URL}${work.imgSrc.startsWith('/') ? '' : '/'}${work.imgSrc}`,
+        "creator": {
+          "@type": "LocalBusiness",
+          "name": "فن الإعلان للدعاية والمقاولات بالرياض",
+          "url": BASE_URL
+        },
+        "locationCreated": {
+          "@type": "Place",
+          "name": "الرياض، المملكة العربية السعودية"
+        }
+      }
+    }))
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}

@@ -1,5 +1,10 @@
 import { Metadata } from 'next';
 import HomePageClient from '@/components/HomePageClient';
+import { getAllGalleryWorks } from '@/lib/works-manager';
+import { WorksGalleryJsonLd } from '@/components/JsonLd';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: 'فن الإعلان للدعاية والإعلان والمقاولات | واجهات كلادينج ولوحات بالرياض',
@@ -32,5 +37,12 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  return <HomePageClient />;
+  const allWorks = getAllGalleryWorks();
+
+  return (
+    <>
+      <WorksGalleryJsonLd works={allWorks.slice(0, 15)} />
+      <HomePageClient initialWorks={allWorks} />
+    </>
+  );
 }
