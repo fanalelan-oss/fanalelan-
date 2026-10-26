@@ -25,6 +25,14 @@ interface TechnicalSpec {
 // Define a type for a single service
 type Service = typeof services[0];
 
+function getSafeImgSrc(src: string): string {
+  if (src.startsWith('/works_images/')) {
+    const filename = src.replace(/^\/works_images\//, '');
+    return `/api/works/image?file=${encodeURIComponent(filename)}`;
+  }
+  return src;
+}
+
 export default function ServicePageClient({ service }: { service: Service }) {
   return (
     <main className="min-h-screen bg-gray-900 text-gray-100 pt-32 pb-20">
@@ -176,7 +184,7 @@ export default function ServicePageClient({ service }: { service: Service }) {
                     <SwiperSlide key={idx}>
                       <div className="relative w-full h-full">
                         <Image 
-                            src={img} 
+                            src={getSafeImgSrc(img)} unoptimized={true} 
                             alt={`${service.title} - ${idx + 1}`} 
                             fill 
                             className="object-cover"
@@ -192,7 +200,7 @@ export default function ServicePageClient({ service }: { service: Service }) {
              <div className="grid grid-cols-4 gap-4 px-2">
                 {service.images.map((img, idx) => (
                     <div key={idx} className="relative aspect-square rounded-2xl overflow-hidden border-2 border-white/5 shadow-lg hover:border-yellow-500 transition-all cursor-pointer group">
-                        <Image src={img} alt="نموذج" fill className="object-cover transition-transform group-hover:scale-110" />
+                        <Image src={getSafeImgSrc(img)} unoptimized={true} alt="نموذج" fill className="object-cover transition-transform group-hover:scale-110" />
                     </div>
                 ))}
              </div>

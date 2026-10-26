@@ -132,7 +132,18 @@ export function getAllGalleryWorks() {
     imgSrc: c.imageBase64 || c.imgSrc || `/api/works/image?id=${c.id}`,
     description: c.description,
   }));
-  return [...formattedCustom, ...initialWorks];
+
+  const formattedInitial = initialWorks.map(w => {
+    const filename = w.imgSrc.startsWith('/api/works/image')
+      ? w.imgSrc
+      : `/api/works/image?file=${encodeURIComponent(w.imgSrc.replace(/^\/works_images\//, ''))}`;
+    return {
+      ...w,
+      imgSrc: filename,
+    };
+  });
+
+  return [...formattedCustom, ...formattedInitial];
 }
 
 export function getPendingWorks(): WorkItem[] {
@@ -155,42 +166,35 @@ export function savePendingWork(work: WorkItem) {
 export function approveWorkById(id: string, token: string): { success: boolean; work?: WorkItem; message: string } {
   ensureDataFiles();
   const pending = getPendingWorks();
-  const index = pending.findIndex(p => p.id === id && p.token === token);
+  const index = pending.findIndex(w => w.id === id && w.token === token);
 
   if (index === -1) {
-    // Check if already approved
-    const approved = getApprovedCustomWorks();
-    const existing = approved.find(a => a.id === id);
-    if (existing) {
-      return { success: true, work: existing, message: 'هذا العمل معتمد ومنشور بالفعل في الموقع!' };
-    }
-    return { success: false, message: 'طلب الاعتماد غير موجود أو رمز التحقق غير صالح.' };
+    return { success: false, message: 'الطلب غير موجود أو تم اعتماده مسبقاً.' };
   }
 
   const [work] = pending.splice(index, 1);
   work.status = 'approved';
 
-  // Save to approved
   const approved = getApprovedCustomWorks();
   approved.unshift(work);
+
+  fs.writeFileSync(PENDING_FILE, JSON.stringify(pending, null, 2), 'utf8');
   fs.writeFileSync(APPROVED_FILE, JSON.stringify(approved, null, 2), 'utf8');
 
-  // Update pending
-  fs.writeFileSync(PENDING_FILE, JSON.stringify(pending, null, 2), 'utf8');
-
-  return { success: true, work, message: 'تم اعتماد العمل بنجاح ونشره في معرض الأعمال!' };
+  return { success: true, work, message: 'تم اعتماد العمل وإضافته للمعرض بنجاح!' };
 }
 
 export function rejectWorkById(id: string, token: string): { success: boolean; message: string } {
   ensureDataFiles();
   const pending = getPendingWorks();
-  const index = pending.findIndex(p => p.id === id && p.token === token);
+  const index = pending.findIndex(w => w.id === id && w.token === token);
 
   if (index === -1) {
-    return { success: false, message: 'طلب الاعتماد غير موجود أو رمز التحقق غير صالح.' };
+    return { success: false, message: 'الطلب غير موجود أو تم معالجته بالفعل.' };
   }
 
   pending.splice(index, 1);
   fs.writeFileSync(PENDING_FILE, JSON.stringify(pending, null, 2), 'utf8');
-  return { success: true, message: 'تم رفض وحذف الطلب بنجاح.' };
+
+  return { success: true, message: 'تم رفض العمل وحذفه من قائمة الانتظار.' };
 }

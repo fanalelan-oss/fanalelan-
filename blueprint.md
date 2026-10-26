@@ -17,10 +17,11 @@
   * **السبب الجذري:** بيئة استضافة Firebase App Hosting عبر Cloud Run لا تدعم معالج `/_next/image` تلقائياً لمجلد `public/` في وضعية الـ standalone، مما كان يتسبب في إرجاع 404 لصور المعرض الأصلية (26 عملاً)، بينما أعمال الشركاء كانت تعمل لأنها تعتمد على Base64 و `/api/works/image`.
   * **الحل المتكامل ثلاثي الطبقات:**
     1. **مسار خدمة الصور الذكي (`/api/works/image`):** تمت ترقيته للتعامل مع أي صورة سواء كانت لعمل شريك أو صورة أصلية في `public/works_images` مع كشف تلقائي للـ Mime Type (PNG/JPG/WEBP/AVIF) وكاش عام لمدة عام كامل (`max-age=31536000, immutable`).
-    2. **توجيه فوري (Rewrites) في `next.config.mjs`:** تم ربط مسارات `/works_images/:path*` و `/images/:path*` مباشرة بـ `/api/works/image?file=:path*` لتعمل جميع الروابط القديمة والجديدة بدون استثناء.
-    3. **تعطيل التحسين الإجباري المعطل (`unoptimized: true`):** تم تفعيل `unoptimized: true` في `next.config.mjs` و `WorkCard.tsx` لتجنب الاعتماد على سيرفر Next.js optimizer الذي كان يتعطل في Cloud Run.
-    4. **استرداد تلقائي للأخطاء (`onError Fallback`):** في بطاقة العمل `WorkCard.tsx`، إذا واجه المتصفح أي خطأ في تحميل الصورة، يقوم فوراً بالتحويل إلى رابط API المباشر دون أن يلاحظ الزائر أي انقطاع.
-    5. **سكريبت ترحيل الملفات الثابتة (`copy-standalone.js`):** يقوم بنسخ مجلد `public` و `.next/static` تلقائياً إلى داخل مجلد الـ standalone عند البناء.
+    2. **الربط المباشر لصور المعرض:** في `works-manager.ts` و `WorkCard.tsx`، يتم تحويل مسارات الصور تلقائياً إلى `/api/works/image?file=...` لضمان سحب الصورة مباشرة عبر Cloud Run وتجنب أي تعطل في الـ CDN أو معالج الصور.
+    3. **توجيه فوري (Rewrites) في `next.config.mjs`:** تم ربط مسارات `/works_images/:path*` و `/images/:path*` مباشرة بـ `/api/works/image?file=:path*` لتعمل جميع الروابط القديمة والجديدة بدون استثناء.
+    4. **تعطيل التحسين الإجباري المعطل (`unoptimized: true`):** تم تفعيل `unoptimized: true` في `next.config.mjs` وبطاقة العمل `WorkCard.tsx` وصفحات الخدمات لتجنب الاعتماد على سيرفر Next.js optimizer الذي كان يتعطل في Cloud Run.
+    5. **استرداد تلقائي للأخطاء (`onError Fallback`):** في بطاقة العمل `WorkCard.tsx`، إذا واجه المتصفح أي خطأ في تحميل الصورة، يقوم فوراً بالتحويل إلى رابط API المباشر دون أن يلاحظ الزائر أي انقطاع.
+    6. **سكريبت ترحيل الملفات الثابتة (`copy-standalone.js`):** يقوم بنسخ مجلد `public` و `.next/static` تلقائياً إلى داخل مجلد الـ standalone عند البناء.
 * **أداة إضافة الأعمال للشركاء مع نظام اعتماد عبر الإيميل ونظام كلمات المرور المؤقتة (24 ساعة) المخفية:**
   * **إخفاء كامل عن الزوار:** تم إلغاء أي أزرار أو روابط عامة في المعرض أو القوائم حتى لا يراها العملاء العاديون.
   * **الزر السري المخفي في الفوتر (Secret Trigger):** زر مخفي ومندمج تماماً كنقطة عادية في نهاية حقوق النشر بالفوتر (`.`)، لا يلاحظه أي زائر عادي.
@@ -45,6 +46,10 @@
 2. `src/app/api/works/image/route.ts`:
    - خدمة جميع صور الموقع (الأصلية + الشركاء) بدقة عالية وكاش طويل الأمد.
 3. `src/components/WorkCard.tsx`:
-   - تفعيل `unoptimized={true}` ومعالج `onError` للتحويل الفوري لمسار API في حال فشل أي صورة.
-4. `scripts/copy-standalone.js` و `package.json`:
+   - تهيئة تلقائية لروابط الصور عبر مسار الـ API المباشر مع تفعيل `unoptimized={true}` ومعالج `onError`.
+4. `src/lib/works-manager.ts`:
+   - ربط الأعمال الأصلية والمضافة بنظام خدمة الصور المقاوم للتعطل.
+5. `src/app/services/[slug]/ServicePageClient.tsx` & `src/components/HomePageClient.tsx`:
+   - تحويل صور السلايدر والصفحة الرئيسية للعمل عبر مسار الصور الآمن.
+6. `scripts/copy-standalone.js` و `package.json`:
    - نسخ الأصول الثابتة تلقائياً لمجلد الـ standalone بعد بناء Next.js لضمان توفرها على Cloud Run.

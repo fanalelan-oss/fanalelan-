@@ -12,12 +12,21 @@ interface WorkCardProps {
   isSimple?: boolean; // Toggle between home page look and gallery look
 }
 
+function normalizeImageSrc(src: string): string {
+  if (!src) return '/images/og-image.jpg';
+  if (src.startsWith('/works_images/')) {
+    const filename = src.replace(/^\/works_images\//, '');
+    return `/api/works/image?file=${encodeURIComponent(filename)}`;
+  }
+  return src;
+}
+
 export default function WorkCard({ title, category, imgSrc, description, fullDetails, isSimple = false }: WorkCardProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentSrc, setCurrentSrc] = useState(imgSrc);
+  const [currentSrc, setCurrentSrc] = useState(() => normalizeImageSrc(imgSrc));
 
   useEffect(() => {
-    setCurrentSrc(imgSrc);
+    setCurrentSrc(normalizeImageSrc(imgSrc));
   }, [imgSrc]);
 
   const handleImageError = () => {
