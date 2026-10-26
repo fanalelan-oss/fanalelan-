@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 interface WorkCardProps {
@@ -9,12 +9,26 @@ interface WorkCardProps {
   imgSrc: string;
   description: string;
   fullDetails?: string;
-  isSimple?: boolean; // New prop to toggle between home page look and gallery look
+  isSimple?: boolean; // Toggle between home page look and gallery look
 }
 
 export default function WorkCard({ title, category, imgSrc, description, fullDetails, isSimple = false }: WorkCardProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const isUnoptimized = imgSrc.startsWith('/api/') || imgSrc.startsWith('data:');
+  const [currentSrc, setCurrentSrc] = useState(imgSrc);
+
+  useEffect(() => {
+    setCurrentSrc(imgSrc);
+  }, [imgSrc]);
+
+  const handleImageError = () => {
+    if (currentSrc.startsWith('/works_images/')) {
+      const filename = currentSrc.replace(/^\/works_images\//, '');
+      setCurrentSrc(`/api/works/image?file=${encodeURIComponent(filename)}`);
+    } else if (currentSrc.startsWith('/images/')) {
+      const filename = currentSrc.replace(/^\/images\//, '');
+      setCurrentSrc(`/api/works/image?file=${encodeURIComponent(filename)}`);
+    }
+  };
 
   // If it's the simple version (Home Page)
   if (isSimple) {
@@ -22,10 +36,11 @@ export default function WorkCard({ title, category, imgSrc, description, fullDet
       <div className="group relative block w-full overflow-hidden rounded-2xl border border-white/10 bg-[#101010]">
         <div className="relative aspect-[4/3]">
           <Image
-            src={imgSrc}
+            src={currentSrc}
             alt={title}
             fill
-            unoptimized={isUnoptimized}
+            unoptimized={true}
+            onError={handleImageError}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-500"
           />
@@ -51,10 +66,11 @@ export default function WorkCard({ title, category, imgSrc, description, fullDet
       >
         <div className="relative aspect-[4/3]">
           <Image
-            src={imgSrc}
+            src={currentSrc}
             alt={title}
             fill
-            unoptimized={isUnoptimized}
+            unoptimized={true}
+            onError={handleImageError}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700"
           />
@@ -88,7 +104,14 @@ export default function WorkCard({ title, category, imgSrc, description, fullDet
             </button>
 
             <div className="relative w-full lg:w-3/5 h-64 sm:h-96 lg:h-auto overflow-hidden">
-                <Image src={imgSrc} alt={title} fill unoptimized={isUnoptimized} className="object-cover" />
+                <Image 
+                  src={currentSrc} 
+                  alt={title} 
+                  fill 
+                  unoptimized={true} 
+                  onError={handleImageError} 
+                  className="object-cover" 
+                />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent hidden lg:block" />
             </div>
 

@@ -1,9 +1,9 @@
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     skipTrailingSlashRedirect: true,
     compress: true,
     images: {
+        unoptimized: true,
         formats: ['image/avif', 'image/webp'],
         minimumCacheTTL: 31536000,
         deviceSizes: [360, 640, 750, 828, 1080, 1200, 1920],
@@ -22,6 +22,40 @@ const nextConfig = {
                 pathname: '/**',
             },
         ],
+    },
+    async rewrites() {
+        return {
+            beforeFiles: [
+                {
+                    source: '/works_images/:path*',
+                    destination: '/api/works/image?file=:path*',
+                },
+                {
+                    source: '/images/:path*',
+                    destination: '/api/works/image?file=:path*',
+                },
+            ],
+            afterFiles: [
+                {
+                    source: '/works_images/:path*',
+                    destination: '/api/works/image?file=:path*',
+                },
+                {
+                    source: '/images/:path*',
+                    destination: '/api/works/image?file=:path*',
+                },
+            ],
+            fallback: [
+                {
+                    source: '/works_images/:path*',
+                    destination: '/api/works/image?file=:path*',
+                },
+                {
+                    source: '/images/:path*',
+                    destination: '/api/works/image?file=:path*',
+                },
+            ],
+        };
     },
     async headers() {
         return [
