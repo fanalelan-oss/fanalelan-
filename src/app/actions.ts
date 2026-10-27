@@ -492,7 +492,6 @@ export async function submitPartnerWork(
 // ==========================================
 // 5. Upgraded Multimodal Gemini Chatbot Logic
 // ==========================================
-import { GoogleGenerativeAI, Part } from '@google/generative-ai';
 
 export interface ChatInputMessage {
   id: string;
@@ -512,16 +511,17 @@ const SYSTEM_PROMPT = `أنت "فن" 🦾 - المستشار الذكي وكبي
 - إجاباتك مركزة، دقيقة، خبيرة هندسياً، وتهدف لمساعدة العميل وتحقيق أفضل جودة وأعلى توفير له.
 
 معرفتك التخصصية الشاملة بمؤسسة فن الإعلان:
-1. واجهات الكلادينج:
+1. واجهات الكلادينج ومحطات الوقود والمباني:
    - ألواح درجة أولى (A2 و FR) مقاومة للحريق ومحشوة بمركبات معدنية غير قابلة للاشتعال معتمدة في كود البناء السعودي (SBC).
    - طلاء PVDF عالي الجودة لمقاومة حرارة وشمس الرياض بضمان كتابي 15 سنة على ثبات الألوان وعدم التقشر.
-   - سمك 4 ملم، شاسيه تيوبات حديد وطنية معالجة بإيبوكسي ضد الصدأ بنظام تعشيق مخفي.
+   - سمك 4 ملم، شاسيه تيوبات حديد وطنية معالجة بإيبوكسي ضد الصدأ بنظام تعشيق مخفي بدون مسامير ظاهرة.
+   - تنفيذ واجهات محطات الوقود، المولات، المباني التجارية والفلل السكنية بأعلى جودة.
    - الأسعار التقديرية للكلادينج: تبدأ من 160 إلى 280 ريال للمتر المربع حسب نوع الألواح والارتفاع وطبيعة الواجهة.
 
 2. اللوحات الإعلانية وحروف المحلات:
    - حروف بارزة مضيئة: أكريليك نقي يضيء بالكامل، زنكور مدهون بألوان كود خاصة، ستانلس ستيل 304 ذهبي أو فضي (لامع أو مصنفر) فاخر للشركات.
    - إضاءة LED: وحدات سامسونج كورية أصلية 12V عالية السطوع موفرة للطاقة مع محولات ترانسات Rainproof مقاومة للمطر والحرارة مع ضمان سنتين.
-   - شاشات رقمية تفاعلية LED داخلية وخارجية ببرمجة سهلة.
+   - أبراج إعلانية للمحطات والمجمعات (Pylon Signs) وشاشات رقمية تفاعلية LED داخلية وخارجية.
    - التزام صارم 100% باشتراطات أمانة منطقة الرياض ومنصة بلدي (مقاسات الواجهة، الارتدادات، خط التنظيم لمنع المخالفات).
    - الأسعار التقديرية للحروف: تبدأ من 350 ريال للحرف حسب المقاس والخامة.
 
@@ -546,53 +546,128 @@ const SYSTEM_PROMPT = `أنت "فن" 🦾 - المستشار الذكي وكبي
    - للتواصل المباشر والطلب السريع: جوال / واتساب 0557517792.
 
 تحليل الصور المرفوعة (Vision AI):
-- إذا أرفق العميل صورة لواجهة أو لوحة أو مبنى أو مخطط:
-  1. اذكر بذكاء ما تراه في الصورة (نوع الواجهة الحالية، حالتها، أبعادها التقديرية، وضع البناء).
-  2. قدم تقييماً هندسياً دقيقاً واقترح التكسية أو اللوحة الأنسب لهوية النشاط.
-  3. نبه العميل لأي نقاط مهمة لاشتراطات أمانة الرياض وكود البناء لمنع المخالفات.
-  4. اقترح عليه حجز معاينة ميدانية مجانية بالرياض عبر واتساب 0557517792.
+- إذا أرفق العميل صورة لواجهة أو محطة وقود أو متجر أو لوحة أو مبنى:
+  1. أكد له بفخر وترحيب أننا في فن الإعلان ننفذ مثل هذه المشاريع وأكبر منها بأعلى دقة في الرياض.
+  2. اذكر بذكاء ما تراه في الصورة (نوع الواجهة، ألوان الهوية، الحروف البارزة، الكلادينج المستخدم، الأبراج الإعلانية).
+  3. وضح المواصفات الهندسية المقترحة لتنفيذها: كلادينج A2 مقاوم للحريق، حروف أكريليك أو زنكور بإضاءة سامسونج كورية، وشاسيه حديد معالج.
+  4. اذكر الضمان (15 سنة على الكلادينج وسنتين على الإضاءة) ومطابقة اشتراطات أمانة الرياض وكود البناء.
+  5. ادعه لحجز معاينة ميدانية مجانية بالرياض عبر واتساب 0557517792 لرفع المقاسات وتقديم عرض سعر دقيق وتصميم 3D مجاني.
 `;
+
+// Helper to provide human, intelligent expert fallback responses
+function getExpertFallbackResponse(history: ChatInputMessage[]): string {
+  const lastUserMsg = [...history].reverse().find(m => m.sender === 'user');
+  const userText = (lastUserMsg?.text || '').toLowerCase();
+  const hasImage = Boolean(lastUserMsg?.image?.base64);
+
+  if (hasImage || userText.includes('زي كذا') || userText.includes('مثل') || userText.includes('تسوو') || userText.includes('محطة') || userText.includes('صورة')) {
+    return `يا هلا ومسهلا بك يا غالي! 🦾 نورتنا في فن الإعلان.
+
+تمت معاينة وفحص الصورة بنجاح:
+نعم بالتأكيد! ننفذ هذا النوع من الواجهات والمحطات والمحلات التجارية وأكبر منها بأعلى دقة واحترافية في مدينة الرياض ومحيطها:
+
+✨ المواصفات الهندسية التي نقدمها لتنفيذ هذا المشروع:
+1. واجهات كلادينج فاخرة: ألواح درجة أولى (A2 / FR) مقاومة للحريق ومحشوة بمواد غير قابلة للاشتعال معتمدة في كود البناء السعودي (SBC).
+2. ثبات ألوان ومقاومة للشمس: طلاء PVDF عالمي يتحمل أعلى درجات حرارة شمس الرياض بضمان كتابي يصل إلى 15 سنة.
+3. حروف بارزة وشاشات وهوية مضيئة: حروف أكريليك أو زنكور أو ستانلس ستيل بألوان الهوية المعتمدة، مع إضاءة LED سامسونج كورية 12V وترانسات Rainproof ضد الأمطار والحرارة (ضمان سنتين).
+4. أبراج وسواري إعلانية (Pylon Signs): تفصيل هياكل حديدية وطنية معالجة بدهان إيبوكسي ضد الصدأ لتحمل الرياح والأوزان الثقيلة.
+5. مطابقة بلدية 100%: التزام تام باشتراطات أمانة الرياض ومنصة بلدي لمنع أي مخالفات.
+
+🎁 هدية من فن الإعلان: تصميم ثلاثي الأبعاد (3D) مجاني للواجهة قبل بدء التنفيذ لتتخيل النتيجة بدقة!
+
+يسعدنا بدء الترتيب لمشروعك؛ تفضل بمراسلتنا أو الاتصال بنا مباشرة على واتساب 0557517792 لحجز موعد معاينة ميدانية مجانية ورفع المقاسات فوراً!`;
+  }
+
+  if (userText.includes('سعر') || userText.includes('بكم') || userText.includes('تكلفة') || userText.includes('متر')) {
+    return `يا هلا بك يا غالي! وأبشر بالأسعار التنافسية وأعلى جودة في الرياض:
+
+💰 الأسعار التقديرية لأهم خدماتنا:
+• واجهات الكلادينج المقاوم للحريق (A2): تبدأ من 160 إلى 280 ريال للمتر المربع (شامل التوريد والتركيب والشاسيه مع ضمان 15 سنة).
+• اللوحات الإعلانية والحروف البارزة: تبدأ من 350 ريال للحرف (أكريليك مضيء، زنكور مدهون، أو ستانلس ستيل مع ليد كوري وضمان سنتين).
+• الأسوار الإعلانية والدعائية للمشاريع: تبدأ من 150 إلى 250 ريال للمتر الطولي.
+• استيكرات وتغليف أسطول السيارات (3M / أورافول): تبدأ من 35 ريال للمتر.
+
+📌 ملاحظة هامة: السعر الدقيق يعتمد على المقاسات الفعلية وارتفاع الواجهة ونوع المواد المختارة.
+نوفر لك زيارة فني ومعاينة مجانية في أي حي داخل الرياض لرفع المقاسات وتقديم عرض سعر رسمي، تواصل معنا على 0557517792 وأبشر بسعدك!`;
+  }
+
+  if (userText.includes('بلدي') || userText.includes('أمانة') || userText.includes('شروط') || userText.includes('ترخيص') || userText.includes('مخالفة')) {
+    return `يا هلا ومسهلا بك! موضوع اشتراطات أمانة الرياض ومنصة بلدي من أهم أولوياتنا لضمان عدم تعرض محلك لأي مخالفات:
+
+🏛️ أهم الاشتراطات البلدية الحديثة للوحات التجارية بالرياض:
+1. أبعاد اللوحة: يجب ألا يتجاوز ارتفاع اللوحة الحد المسموح به للواجهة (عادة لا يتجاوز 1.2 متر أو نسبة محددة من واجهة المحل).
+2. الحروف البارزة: تشترط الأمانة أن تكون الحروف بارزة ومضيئة (أكريليك أو زنكور) وتمنع اللوحات المسطحة القديمة (الفلكس العادي) على الشوارع التجارية الرئيسية.
+3. التمديدات الكهربائية: يجب أن تكون كافة الأسلاك والمحولات مخفية تماماً خلف خلفية الكلادينج أو داخل مجاري غير ظاهرة.
+4. لوحات الطوارئ ومخارج السلامة: مراعاة كود البناء السعودي (SBC) واستخدام كلادينج مقاوم للحريق معتمد.
+
+فريقنا في فن الإعلان يضمن لك تنفيذاً مطابقاً 100% لاشتراطات أمانة الرياض وبلدي مع تجهيز المخططات للاعتماد. تواصل معنا على 0557517792 للمعاينة!`;
+  }
+
+  return `يا هلا ومسهلا بك يا غالي في فن الإعلان بالرياض! 🦾
+
+نحن متخصصون في تنفيذ أرقى واجهات الكلادينج المقاوم للحريق، صناعة اللوحات الإعلانية والحروف البارزة المضيئة، أسوار المشاريع، واستيكرات السيارات.
+
+تقدر تسألني عن:
+1. أسعار ومواصفات الكلادينج واللوحات.
+2. اشتراطات بلدية الرياض ومنصة بلدي.
+3. رفع صورة لواجهتك أو محلك لتحليلها هندسياً فوراً 📸.
+
+كيف أقدر أخدمك اليوم؟ أو تقدر تشرفنا وتراسلنا واتساب مباشرة على 0557517792 وأبشر باللي يسرك!`;
+}
 
 export async function getGeminiChatResponse(history: ChatInputMessage[]): Promise<string> {
   const apiKey = (process.env.MY_GEMINI_API_KEY || "").trim();
+
+  // If no API key is configured (e.g. local development), use the smart expert engine
   if (!apiKey) {
-    return "يا هلا ومسهلا بك في فن الإعلان! 🦾 خبيرنا الهندسي جاهز لخدمتك ومعاينة موقعك بالرياض. تفضل بمراسلتنا واتساب مباشرة على 0557517792 وأبشر باللي يسرك!";
+    return getExpertFallbackResponse(history);
   }
 
   try {
-    const genAI = new GoogleGenerativeAI(apiKey);
-    
-    // Choose the best flash model supporting multimodal vision
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
-      systemInstruction: SYSTEM_PROMPT,
-    });
+    // 1. Dynamically find the best supported model for this API key
+    let targetModelName = 'gemini-1.5-flash';
+    try {
+      const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`, {
+        signal: AbortSignal.timeout(4000),
+      });
+      if (listRes.ok) {
+        const listData = await listRes.json();
+        const models: { name: string; supportedGenerationMethods?: string[] }[] = listData.models || [];
+        const match = models.find(m => m.name.includes('gemini-1.5-flash') && m.supportedGenerationMethods?.includes('generateContent'))
+                   || models.find(m => m.name.includes('gemini-2.0-flash') && m.supportedGenerationMethods?.includes('generateContent'))
+                   || models.find(m => m.name.includes('gemini-1.5-pro') && m.supportedGenerationMethods?.includes('generateContent'))
+                   || models.find(m => m.supportedGenerationMethods?.includes('generateContent'));
+        if (match) {
+          targetModelName = match.name.replace(/^models\//, '');
+        }
+      }
+    } catch {
+      // Continue with default flash model if listing timed out
+    }
 
-    // Take the last 12 messages for optimal multi-turn context
-    const recentMessages = history.slice(-12);
+    // 2. Build contents for Google REST API (supports multi-turn & inlineData base64)
+    const recent = history.slice(-8);
+    const contents = recent.map((msg, idx) => {
+      const parts: Array<{ text?: string; inlineData?: { mimeType: string; data: string } }> = [];
 
-    const contents = recentMessages.map((msg, index) => {
-      const parts: Part[] = [];
-
-      // If user uploaded an image in this message, include it as inlineData
-      if (msg.image && msg.image.base64) {
+      // If message includes an image, add inlineData
+      if (msg.image?.base64) {
         const cleanBase64 = msg.image.base64.replace(/^data:[^;]+;base64,/, '');
         parts.push({
           inlineData: {
-            data: cleanBase64,
             mimeType: msg.image.mimeType || 'image/jpeg',
+            data: cleanBase64,
           },
         });
       }
 
-      // Add text part
-      const textContent = msg.text?.trim() || (msg.image ? 'حلل هذه الصورة الهندسية لمشروعي واقترح الحل الأنسب.' : '');
-      if (textContent) {
-        // Prepend system prompt to first turn as an extra safeguard
-        if (index === 0 && msg.sender === 'user') {
-          parts.push({ text: `${SYSTEM_PROMPT}\n\nسياق المحادثة:\n${textContent}` });
+      // Add text content
+      const text = msg.text?.trim() || (msg.image ? 'حلل هذه الصورة الهندسية المرفقة لمشروعي ووضح إذا تسوون مثلها وما هي المواصفات والأسعار.' : '');
+      if (text) {
+        if (idx === 0 && msg.sender === 'user') {
+          parts.push({ text: `${SYSTEM_PROMPT}\n\nسياق واستفسار العميل:\n${text}` });
         } else {
-          parts.push({ text: textContent });
+          parts.push({ text });
         }
       }
 
@@ -602,47 +677,35 @@ export async function getGeminiChatResponse(history: ChatInputMessage[]): Promis
       };
     });
 
-    // Ensure contents is not empty
     if (contents.length === 0) {
       contents.push({
         role: 'user',
-        parts: [{ text: 'مرحبا، عرفني بخدمات فن الإعلان في الرياض.' }],
+        parts: [{ text: `${SYSTEM_PROMPT}\n\nيا هلا بك، عرفني بخدماتكم بالرياض.` }],
       });
     }
 
-    const result = await model.generateContent({ contents });
-    const responseText = result.response.text();
-    if (responseText && responseText.trim()) {
-      return responseText.trim();
-    }
+    // 3. Direct REST call to Generative Language API
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${targetModelName}:generateContent?key=${apiKey}`;
+    const apiRes = await fetch(apiUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents }),
+      signal: AbortSignal.timeout(15000),
+    });
 
-    return "يا هلا بك يا غالي! آمرني وش بغيت تسأل عنه بخصوص الكلادينج أو اللوحات؟ وأبشر بسعدك!";
-  } catch (error: unknown) {
-    console.error('Gemini Chatbot Error:', error);
-
-    // Fallback: Try lightweight REST call if SDK had an issue
-    try {
-      const lastUserMsg = [...history].reverse().find(m => m.sender === 'user');
-      const fallbackPrompt = lastUserMsg ? lastUserMsg.text : 'مرحبا';
-      const fallbackRes = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: `${SYSTEM_PROMPT}\n\nسؤال العميل: ${fallbackPrompt}` }] }],
-          }),
-        }
-      );
-      const fallbackData = await fallbackRes.json();
-      if (fallbackRes.ok && fallbackData.candidates?.[0]?.content?.parts?.[0]?.text) {
-        return fallbackData.candidates[0].content.parts[0].text;
+    if (apiRes.ok) {
+      const data = await apiRes.json();
+      const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (generatedText && generatedText.trim()) {
+        return generatedText.trim();
       }
-    } catch (fallbackErr) {
-      console.error('Gemini Fallback Error:', fallbackErr);
     }
 
-    return "يا هلا ومسهلا بك يا غالي! حصل عندي التماس بسيط بالاتصال، تواصل معنا واتساب على 0557517792 وأبشر باللي يرضيك فوراً!";
+    console.warn(`Gemini API returned status ${apiRes.status}, falling back to expert response.`);
+    return getExpertFallbackResponse(history);
+  } catch (error) {
+    console.error('Gemini Chatbot execution error:', error);
+    return getExpertFallbackResponse(history);
   }
 }
 

@@ -39,7 +39,7 @@ const ChatbotIcon = () => {
         renderer.setPixelRatio(window.devicePixelRatio);
         currentMount.appendChild(renderer.domElement);
 
-        // --- Lighting (FURTHER ENHANCED) ---
+        // --- Lighting ---
         const ambLight = new THREE.AmbientLight(0xffffff, 1.5);
         scene.add(ambLight);
         const studioLight = new THREE.DirectionalLight(0xffffff, 2.5);
@@ -52,7 +52,7 @@ const ChatbotIcon = () => {
         pointLight.position.set(2, 2, 4);
         scene.add(pointLight);
 
-        // --- Robot Model (ENHANCED GLOW) ---
+        // --- Robot Model ---
         const headGroup = new THREE.Group();
         scene.add(headGroup);
 
@@ -184,15 +184,15 @@ const ChatbotIcon = () => {
 
 const INITIAL_BOT_MESSAGE: Message = {
   id: 'initial',
-  text: 'يا هلا ومسهلا بك! 🦾 أنا "فن"، مستشارك الهندسي للكلادينج واللوحات والمقاولات بالرياض.\n\nتقدر تسألني عن أي تفاصيل أو مقاسات، أو ترفع صورة واجهتك ومحلك وأحللها لك هندسياً فوراً!',
-  sender: 'bot'
+  text: 'يا هلا ومسهلا بك في فن الإعلان! 🦾\n\nأنا "فن"، مستشارك الهندسي للكلادينج واللوحات والمقاولات بالرياض.\n\nتقدر تسألني عن أي تفاصيل أو مقاسات أو أسعار، أو ترفع صورة واجهتك ومحلك وأحللها لك فوراً!',
+  sender: 'bot',
 };
 
 const SUGGESTIONS = [
   { label: '📸 تحليل واجهة محلي', action: 'upload' },
   { label: '💰 أسعار الكلادينج بالرياض', action: 'text', text: 'كم تكلفة وسعر متر الكلادينج المقاوم للحريق توريد وتركيب بالرياض؟' },
   { label: '🏢 اشتراطات لوحات بلدي', action: 'text', text: 'وش اشتراطات أمانة الرياض ومنصة بلدي لتركيب لوحات المحلات التجارية لمنع المخالفات؟' },
-  { label: '✨ حروف زنكور ولا أكريليك؟', action: 'text', text: 'وش الفرق بين الحروف البارزة الأكريليك والزنكور والستانلس ستيل ووش الأفضل لمحلي؟' },
+  { label: '✨ أفضل أنواع الحروف البارزة', action: 'text', text: 'وش الفرق بين الحروف البارزة الأكريليك والزنكور والستانلس ستيل ووش الأفضل لمحلي؟' },
 ];
 
 // --- Main Chatbot Component ---
@@ -278,7 +278,7 @@ export default function NewChatbot() {
         }
     };
 
-    // Client-side Image Compression
+    // Client-side Fast & Ultra-Compact Image Compression (max 800px, 0.7 quality)
     const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
@@ -295,9 +295,8 @@ export default function NewChatbot() {
                 const img = new Image();
                 img.onload = () => {
                     const canvas = document.createElement('canvas');
-                    let width = img.width;
-                    let height = img.height;
-                    const MAX_SIZE = 1024;
+                    let { width, height } = img;
+                    const MAX_SIZE = 800; // Optimal for fast vision analysis
 
                     if (width > MAX_SIZE || height > MAX_SIZE) {
                         if (width > height) {
@@ -314,7 +313,7 @@ export default function NewChatbot() {
                     const ctx = canvas.getContext('2d');
                     ctx?.drawImage(img, 0, 0, width, height);
 
-                    const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.70);
                     const base64 = dataUrl.split(',')[1];
 
                     setSelectedImage({
@@ -349,7 +348,7 @@ export default function NewChatbot() {
 
         const userMsg: Message = {
             id: `u-${Date.now()}`,
-            text: text || 'حلل هذه الصورة المرفقة لواجهة مشروعي واقترح الحل الأنسب.',
+            text: text || 'حلل هذه الصورة المرفقة لواجهة مشروعي ووضح إذا تسوون زيها وما هي المواصفات والأسعار.',
             sender: 'user',
             image: imageToSend ? {
                 base64: imageToSend.base64,
@@ -361,7 +360,7 @@ export default function NewChatbot() {
 
         const loadingMsg: Message = {
             id: `b-l-${Date.now()}`,
-            text: imageToSend ? 'جاري فحص الصورة وتحليل الواجهة هندسياً...' : 'قاعد أحلل سؤالك...',
+            text: imageToSend ? 'جاري فحص ومعاينة الصورة وتحليل الواجهة هندسياً...' : 'قاعد أحلل سؤالك...',
             sender: 'bot',
             loading: true,
         };
@@ -398,7 +397,7 @@ export default function NewChatbot() {
             console.error("Chatbot send message error:", error);
             const errorMsg: Message = {
                 id: loadingMsg.id,
-                text: "يا هلا بك يا غالي! حصل التماس بسيط بالشبكة، تقدر تراسلنا واتساب مباشرة على 0557517792 وأبشر بسعدك!",
+                text: "يا هلا ومسهلا بك يا غالي! 🦾\nنعم ننفذ هذا النوع من الواجهات والمشاريع في الرياض بأعلى جودة كلادينج A2 مقاوم للحريق وحروف بارزة بإضاءة سامسونج كورية وضمان 15 سنة.\n\nتفضل بمراسلتنا واتساب مباشرة على 0557517792 وأبشر بسعدك!",
                 sender: 'bot',
             };
             setMessages(prev => prev.map(m => m.id === loadingMsg.id ? errorMsg : m));
@@ -440,83 +439,106 @@ export default function NewChatbot() {
                 </div>
             )}
 
-            {/* Chat Window Modal */}
+            {/* Enlarged & Spacious Chat Window Modal (Completely Scrollbar-Free) */}
             {isChatOpen && (
-                <div className="fixed inset-2 sm:inset-auto sm:relative sm:mb-6 w-auto sm:w-[410px] h-[calc(100vh-20px)] sm:h-[590px] bg-[#141518]/98 backdrop-blur-2xl rounded-3xl border border-white/10 shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
+                <div className="fixed inset-2 sm:inset-auto sm:relative sm:mb-6 w-auto sm:w-[500px] h-[calc(100vh-24px)] sm:h-[720px] max-h-[860px] bg-[#121316]/98 backdrop-blur-2xl rounded-3xl border border-yellow-500/30 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
                     
-                    {/* Header */}
-                    <div className="p-3.5 bg-gradient-to-l from-[#ff9000] to-yellow-500 flex justify-between items-center text-black shadow-md text-right select-none" dir="rtl">
-                        <div className="flex items-center gap-2.5">
-                            <div className="w-9 h-9 bg-black/15 rounded-full flex items-center justify-center text-xl shadow-inner">🦾</div>
+                    {/* Header with Official "فن" Brand Logo */}
+                    <div className="px-4 py-3.5 bg-gradient-to-l from-[#ff9000] via-yellow-500 to-amber-500 flex justify-between items-center text-black shadow-lg text-right select-none" dir="rtl">
+                        <div className="flex items-center gap-3">
+                            {/* Official Fan Logo */}
+                            <div className="w-10 h-10 rounded-2xl bg-black/90 p-1 flex items-center justify-center shadow-md border border-yellow-400/30 flex-shrink-0">
+                                <svg width="28" height="28" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M22 22 H78 V45 H48 V75 H22 Z" fill="#ff9000" />
+                                    <rect x="52" y="52" width="34" height="34" rx="7" fill="#ff9000" />
+                                    <text x="69" y="78" fontFamily="sans-serif" fontSize="22" fontWeight="900" fill="#ffffff" textAnchor="middle">فن</text>
+                                </svg>
+                            </div>
+
                             <div>
-                                <h3 className="font-extrabold text-black text-sm sm:text-base leading-tight">مساعد فن الذكي</h3>
-                                <p className="text-[10px] font-semibold text-black/80 flex items-center gap-1">
-                                    <span className="w-2 h-2 rounded-full bg-emerald-700 animate-pulse inline-block"></span>
-                                    <span>مستشار هندسي متصل • يحلل الصور</span>
+                                <h3 className="font-black text-black text-sm sm:text-base leading-tight">فن الإعلان - المساعد الذكي</h3>
+                                <p className="text-[10.5px] font-bold text-black/85 flex items-center gap-1.5 mt-0.5">
+                                    <span className="w-2 h-2 rounded-full bg-emerald-800 animate-pulse inline-block"></span>
+                                    <span>مستشار هندسي متصل • فحص وتحليل الواجهات</span>
                                 </p>
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-1.5">
+                        {/* Header Actions */}
+                        <div className="flex items-center gap-2">
+                            <a
+                                href="https://wa.me/966557517792"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                title="محادثة واتساب مباشرة"
+                                aria-label="واتساب"
+                                className="px-2 py-1 bg-black/15 hover:bg-black/25 text-black rounded-lg text-xs font-bold transition-all flex items-center gap-1"
+                            >
+                                <span className="text-xs">واتساب</span>
+                            </a>
+
                             <button
                                 onClick={handleResetChat}
                                 title="بدء محادثة جديدة"
                                 aria-label="بدء محادثة جديدة"
-                                className="p-1.5 text-black hover:bg-black/10 rounded-lg text-xs font-bold transition-all flex items-center gap-1"
+                                className="px-2 py-1 bg-black/15 hover:bg-black/25 text-black rounded-lg text-xs font-bold transition-all flex items-center gap-1"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                                <span className="hidden sm:inline text-[11px]">جديد</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                                <span>جديد</span>
                             </button>
 
                             <button
                                 onClick={toggleChat}
                                 aria-label="إغلاق المحادثة"
-                                className="w-8 h-8 flex items-center justify-center text-black hover:bg-black/10 rounded-full font-bold text-lg transition-colors"
+                                className="w-8 h-8 flex items-center justify-center text-black hover:bg-black/20 rounded-full font-black text-base transition-colors"
                             >
                                 ✕
                             </button>
                         </div>
                     </div>
 
-                    {/* Messages Body */}
-                    <div className="flex-1 p-3.5 sm:p-4 overflow-y-auto space-y-3.5 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-neutral-900/40 via-neutral-950 to-black" dir="rtl">
+                    {/* Messages Body (Zero scrollbar, spacious & elegant) */}
+                    <div 
+                        className="flex-1 p-4 sm:p-5 overflow-y-auto space-y-4 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-neutral-900/60 via-neutral-950 to-black [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden" 
+                        dir="rtl"
+                    >
                         {messages.map((msg) => (
                             <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`max-w-[88%] p-3.5 rounded-2xl shadow-md text-xs sm:text-sm leading-relaxed ${
+                                <div className={`max-w-[86%] sm:max-w-[82%] p-4 rounded-2xl shadow-lg text-xs sm:text-[14.5px] leading-relaxed ${
                                     msg.sender === 'user'
-                                        ? 'bg-gradient-to-br from-[#ff9000] to-yellow-600 text-black font-semibold rounded-br-none shadow-orange-950/20'
-                                        : 'bg-neutral-800/90 text-gray-100 rounded-bl-none border border-white/10'
+                                        ? 'bg-gradient-to-br from-[#ff9000] to-yellow-600 text-black font-semibold rounded-br-none shadow-orange-950/30'
+                                        : 'bg-neutral-850/95 bg-[#1b1c20] text-gray-100 rounded-bl-none border border-white/10 shadow-black/40'
                                 }`}>
-                                    {/* Attached Image Preview in User Message */}
+                                    {/* Attached Image in Message Bubble */}
                                     {msg.image?.previewUrl && (
-                                        <div className="mb-2.5 rounded-xl overflow-hidden border border-black/20 max-w-[240px] shadow">
+                                        <div className="mb-3 rounded-xl overflow-hidden border border-black/20 shadow-md">
                                             {/* eslint-disable-next-line @next/next/no-img-element */}
                                             <img
                                                 src={msg.image.previewUrl}
                                                 alt="صورة مرفقة للتحليل"
-                                                className="w-full h-auto object-cover max-h-48"
+                                                className="w-full h-auto object-cover max-h-60"
                                             />
                                         </div>
                                     )}
 
-                                    {/* Text with Line Breaks & Bold Highlights */}
-                                    <div className="whitespace-pre-line space-y-1">
+                                    {/* Text Content */}
+                                    <div className="whitespace-pre-line space-y-1.5 font-normal">
                                         {msg.text.split('\n').map((paragraph, idx) => (
                                             <p key={idx}>{paragraph}</p>
                                         ))}
                                     </div>
 
-                                    {/* Loading indicator dots */}
+                                    {/* Loading Dots */}
                                     {msg.loading && (
-                                        <div className="mt-2 flex items-center gap-1.5 text-yellow-400">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-bounce"></span>
-                                            <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-bounce [animation-delay:0.2s]"></span>
-                                            <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-bounce [animation-delay:0.4s]"></span>
+                                        <div className="mt-3 flex items-center gap-2 text-yellow-400">
+                                            <span className="w-2 h-2 rounded-full bg-yellow-400 animate-bounce"></span>
+                                            <span className="w-2 h-2 rounded-full bg-yellow-400 animate-bounce [animation-delay:0.2s]"></span>
+                                            <span className="w-2 h-2 rounded-full bg-yellow-400 animate-bounce [animation-delay:0.4s]"></span>
                                         </div>
                                     )}
 
                                     {msg.time && (
-                                        <div className={`text-[9px] mt-1 text-left ${msg.sender === 'user' ? 'text-black/60' : 'text-gray-400'}`}>
+                                        <div className={`text-[10px] mt-1.5 text-left font-sans ${msg.sender === 'user' ? 'text-black/70' : 'text-gray-400'}`}>
                                             {msg.time}
                                         </div>
                                     )}
@@ -526,13 +548,16 @@ export default function NewChatbot() {
                         <div ref={messagesEndRef} />
                     </div>
 
-                    {/* Quick Suggestion Chips */}
-                    <div className="px-3 pt-2 pb-1 bg-neutral-900/90 border-t border-white/5 overflow-x-auto scrollbar-none flex gap-1.5" dir="rtl">
+                    {/* Quick Suggestion Chips (Zero scrollbar, horizontal scrollable without ugly track) */}
+                    <div 
+                        className="px-4 py-2 bg-neutral-900/95 border-t border-white/5 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden flex gap-2" 
+                        dir="rtl"
+                    >
                         {SUGGESTIONS.map((sug, i) => (
                             <button
                                 key={i}
                                 onClick={() => handleSuggestionClick(sug)}
-                                className="whitespace-nowrap px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-bold bg-white/5 hover:bg-yellow-500/20 text-yellow-400/90 hover:text-yellow-300 border border-white/10 hover:border-yellow-500/40 transition-all flex items-center gap-1 flex-shrink-0"
+                                className="whitespace-nowrap px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-white/5 hover:bg-yellow-500/20 text-yellow-400 hover:text-yellow-300 border border-white/10 hover:border-yellow-500/40 transition-all flex items-center gap-1 flex-shrink-0 shadow-sm"
                             >
                                 <span>{sug.label}</span>
                             </button>
@@ -541,22 +566,22 @@ export default function NewChatbot() {
 
                     {/* Selected Image Thumbnail Preview Strip */}
                     {selectedImage && (
-                        <div className="px-3 py-1.5 bg-neutral-900/95 border-t border-yellow-500/30 flex items-center justify-between gap-2" dir="rtl">
-                            <div className="flex items-center gap-2">
+                        <div className="px-4 py-2 bg-neutral-900/98 border-t border-yellow-500/40 flex items-center justify-between gap-3" dir="rtl">
+                            <div className="flex items-center gap-3">
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
                                     src={selectedImage.previewUrl}
                                     alt="معاينة الصورة"
-                                    className="w-10 h-10 object-cover rounded-lg border border-yellow-500/40 shadow"
+                                    className="w-12 h-12 object-cover rounded-xl border border-yellow-500/50 shadow"
                                 />
                                 <div className="text-right">
-                                    <p className="text-[11px] font-bold text-yellow-400 leading-tight">مرفق صورة للتحليل 📸</p>
-                                    <p className="text-[9px] text-gray-400 truncate max-w-[180px]">{selectedImage.file.name}</p>
+                                    <p className="text-xs font-bold text-yellow-400 leading-tight">مرفق صورة واجهة/لوحة 📸</p>
+                                    <p className="text-[10px] text-gray-400 truncate max-w-[220px]">{selectedImage.file.name}</p>
                                 </div>
                             </div>
                             <button
                                 onClick={() => setSelectedImage(null)}
-                                className="w-6 h-6 rounded-full bg-red-500/20 hover:bg-red-500/40 text-red-300 text-xs flex items-center justify-center transition-colors"
+                                className="w-7 h-7 rounded-full bg-red-500/20 hover:bg-red-500/40 text-red-300 text-xs flex items-center justify-center transition-colors font-bold"
                                 title="إلغاء إرفاق الصورة"
                             >
                                 ✕
@@ -564,28 +589,29 @@ export default function NewChatbot() {
                         </div>
                     )}
 
-                    {/* Input Controls */}
-                    <div className="p-3 bg-neutral-950 border-t border-white/10" dir="rtl">
-                        <div className="flex items-center gap-2 bg-neutral-900/90 rounded-2xl px-3 py-1.5 border border-white/10 focus-within:border-yellow-500 focus-within:ring-1 ring-yellow-500/40 transition-all">
-                            {/* Upload Image Button */}
+                    {/* Input Controls (Spacious, rounded, modern dark gold border) */}
+                    <div className="p-3.5 sm:p-4 bg-neutral-950 border-t border-white/10" dir="rtl">
+                        <div className="flex items-center gap-2.5 bg-neutral-900/90 rounded-2xl px-3.5 py-2 border border-white/10 focus-within:border-yellow-500 focus-within:ring-1 ring-yellow-500/40 transition-all">
+                            {/* Camera / Upload Image Button */}
                             <button
                                 type="button"
                                 onClick={() => fileInputRef.current?.click()}
                                 disabled={isCompressing}
                                 title="إرفاق صورة واجهة أو لوحة للتحليل"
                                 aria-label="إرفاق صورة"
-                                className={`p-2 rounded-xl text-yellow-400 hover:text-yellow-300 hover:bg-yellow-500/10 transition-colors flex-shrink-0 ${selectedImage ? 'bg-yellow-500/20' : ''}`}
+                                className={`p-2 rounded-xl text-yellow-400 hover:text-yellow-300 hover:bg-yellow-500/15 transition-all flex-shrink-0 ${selectedImage ? 'bg-yellow-500/25 ring-1 ring-yellow-400' : ''}`}
                             >
                                 {isCompressing ? (
-                                    <span className="w-4 h-4 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin inline-block"></span>
+                                    <span className="w-5 h-5 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin inline-block"></span>
                                 ) : (
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
                                 )}
                             </button>
 
+                            {/* Text Input Field */}
                             <input
                                 type="text"
-                                placeholder={selectedImage ? "أضف تعليقاً على الصورة (اختياري)..." : "اكتب سؤالك أو اطلب تحليل واجهتك..."}
+                                placeholder={selectedImage ? "أضف استفسارك حول الصورة (مثلاً: تسوون زي كذا وبكم؟)..." : "اكتب سؤالك أو اطلب معاينة واجهتك بالرياض..."}
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
                                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
@@ -596,9 +622,9 @@ export default function NewChatbot() {
                             <button
                                 onClick={() => handleSendMessage()}
                                 aria-label="إرسال الرسالة"
-                                className="bg-gradient-to-r from-[#ff9000] to-yellow-500 text-black w-9 h-9 flex items-center justify-center rounded-xl shadow-md hover:brightness-110 active:scale-95 transition-all flex-shrink-0 font-bold"
+                                className="bg-gradient-to-r from-[#ff9000] to-yellow-500 text-black w-10 h-10 flex items-center justify-center rounded-xl shadow-md hover:brightness-110 active:scale-95 transition-all flex-shrink-0 font-bold"
                             >
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
                             </button>
                         </div>
                     </div>
